@@ -11,7 +11,7 @@ const ResetPassword = () => {
                 <img src={logo01} alt="Logo" />
                 <b>SiGPI - Sistema de gestão de processos internos</b>
                 <span>Insira sua nova senha</span>
-                <form>
+                <form autoComplete='on' onSubmit={e => e.preventDefault()}>
                     <div className="form-group">
                         <input type="password" id="password" name="password" placeholder="Digite sua nova senha" required />
                     </div>

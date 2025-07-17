@@ -1,0 +1,186 @@
+body:has(.exames-container) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.exames-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.exames-container .header-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.exames-container .header-container b {
+    font-family: 'Poppins-Bold';
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+}
+
+.exames-container .header-container img {
+    height: 50px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    width: -webkit-fill-available;
+    background-color: #EDEDED;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.search-container input::placeholder {
+    color: #919191;
+    font-family: 'Poppins-Bold';
+    font-size: 12px;
+}
+
+.search-container button {
+    background-color: #0042C8;
+    color: white;
+    padding: 7px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins-Bold';
+    width: 210px;
+}
+
+.exames-list-container .exames-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0 10px;
+    border-collapse: separate;
+}
+
+.exames-list-container .exames-table th,
+.exames-list-container .exames-table td {
+    padding: 0 20px;
+    text-align: left;
+}
+
+.exames-list-container .exames-table th {
+    color: #0042C8;
+    font-family: 'Poppins-Bold';
+}
+
+.exames-list-container .exames-table .exame-row {
+    font-family: 'Poppins-Bold';
+    font-size: 12px;
+}
+
+.exames-list-container .exames-table .exame-row .exame-info {
+    background-color: #EDEDED;
+}
+
+.exames-list-container .exames-table .exame-row .exame-info.start {
+    border-radius: 10px 0 0 10px;
+}
+
+.exames-list-container .exames-table .exame-row .exame-info.end {
+    border-radius: 0 10px 10px 0;
+}
+
+.exames-list-container .exames-table .exame-row .btn {
+    background-color: #0042C8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins-semiBold';
+    padding: 5px 10px;
+}
+
+.exames-list-container .exames-table .exame-row .btn-cell {
+    padding: 0 5px;
+}
+
+.exames-list-container .exames-table .exame-row .btn img {
+    width: 14px;
+    height: 14px;
+}
+
+.bottom-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.user-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.user-info-container b {
+    font-family: 'Poppins-Bold';
+    font-size: 17px;
+    color: #333;
+}
+
+.user-info-container button {
+    background-color: transparent;
+    color: #0042C8;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins-Light';
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.user-info-container button img {
+    width: 15px;
+    height: 15px;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 20px;
+}
+
+.buttons-container button {
+    background-color: #0042C8;
+    color: white;
+    padding: 7px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Poppins-Bold';
+}
+
+.pattern-rodape-light {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: -webkit-fill-available;
+    height: 30vh;
+    z-index: -1;
+    background-image: url('../img/pattern-rodape-light.svg');
+    background-repeat: repeat;
+    background-size: cover;
+}

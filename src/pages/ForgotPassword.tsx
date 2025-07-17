@@ -12,7 +12,7 @@ const ForgotPassword = () => {
                 <img src={logo01} alt="Logo" className="w-btn" />
                 <b>SiGPI - Sistema de gestão de processos internos</b>
                 <span>Informe os dados para continuar</span>
-                <form>
+                <form autoComplete='on' onSubmit={e => e.preventDefault()}>
                     <div className="form-group">
                         <input type="text" id="docId" name="docId" placeholder="000.000.000-00" required />
                     </div>

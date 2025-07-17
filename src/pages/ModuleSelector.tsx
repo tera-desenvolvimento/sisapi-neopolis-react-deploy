@@ -12,7 +12,7 @@ const ModuleSelector = () => {
                 <img src={logo01} alt="Logo" className="w-btn" />
                 <b>SiGPI - Sistema de gestão de processos internos</b>
                 <span>Selecione o módulo de uso</span>
-                <form>
+                <form autoComplete='on' onSubmit={e => e.preventDefault()}>
                     <div className="form-group">
                         <select id="module" name="module" defaultValue="" required>
                             <option value="" disabled>Selecione um módulo</option>
