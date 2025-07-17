@@ -5,6 +5,13 @@ import logo01 from "../img/logo-01.svg";
 import "../style/login.css";
 
 const ModuleSelector = () => {
+    function handleModuleSelection(event: React.ChangeEvent<HTMLSelectElement>) {
+        const selectedModule = event.target.value;
+        if (selectedModule) {
+            window.location.href = `/${selectedModule}`;
+        }
+    }
+
     return (
         <React.Fragment>
             <div className="login-container">
@@ -14,7 +21,7 @@ const ModuleSelector = () => {
                 <span>Selecione o módulo de uso</span>
                 <form autoComplete='on' onSubmit={e => e.preventDefault()}>
                     <div className="form-group">
-                        <select id="module" name="module" defaultValue="" required>
+                        <select id="module" name="module" defaultValue="" required onChange={handleModuleSelection}>
                             <option value="" disabled>Selecione um módulo</option>
                             <option value="admin">Administração</option>
                             <option value="exames">Exames</option>

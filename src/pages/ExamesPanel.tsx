@@ -5,8 +5,11 @@ import wppIcon from "../img/wpp-icon.svg";
 import logoutIcon from "../img/logout.svg";
 
 import "../style/exames.css";
+import { getCookies, doLogout } from "../controllers/user/authenticate.controller";
 
 function ExamesPanel() {
+    const userData = getCookies("userData");
+
     return (
         <React.Fragment>
             <div className="exames-container">
@@ -159,8 +162,8 @@ function ExamesPanel() {
             </div>
             <div className="bottom-container">
                 <div className="user-info-container">
-                    <b id="user-name">Acácia Rodrigues</b>
-                    <button id="logout">
+                    <b id="user-name">{userData?.name}</b>
+                    <button id="logout" onClick={doLogout}>
                         <img src={logoutIcon} alt="Sair" />
                         Trocar Módulo
                     </button>

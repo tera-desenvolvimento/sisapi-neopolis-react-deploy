@@ -33,8 +33,6 @@ export function removeCookies(props:string) {
 export async function authenticate(props:IAuthenticateData) {
     const { docId, password } = props;
 
-    console.log(process.env.REACT_APP_API_URL);
-
     const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/user/auth`,
         { docId, password },

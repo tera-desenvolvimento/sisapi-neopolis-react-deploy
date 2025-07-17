@@ -5,7 +5,6 @@ import logo01 from "../img/logo-01.svg";
 import "../style/login.css";
 
 import { authenticate, IAuthenticateData, setCookie, ICookieData } from "../controllers/user/authenticate.controller";
-import { json } from "stream/consumers";
 
 const Login = () => {
     const [docId, setDocId] = useState("");
@@ -31,11 +30,14 @@ const Login = () => {
                 if (response.data) {
                     setCookie({ name: 'sessionId', value: response.data.token });
                     setCookie({ name: 'userData', value: JSON.stringify(response.data) });
-                    //window.location.href = '/';
+                    window.location.href = '/';
                 } else {
                     const messageElement = document.getElementById("message");
                     if (messageElement) {
                         messageElement.classList.remove("hidden");
+                        setTimeout(() => {
+                            messageElement.classList.add("hidden");
+                        }, 3000);
                     }
                 }
             })
