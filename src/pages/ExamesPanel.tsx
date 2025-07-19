@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import '../controllers/user/checkSession.controller';
 
 import logo01 from "../img/logo-01.svg";
@@ -7,9 +7,18 @@ import logoutIcon from "../img/logout.svg";
 
 import "../style/exames.css";
 import { getCookies, doLogout } from "../controllers/user/authenticate.controller";
+import { listExames, IExame } from "../controllers/exame/listExames.controller";
 
 function ExamesPanel() {
     const userData = getCookies("userData");
+    const [exames, setExames] = useState<IExame[]>([]);
+
+    listExames().then((response) => {
+        setExames(response.data);
+    }).catch((error) => {
+        console.error("Erro ao listar exames:", error);
+    });
+    
 
     return (
         <React.Fragment>
@@ -37,126 +46,26 @@ function ExamesPanel() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="exame-row">
-                                <td className="exame-info start">Hemograma</td>
-                                <td className="exame-info">João da Silva</td>
-                                <td className="exame-info">123.456.789-00</td>
-                                <td className="exame-info">(11) 98765-4321</td>
-                                <td className="exame-info end">28/06/2025</td>
-                                <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
-                                <td className="btn-cell"><button className="btn">Entrega</button></td>
-                            </tr>
-                            <tr className="exame-row">
-                                <td className="exame-info start">Hemograma</td>
-                                <td className="exame-info">João da Silva</td>
-                                <td className="exame-info">123.456.789-00</td>
-                                <td className="exame-info">(11) 98765-4321</td>
-                                <td className="exame-info end">28/06/2025</td>
-                                <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
-                                <td className="btn-cell"><button className="btn">Entrega</button></td>
-                            </tr>
-                            <tr className="exame-row">
-                                <td className="exame-info start">Hemograma</td>
-                                <td className="exame-info">João da Silva</td>
-                                <td className="exame-info">123.456.789-00</td>
-                                <td className="exame-info">(11) 98765-4321</td>
-                                <td className="exame-info end">28/06/2025</td>
-                                <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
-                                <td className="btn-cell"><button className="btn">Entrega</button></td>
-                            </tr>
-                            <tr className="exame-row">
-                                <td className="exame-info start">Hemograma</td>
-                                <td className="exame-info">João da Silva</td>
-                                <td className="exame-info">123.456.789-00</td>
-                                <td className="exame-info">(11) 98765-4321</td>
-                                <td className="exame-info end">28/06/2025</td>
-                                <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
-                                <td className="btn-cell"><button className="btn">Entrega</button></td>
-                            </tr>
-                            <tr className="exame-row">
-                                <td className="exame-info start">Hemograma</td>
-                                <td className="exame-info">João da Silva</td>
-                                <td className="exame-info">123.456.789-00</td>
-                                <td className="exame-info">(11) 98765-4321</td>
-                                <td className="exame-info end">28/06/2025</td>
-                                <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
-                                <td className="btn-cell"><button className="btn">Entrega</button></td>
-                            </tr>
-                            <tr className="exame-row">
-                                <td className="exame-info start">Hemograma</td>
-                                <td className="exame-info">João da Silva</td>
-                                <td className="exame-info">123.456.789-00</td>
-                                <td className="exame-info">(11) 98765-4321</td>
-                                <td className="exame-info end">28/06/2025</td>
-                                <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
-                                <td className="btn-cell"><button className="btn">Entrega</button></td>
-                            </tr>
-                            <tr className="exame-row">
-                                <td className="exame-info start">Hemograma</td>
-                                <td className="exame-info">João da Silva</td>
-                                <td className="exame-info">123.456.789-00</td>
-                                <td className="exame-info">(11) 98765-4321</td>
-                                <td className="exame-info end">28/06/2025</td>
-                                <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
-                                <td className="btn-cell"><button className="btn">Entrega</button></td>
-                            </tr>
-                            <tr className="exame-row">
-                                <td className="exame-info start">Hemograma</td>
-                                <td className="exame-info">João da Silva</td>
-                                <td className="exame-info">123.456.789-00</td>
-                                <td className="exame-info">(11) 98765-4321</td>
-                                <td className="exame-info end">28/06/2025</td>
-                                <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
-                                <td className="btn-cell"><button className="btn">Entrega</button></td>
-                            </tr>
-                            <tr className="exame-row">
-                                <td className="exame-info start">Hemograma</td>
-                                <td className="exame-info">João da Silva</td>
-                                <td className="exame-info">123.456.789-00</td>
-                                <td className="exame-info">(11) 98765-4321</td>
-                                <td className="exame-info end">28/06/2025</td>
-                                <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
-                                <td className="btn-cell"><button className="btn">Entrega</button></td>
-                            </tr>
-                            <tr className="exame-row">
-                                <td className="exame-info start">Hemograma</td>
-                                <td className="exame-info">João da Silva</td>
-                                <td className="exame-info">123.456.789-00</td>
-                                <td className="exame-info">(11) 98765-4321</td>
-                                <td className="exame-info end">28/06/2025</td>
-                                <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
-                                <td className="btn-cell"><button className="btn">Entrega</button></td>
-                            </tr>
-                            <tr className="exame-row">
-                                <td className="exame-info start">Hemograma</td>
-                                <td className="exame-info">João da Silva</td>
-                                <td className="exame-info">123.456.789-00</td>
-                                <td className="exame-info">(11) 98765-4321</td>
-                                <td className="exame-info end">28/06/2025</td>
-                                <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
-                                <td className="btn-cell"><button className="btn">Entrega</button></td>
-                            </tr>
-                            <tr className="exame-row">
-                                <td className="exame-info start">Hemograma</td>
-                                <td className="exame-info">João da Silva</td>
-                                <td className="exame-info">123.456.789-00</td>
-                                <td className="exame-info">(11) 98765-4321</td>
-                                <td className="exame-info end">28/06/2025</td>
-                                <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
-                                <td className="btn-cell"><button className="btn">Entrega</button></td>
-                            </tr>
+                            {exames.map((exame) => (
+                                <tr className="exame-row" key={exame.exameId}>
+                                    <td className="exame-info start">{exame.type}</td>
+                                    <td className="exame-info">{exame.patientName}</td>
+                                    <td className="exame-info">{exame.docId}</td>
+                                    <td className="exame-info">{exame.patientNumber}</td>
+                                    <td className="exame-info end">
+                                        {
+                                            new Date(exame.arrivedDate).toLocaleDateString("pt-BR", {
+                                                year: 'numeric',
+                                                month: '2-digit',
+                                                day: '2-digit'
+                                            })
+                                        }
+                                    </td>
+                                    <td className="btn-cell"><button className="btn">Editar exame</button></td>
+                                    <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
+                                    <td className="btn-cell"><button className="btn">Entrega</button></td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
