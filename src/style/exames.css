@@ -174,7 +174,7 @@ body:has(.exames-container) {
 }
 
 .pattern-rodape-light {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: -webkit-fill-available;

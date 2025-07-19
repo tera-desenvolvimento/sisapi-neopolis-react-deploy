@@ -10,7 +10,7 @@ export async function resetPassword(props: IPasswordData) {
     const { userId, token, newPassword } = props;
 
     const response = await axios.post(
-        `${process.env.REACT_APP_APIPATH}/user/resetPassword`,
+        `${process.env.REACT_APP_API_URL}/user/resetPassword`,
         {
             userId: userId,
             token: token,
@@ -18,7 +18,6 @@ export async function resetPassword(props: IPasswordData) {
         },
         {
             headers: {
-                'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json'
             }
         }

@@ -1,6 +1,8 @@
 import React from "react";
+import '../controllers/user/checkSession.controller';
 
 import logo01 from "../img/logo-01.svg";
+import sisapiLogo from "../img/sisapi-logo.svg";
 
 import "../style/login.css";
 
@@ -17,7 +19,7 @@ const ModuleSelector = () => {
             <div className="login-container">
                 <a href="/login" className="back-button">Voltar</a>
                 <img src={logo01} alt="Logo" className="w-btn" />
-                <b>SiGPI - Sistema de gestão de processos internos</b>
+                <b>Sistema de Automação de Processos Internos</b>
                 <span>Selecione o módulo de uso</span>
                 <form autoComplete='on' onSubmit={e => e.preventDefault()}>
                     <div className="form-group">
@@ -29,6 +31,9 @@ const ModuleSelector = () => {
                     </div>
                     <button type="submit">Acessar painel</button>
                 </form>
+                <div className="logo-sisapi">
+                    <img src={sisapiLogo} alt="Sisapi Logo" />
+                </div>
             </div>
             <div className="pattern-rodape"></div>
         </React.Fragment>

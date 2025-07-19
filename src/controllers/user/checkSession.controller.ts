@@ -22,13 +22,11 @@ window.addEventListener('load', () => {
         return;
     }
 
-    axios.get(`${process.env.REACT_APP_API_URL}/user/checksession`, {
-        headers: {
-            'Authorization': `Bearer ${sessionId}`
-        }
+    axios.post(`${process.env.REACT_APP_API_URL}/user/checksession`, {
+        token: sessionId
     })
     .then(response => {
-        if (!response.data.valid) {
+        if (response.data.status !== 200) {
             removeCookies('sessionId');
             removeCookies('userData');
             window.location.href = '/login';

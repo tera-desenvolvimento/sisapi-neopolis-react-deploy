@@ -52,7 +52,6 @@ export async function getUserData(props:IUserData) {
         `${process.env.REACT_APP_API_URL}/user/${docId}`,
         {
             headers: {
-                'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json'
             }
         });

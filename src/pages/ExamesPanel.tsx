@@ -1,4 +1,5 @@
 import React from "react";
+import '../controllers/user/checkSession.controller';
 
 import logo01 from "../img/logo-01.svg";
 import wppIcon from "../img/wpp-icon.svg";
@@ -165,7 +166,7 @@ function ExamesPanel() {
                     <b id="user-name">{userData?.name}</b>
                     <button id="logout" onClick={doLogout}>
                         <img src={logoutIcon} alt="Sair" />
-                        Trocar Módulo
+                        Sair
                     </button>
                 </div>
 

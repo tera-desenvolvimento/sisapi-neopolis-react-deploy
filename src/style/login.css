@@ -125,3 +125,8 @@ form button {
     font-size: 14px;
     border: none;
 }
+
+.logo-sisapi img {
+    width: 100px;
+    margin-bottom: -20px;
+}

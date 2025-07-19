@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import logo01 from "../img/logo-01.svg";
+import sisapiLogo from "../img/sisapi-logo.svg";
 
 import "../style/login.css";
 
@@ -50,7 +51,7 @@ const Login = () => {
         <React.Fragment>
             <div className="login-container">
                 <img src={logo01} alt="Logo" />
-                <b>SiGPI - Sistema de gestão de processos internos</b>
+                <b>Sistema de Automação de Processos Internos</b>
                 <span>Faça login para continuar</span>
                 <form autoComplete='on' onSubmit={handleLogin}>
                     <div className="form-group">
@@ -60,13 +61,17 @@ const Login = () => {
                         <input type="password" id="password" name="password" placeholder="***********" required value={password} onChange={handlePasswordChange} />
                     </div>
                     <div className="form-group">
-                        <span className="message hidden" id="message">Código de acesso ou senha incorreto</span>
+                        <span className="message hidden" id="message">Código de identificação ou senha incorreto</span>
                     </div>
                     <div className="form-group">
                         <span>Esqueceu sua senha? </span><a href="/esqueci-minha-senha">Clique aqui</a>
                     </div>
                     <button type="submit">Acessar painel</button>
                 </form>
+
+                <div className="logo-sisapi">
+                    <img src={sisapiLogo} alt="Sisapi Logo" />
+                </div>
             </div>
             <div className="pattern-rodape"></div>
         </React.Fragment>
