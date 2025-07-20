@@ -1,5 +1,11 @@
 import axios from "axios";
 
+export interface IResponse {
+    data: IExame[];
+    status: number;
+    message: string;
+}
+
 export interface IExame {
     exameId: string;
     type: string;
