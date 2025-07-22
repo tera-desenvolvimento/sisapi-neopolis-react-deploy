@@ -91,6 +91,10 @@ body:has(.exames-container) {
     font-size: 12px;
 }
 
+.exames-list-container .exames-table .exame-row.delivered td {
+    padding: 10px;
+}
+
 .exames-list-container .exames-table .exame-row .exame-info {
     background-color: #EDEDED;
 }
@@ -111,6 +115,10 @@ body:has(.exames-container) {
     cursor: pointer;
     font-family: 'Poppins-semiBold';
     padding: 5px 10px;
+}
+
+.exames-list-container .exames-table .exame-row .btn.delivered {
+    background-color: #33A100;
 }
 
 .exames-list-container .exames-table .exame-row .btn-cell {
@@ -163,14 +171,18 @@ body:has(.exames-container) {
     gap: 20px;
 }
 
-.buttons-container button {
+.buttons-container button, .buttons-container a {
     background-color: #0042C8;
     color: white;
+    text-decoration: none;
     padding: 7px 20px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     font-family: 'Poppins-Bold';
+    font-size: 12px;
+    display: flex;
+    align-items: center;
 }
 
 .pattern-rodape-light {

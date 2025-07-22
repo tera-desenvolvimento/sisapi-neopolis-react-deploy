@@ -5,6 +5,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ModuleSelector from "./pages/ModuleSelector";
 import ExamesPanel from "./pages/ExamesPanel";
+import DeliveredExames from "./pages/DeliveredExames";
 
 const MyRoutes = () => {
     return (
@@ -16,6 +17,7 @@ const MyRoutes = () => {
                 <Route path="/esqueci-minha-senha" element={<ForgotPassword />} />
                 <Route path="/resetar-senha" element={<ResetPassword />} />
                 <Route path="/exames" element={<ExamesPanel />} />
+                <Route path="/exames-entregues" element={<DeliveredExames />} />
             </Routes>
         </Router>
     )

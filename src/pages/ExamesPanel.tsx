@@ -11,6 +11,7 @@ import { listExames, IExame, IResponse } from "../controllers/exame/listExames.c
 import { listExameTypes, IExameType, IExameResponse} from "../controllers/exame/listExameTypes.controller";
 import { createExame, ICreateExame } from "../controllers/exame/createExame.controller";
 import { createExameType } from "../controllers/exame/createExameType.controller";
+import { notifyPacient, INotifyResponse } from "../controllers/exame/notifyPacient.controller";
 
 function ExamesPanel() {
     const userData = getCookies("userData");
@@ -23,7 +24,7 @@ function ExamesPanel() {
     const [patientNumber, setPatientNumber] = useState("");
 
     const InitialExames = useMemo(() => listExames().then((response: IResponse) => { setExames(response.data); }), []);
-    const InitialExameTypes = useMemo(() => listExameTypes().then((response: IExameResponse) => { setExameTypes(response.data); setType(response.data[0].type); console.log(exameTypes); }), []);
+    const InitialExameTypes = useMemo(() => listExameTypes().then((response: IExameResponse) => { setExameTypes(response.data); setType(response.data[0].type) }), []);
 
     function toggleNewExameContainer() {
         const newExameContainer = document.getElementById("newExameContainer");
@@ -100,6 +101,29 @@ function ExamesPanel() {
         }
     }
 
+    function handleNotifyPacient(event: React.MouseEvent<HTMLButtonElement>) {
+        const exameId = (event.currentTarget as HTMLButtonElement).dataset.exameId;
+        if (exameId) {
+            notifyPacient(exameId)
+                .then((response: INotifyResponse) => {
+                    if (response.data.success) {
+                        const updatedExames = exames.map((exame) => {
+                            if (exame.exameId === exameId) {
+                                return {...exame, alerted: true };
+                            }
+                            return exame;
+                        });
+                        setExames(updatedExames);
+                    } else {
+                        console.error("Erro ao notificar paciente:", response.message);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erro ao notificar paciente:", error);
+                });
+        }
+    }
+
     return (
         <React.Fragment>
             <div className="exames-container">
@@ -127,7 +151,7 @@ function ExamesPanel() {
                         </thead>
                         <tbody>
                             {exames.map((exame) => (
-                                <tr className="exame-row" key={exame.exameId}>
+                                <tr className="exame-row" data-exame-id={exame.exameId}>
                                     <td className="exame-info start">{exame.type}</td>
                                     <td className="exame-info">{exame.patientName}</td>
                                     <td className="exame-info">{exame.docId}</td>
@@ -142,7 +166,18 @@ function ExamesPanel() {
                                         }
                                     </td>
                                     <td className="btn-cell"><button className="btn">Editar exame</button></td>
-                                    <td className="btn-cell"><button className="btn"><img src={wppIcon} alt="WhatsApp" /></button></td>
+                                    {
+                                        exame.alerted ?
+                                        <td className="btn-cell">
+                                            <button className="btn delivered">
+                                                <svg width="28" height="22" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg" style={{width: "12px", height: "12px"}}>
+                                                    <path d="M20.9951 1.24614L9.32718 13.0341L7.01479 10.6156C6.64386 10.2257 6.20055 9.91343 5.71017 9.69663C5.21979 9.47983 4.69195 9.36273 4.15677 9.35203C3.6216 9.34132 3.08958 9.43721 2.59109 9.63423C2.0926 9.83125 1.6374 10.1255 1.25148 10.5003C0.865565 10.875 0.556485 11.3229 0.341893 11.8183C0.1273 12.3137 0.0113974 12.847 0.000799916 13.3877C-0.0206027 14.4797 0.388228 15.5355 1.13736 16.3229L4.56926 19.9301C5.1642 20.5683 5.87922 21.08 6.67241 21.4355C7.46561 21.7909 8.32105 21.9828 9.1886 22H9.29729C11.0196 21.9957 12.6707 21.3051 13.8922 20.0783L26.7557 7.07973C27.145 6.69988 27.4555 6.2455 27.6691 5.74311C27.8827 5.24072 27.9951 4.70037 27.9998 4.15361C28.0045 3.60685 27.9014 3.06461 27.6965 2.55855C27.4915 2.05248 27.1889 1.59272 26.8062 1.20608C26.4235 0.819451 25.9684 0.513689 25.4675 0.306641C24.9666 0.0995928 24.4299 -0.00459574 23.8887 0.000155475C23.3475 0.00490669 22.8127 0.118502 22.3154 0.334314C21.8181 0.550125 21.3684 0.86383 20.9924 1.25712L20.9951 1.24614Z" fill="white"/>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                        :
+                                        <td className="btn-cell"><button className="btn" data-exame-id={exame.exameId} onClick={handleNotifyPacient}><img src={wppIcon} alt="WhatsApp" /></button></td>
+                                    }
                                     <td className="btn-cell"><button className="btn">Entrega</button></td>
                                 </tr>
                             ))}
@@ -160,7 +195,7 @@ function ExamesPanel() {
                 </div>
 
                 <div className="buttons-container">
-                    <button id="retireds">Consultar já retirados</button>
+                    <a href="/exames-entregues">Consultar já retirados</a>
                     <button id="newExam" onClick={toggleNewExameContainer}>Cadastrar novo exame</button>
                 </div>
             </div>
