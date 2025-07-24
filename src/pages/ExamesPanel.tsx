@@ -12,6 +12,7 @@ import { listExameTypes, IExameType, IExameResponse} from "../controllers/exame/
 import { createExame, ICreateExame } from "../controllers/exame/createExame.controller";
 import { createExameType } from "../controllers/exame/createExameType.controller";
 import { notifyPacient, INotifyResponse } from "../controllers/exame/notifyPacient.controller";
+import { IDeliverExame, deliverExame } from "../controllers/exame/deliverExame.controller";
 
 function ExamesPanel() {
     const userData = getCookies("userData");
@@ -22,6 +23,10 @@ function ExamesPanel() {
     const [type, setType] = useState("");
     const [patientName, setPatientName] = useState("");
     const [patientNumber, setPatientNumber] = useState("");
+
+    const [retiranteName, setRetiranteName] = useState("");
+    const [retiranteDocId, setRetiranteDocId] = useState("");
+    const [isRetiradoPeloPaciente, setIsRetiradoPeloPaciente] = useState(false);
 
     const InitialExames = useMemo(() => listExames().then((response: IResponse) => { setExames(response.data); }), []);
     const InitialExameTypes = useMemo(() => listExameTypes().then((response: IExameResponse) => { setExameTypes(response.data); setType(response.data[0].type) }), []);
@@ -55,6 +60,26 @@ function ExamesPanel() {
 
     function handlePatientNumberChange(event: React.ChangeEvent<HTMLInputElement>) {
         setPatientNumber(event.target.value);
+    }
+
+    function handleRetiranteNameChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setRetiranteName(event.target.value);
+    }
+
+    function handleRetiranteDocIdChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setRetiranteDocId(event.target.value);
+    }
+
+    function handleRetiradoPeloPacienteChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setIsRetiradoPeloPaciente(event.target.checked);
+
+        if (event.target.checked) {
+            setRetiranteName(patientName);
+            setRetiranteDocId(docId);
+        } else {
+            setRetiranteName("");
+            setRetiranteDocId("");
+        }
     }
 
     function createNewExame(event: React.FormEvent<HTMLFormElement>) {
@@ -124,6 +149,78 @@ function ExamesPanel() {
         }
     }
 
+    function toggleEntregaExame(event: React.MouseEvent<HTMLButtonElement>) {
+        const exameId = (event.currentTarget as HTMLButtonElement).dataset.exameId;
+        if (exameId) {
+            const retiradaContainer = document.getElementById("retiradaContainer");
+            if (retiradaContainer) {
+                retiradaContainer.classList.remove("hidden");
+                const exame = exames.find((ex) => ex.exameId === exameId);
+                if (exame) {
+                    const retiradaForm = document.getElementById("retiradaForm") as HTMLFormElement;
+                    if (retiradaForm) {
+                        retiradaForm.setAttribute("data-exame-id", exame.exameId);
+                    }
+                    const retiradaTipoEl = document.getElementById("retiradaTipoEl");
+                    const retiradaNomeEl = document.getElementById("retiradaNomeEl");
+                    const retiradaCpfEl = document.getElementById("retiradaCpfEl");
+                    const retiradaTelefoneEl = document.getElementById("retiradaTelefoneEl");
+                    if (retiradaTipoEl && retiradaNomeEl && retiradaCpfEl && retiradaTelefoneEl) {
+                        retiradaTipoEl.textContent = exame.type;
+                        retiradaNomeEl.textContent = exame.patientName;
+                        retiradaCpfEl.textContent = exame.docId;
+                        retiradaTelefoneEl.textContent = exame.patientNumber;
+
+                        setPatientName(exame.patientName);
+                        setDocId(exame.docId);
+                    }
+                }
+            }
+        }
+    }
+
+    function handleRetiradaRegister(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const retiradaForm = event.currentTarget as HTMLFormElement;
+        const exameId = retiradaForm.getAttribute("data-exame-id");
+        if (!exameId) {
+            console.error("Exame ID não encontrado no formulário de retirada.");
+            return;
+        }
+        const retiradaNameInput = document.getElementById("retiradaNameIn") as HTMLInputElement;
+        const retiradaDocIdInput = document.getElementById("retiradaCpfIn") as HTMLInputElement;
+        const retiradaName = retiradaNameInput.value.trim();
+        const retiradaDocId = retiradaDocIdInput.value.trim();
+
+        if (retiradaName && retiradaDocId) {
+            if (exameId) {
+                const data: IDeliverExame = {
+                    exameId,
+                    retiranteDocId: retiradaDocId,
+                    retiranteName: retiradaName
+                };
+
+                deliverExame(data)
+                    .then((response) => {
+                        console.log(response);
+                        if (response.data.delivered) {
+                            const updatedExames = exames.filter((exame) => exame.exameId !== exameId);
+                            setExames(updatedExames);
+                            retiradaNameInput.value = "";
+                            retiradaDocIdInput.value = "";
+                            document.getElementById("retiradaContainer")?.classList.add("hidden");
+                        } else {
+                            console.error("Erro ao entregar exame:", response.message);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao entregar exame:", error);
+                    });
+            }
+        }
+
+    }
+
     return (
         <React.Fragment>
             <div className="exames-container">
@@ -132,7 +229,7 @@ function ExamesPanel() {
                     <img src={logo01} alt="Logo" className="logo" />
                 </div>
                 <div className="search-container">
-                    <input type="text" placeholder="Digite tipo de exame, nome ou cpf do paciente"  id="searchInput"/>
+                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput"/>
                     <button id="searchExames">Pesquisar exame</button>
                 </div>
                 <div className="exames-list-container">
@@ -176,9 +273,13 @@ function ExamesPanel() {
                                             </button>
                                         </td>
                                         :
-                                        <td className="btn-cell"><button className="btn" data-exame-id={exame.exameId} onClick={handleNotifyPacient}><img src={wppIcon} alt="WhatsApp" /></button></td>
+                                        <td className="btn-cell">
+                                            <button className="btn" data-exame-id={exame.exameId} onClick={handleNotifyPacient}>
+                                                <img src={wppIcon} alt="" />
+                                            </button>
+                                        </td>
                                     }
-                                    <td className="btn-cell"><button className="btn">Entrega</button></td>
+                                    <td className="btn-cell"><button className="btn" data-exame-id={exame.exameId} onClick={toggleEntregaExame}>Entrega</button></td>
                                 </tr>
                             ))}
                         </tbody>
@@ -284,6 +385,60 @@ function ExamesPanel() {
                             ))}
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div className="new-exame-container hidden" id="retiradaContainer">
+                <div className="new-exame-wrapper">
+                    <div className="top-buttons-wrapper">
+                        <button className="back" onClick={() => document.getElementById("retiradaContainer")?.classList.add("hidden")}>
+                            Voltar
+                        </button>
+
+                        <div>
+                            <b>Retirada:</b>
+                            <span>{new Date().toLocaleDateString("pt-BR", { year: 'numeric', month: '2-digit', day: '2-digit' })}</span>
+                        </div>
+                    </div>
+
+                    <form className="retirada-info" id="retiradaForm" data-exame-id="" onSubmit={handleRetiradaRegister}>
+                        <div className="form-wrapper">
+                            <span>Tipo de exame:</span>
+                            <b id="retiradaTipoEl">Hemograma</b>
+                        </div>
+                        <div className="form-wrapper horizontal">
+                            <div>
+                                <span>Nome do paciente:</span>
+                                <b id="retiradaNomeEl">João da Silva</b>
+                            </div>
+                            <div>
+                                <span>Cpf:</span>
+                                <b id="retiradaCpfEl">123.456.789-00</b>
+                            </div>
+                            <div>
+                                <span>Telefone:</span>
+                                <b id="retiradaTelefoneEl">(79) 98765-4321</b>
+                            </div>
+                        </div>
+
+                        <div className="form-wrapper">
+                            <span>Retirado por:</span>
+                        </div>
+                        <div className="form-wrapper">
+                            <span>Nome Completo:</span>
+                            <input type="text" name="retiradaName" id="retiradaNameIn" placeholder="Digite o nome completo" value={retiranteName} onChange={handleRetiranteNameChange} />
+                        </div>
+                        <div className="form-wrapper">
+                            <span>Cpf:</span>
+                            <input type="text" name="retiradaCpf" id="retiradaCpfIn" placeholder="Digite o CPF" value={retiranteDocId} onChange={handleRetiranteDocIdChange} />
+                        </div>
+                        <div className="check-wrapper">
+                            <label htmlFor="retiradaPacienteEl">Retirado pelo paciente</label>
+                            <input type="checkbox" name="retiradaPaciente" id="retiradaPacienteEl" checked={isRetiradoPeloPaciente} onChange={handleRetiradoPeloPacienteChange} />
+                        </div>
+
+                        <button id="retiradaSubmit">Marcar como retirado</button>
+                    </form>
                 </div>
             </div>
 

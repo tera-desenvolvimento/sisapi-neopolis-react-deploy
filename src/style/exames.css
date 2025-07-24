@@ -269,6 +269,22 @@ body:has(.exames-container) {
     width: 100%;
 }
 
+.new-exame-container .new-exame-wrapper form .form-wrapper b {
+    font-family: 'Poppins-Regular';
+    font-size: 12px;
+}
+
+.new-exame-container .new-exame-wrapper form .form-wrapper.horizontal {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.new-exame-container .new-exame-wrapper form .form-wrapper.horizontal > div {
+    display: flex;
+    flex-direction: column;
+}
+
 .new-exame-container .new-exame-wrapper form .form-wrapper .select-wrapper, .new-exame-container .new-exame-wrapper form .form-wrapper .type-wrapper {
     display: flex;
     gap: 10px;
@@ -334,7 +350,16 @@ body:has(.exames-container) {
     cursor: pointer;
     font-family: 'Poppins-Bold';
     margin-top: 20px;
-    margin-top: 50px;
+}
+
+.new-exame-container .new-exame-wrapper form .check-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 10px;
+    margin-top: 20px;
+    font-family: 'Poppins-Regular';
+    font-size: 12px;
 }
 
 .new-exame-container .exame-types {

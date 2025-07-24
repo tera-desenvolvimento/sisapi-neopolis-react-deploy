@@ -24,7 +24,7 @@ function DeliveredExames() {
                     <img src={logo01} alt="Logo" className="logo" />
                 </div>
                 <div className="search-container">
-                    <input type="text" placeholder="Digite tipo de exame, nome ou cpf do paciente"  id="searchInput"/>
+                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput"/>
                     <button id="searchExames">Pesquisar exame</button>
                 </div>
 

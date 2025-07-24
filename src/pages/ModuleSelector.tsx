@@ -8,6 +8,8 @@ import "../style/login.css";
 
 const ModuleSelector = () => {
     function handleModuleSelection(event: React.ChangeEvent<HTMLSelectElement>) {
+        event.preventDefault()
+
         const selectedModule = event.target.value;
         if (selectedModule) {
             window.location.href = `/${selectedModule}`;
@@ -29,7 +31,6 @@ const ModuleSelector = () => {
                             <option value="exames">Exames</option>
                         </select>
                     </div>
-                    <button type="submit">Acessar painel</button>
                 </form>
                 <div className="logo-sisapi">
                     <img src={sisapiLogo} alt="Sisapi Logo" />
