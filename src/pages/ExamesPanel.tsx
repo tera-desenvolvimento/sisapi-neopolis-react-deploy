@@ -249,7 +249,7 @@ function ExamesPanel() {
 
     function handleEditingArriveDate(event: React.ChangeEvent<HTMLInputElement>) {
         const newDate = new Date(event.target.value);
-
+        newDate.setHours(newDate.getHours() + 3);
         setEditingArrivedDate(newDate.toISOString());
         console.log(newDate.toISOString());
     }
