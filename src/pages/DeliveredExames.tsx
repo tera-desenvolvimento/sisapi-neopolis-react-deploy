@@ -5,16 +5,34 @@ import logoutIcon from "../img/logout.svg";
 
 import { listDeliveredExames, IExame } from "../controllers/exame/listExames.controller";
 import { getCookies, doLogout } from "../controllers/user/authenticate.controller";
+import { searchExame, ISearch } from "../controllers/exame/searchExame.controller";
 
 function DeliveredExames() {
     const userData = getCookies("userData");
     const [deliveredExames, setDeliveredExames] = useState([] as IExame[]);
+    const [queryStringVal, setQueryStringVal] = useState("");
 
     useMemo(() => {
         listDeliveredExames().then((response) => {
             setDeliveredExames(response.data);
         });
     }, []);
+
+    function handleQueryString(event: React.ChangeEvent<HTMLInputElement>) {
+        setQueryStringVal(event.target.value);
+    }
+    
+    function doTheSearch() {
+        const queryString: ISearch = {
+            delivered: true,
+            queryString: queryStringVal
+        };
+
+        searchExame(queryString)
+            .then(response => {
+                setDeliveredExames(response);
+            })
+    }
 
     return (
         <React.Fragment>
@@ -24,8 +42,8 @@ function DeliveredExames() {
                     <img src={logo01} alt="Logo" className="logo" />
                 </div>
                 <div className="search-container">
-                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput"/>
-                    <button id="searchExames">Pesquisar exame</button>
+                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput" onChange={handleQueryString}/>
+                    <button id="searchExames" onClick={doTheSearch}>Pesquisar exame</button>
                 </div>
 
                 <div className="exames-list-container">

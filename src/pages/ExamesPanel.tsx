@@ -14,6 +14,7 @@ import { createExameType } from "../controllers/exame/createExameType.controller
 import { notifyPacient, INotifyResponse } from "../controllers/exame/notifyPacient.controller";
 import { IDeliverExame, deliverExame } from "../controllers/exame/deliverExame.controller";
 import { editExame, IEditExame } from "../controllers/exame/editExame.controller";
+import { searchExame, ISearch } from "../controllers/exame/searchExame.controller";
 
 function ExamesPanel() {
     const initialDate = new Date();
@@ -36,6 +37,8 @@ function ExamesPanel() {
     const [editingDocId, setEditingDocId] = useState("");
     const [editingPatientNumber, setEditingPatientNumber] = useState("");
     const [editingArrivedDate, setEditingArrivedDate] = useState(initialDate.toISOString().split("T")[0]);
+
+    const [queryStringVal, setQueryStringVal] = useState("");
 
     const InitialExames = useMemo(() => listExames().then((response: IResponse) => { setExames(response.data); }), []);
     const InitialExameTypes = useMemo(() => listExameTypes().then((response: IExameResponse) => { setExameTypes(response.data); setType(response.data[0].type) }), []);
@@ -286,6 +289,22 @@ function ExamesPanel() {
 
     }
 
+    function handleQueryString(event: React.ChangeEvent<HTMLInputElement>) {
+        setQueryStringVal(event.target.value);
+    }
+
+    function doTheSearch() {
+        const queryString: ISearch = {
+            delivered: false,
+            queryString: queryStringVal
+        };
+
+        searchExame(queryString)
+            .then(response => {
+                setExames(response);
+            })
+    }
+
     return (
         <React.Fragment>
             <div className="exames-container">
@@ -294,8 +313,8 @@ function ExamesPanel() {
                     <img src={logo01} alt="Logo" className="logo" />
                 </div>
                 <div className="search-container">
-                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput"/>
-                    <button id="searchExames">Pesquisar exame</button>
+                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput" onChange={handleQueryString}/>
+                    <button id="searchExames" onClick={doTheSearch}>Pesquisar exame</button>
                 </div>
                 <div className="exames-list-container">
                     <table className="exames-table">
