@@ -26,6 +26,7 @@ function ExamesPanel() {
     const [type, setType] = useState("");
     const [patientName, setPatientName] = useState("");
     const [patientNumber, setPatientNumber] = useState("");
+    const [isPhoneValid, setIsPhoneValue] = useState(false);
 
     const [retiranteName, setRetiranteName] = useState("");
     const [retiranteDocId, setRetiranteDocId] = useState("");
@@ -74,6 +75,17 @@ function ExamesPanel() {
         setPatientNumber(event.target.value);
     }
 
+    function testPhoneNumber(event: React.KeyboardEvent<HTMLInputElement>){
+        const regex = /^55\d{10}$/;
+        if(!regex.test((event.target as HTMLInputElement).value)) {
+            setIsPhoneValue(false);
+            (event.target as HTMLInputElement).style.outline = "2px solid red"
+        } else {
+            setIsPhoneValue(true);
+            (event.target as HTMLInputElement).style.outline = "2px solid blue"
+        }
+    }
+
     function handleRetiranteNameChange(event: React.ChangeEvent<HTMLInputElement>) {
         setRetiranteName(event.target.value);
     }
@@ -103,20 +115,25 @@ function ExamesPanel() {
             patientNumber
         };
 
-        createExame(exameData)
-            .then((response) => {
-                setExames([...exames, response.data]);
+        if(!isPhoneValid){
+            alert("Formato de telefone inválido");
+        } else{
+            createExame(exameData)
+                .then((response) => {
+                    setExames([...exames, response.data]);
 
-                setDocId("");
-                setType("");
-                setPatientName("");
-                setPatientNumber("");
-                
-                toggleNewExameContainer();
-            })
-            .catch((error) => {
-                console.error("Erro ao criar exame:", error);
-            });
+                    setDocId("");
+                    setType("");
+                    setPatientName("");
+                    setPatientNumber("");
+                    
+                    toggleNewExameContainer();
+                })
+                .catch((error) => {
+                    console.error("Erro ao criar exame:", error);
+                });
+        }
+        
     }
 
     function createNewExameType(event: React.FormEvent<HTMLFormElement>) {
@@ -289,11 +306,9 @@ function ExamesPanel() {
 
     }
 
-    function handleQueryString(event: React.ChangeEvent<HTMLInputElement>) {
+    function doTheSearch(event: React.ChangeEvent<HTMLInputElement>) {
         setQueryStringVal(event.target.value);
-    }
 
-    function doTheSearch() {
         const queryString: ISearch = {
             delivered: false,
             queryString: queryStringVal
@@ -313,8 +328,7 @@ function ExamesPanel() {
                     <img src={logo01} alt="Logo" className="logo" />
                 </div>
                 <div className="search-container">
-                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput" onChange={handleQueryString}/>
-                    <button id="searchExames" onClick={doTheSearch}>Pesquisar exame</button>
+                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput" onChange={doTheSearch}/>
                 </div>
                 <div className="exames-list-container">
                     <table className="exames-table">
@@ -426,7 +440,7 @@ function ExamesPanel() {
                         </div>
                         <div className="form-wrapper">
                             <span>Telefone:</span>
-                            <input type="text" name="patientNumber" id="patientNumberEl" placeholder="Digite o telefone" onChange={handlePatientNumberChange} value={patientNumber}/>
+                            <input type="text" name="patientNumber" id="patientNumberEl" placeholder="Ex.: 557988888888" onKeyUp={testPhoneNumber} onChange={handlePatientNumberChange} value={patientNumber}/>
                         </div>
 
                         <button type="submit" id="newExamSubmit">Cadastrar</button>

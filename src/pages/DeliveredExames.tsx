@@ -17,12 +17,10 @@ function DeliveredExames() {
             setDeliveredExames(response.data);
         });
     }, []);
-
-    function handleQueryString(event: React.ChangeEvent<HTMLInputElement>) {
-        setQueryStringVal(event.target.value);
-    }
     
-    function doTheSearch() {
+    function doTheSearch(event: React.ChangeEvent<HTMLInputElement>) {
+        setQueryStringVal(event.target.value);
+
         const queryString: ISearch = {
             delivered: true,
             queryString: queryStringVal
@@ -42,8 +40,7 @@ function DeliveredExames() {
                     <img src={logo01} alt="Logo" className="logo" />
                 </div>
                 <div className="search-container">
-                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput" onChange={handleQueryString}/>
-                    <button id="searchExames" onClick={doTheSearch}>Pesquisar exame</button>
+                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput" onChange={doTheSearch}/>
                 </div>
 
                 <div className="exames-list-container">
