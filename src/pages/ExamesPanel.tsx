@@ -16,6 +16,7 @@ import { IDeliverExame, deliverExame } from "../controllers/exame/deliverExame.c
 import { editExame, IEditExame } from "../controllers/exame/editExame.controller";
 
 function ExamesPanel() {
+    const initialDate = new Date();
     const userData = getCookies("userData");
     const [exames, setExames] = useState<IExame[]>([]);
     const [exameTypes, setExameTypes] = useState<IExameType[]>([]);
@@ -34,7 +35,7 @@ function ExamesPanel() {
     const [editingPacientName, setEditingPacientName] = useState("");
     const [editingDocId, setEditingDocId] = useState("");
     const [editingPatientNumber, setEditingPatientNumber] = useState("");
-    const [editingArriveDate, setEditingArriveDate] = useState("");
+    const [editingArrivedDate, setEditingArrivedDate] = useState(initialDate.toISOString().split("T")[0]);
 
     const InitialExames = useMemo(() => listExames().then((response: IResponse) => { setExames(response.data); }), []);
     const InitialExameTypes = useMemo(() => listExameTypes().then((response: IExameResponse) => { setExameTypes(response.data); setType(response.data[0].type) }), []);
@@ -241,9 +242,16 @@ function ExamesPanel() {
                 setEditingPacientName(exame.patientName);
                 setEditingDocId(exame.docId);
                 setEditingPatientNumber(exame.patientNumber);
-                setEditingArriveDate(new Date(exame.arrivedDate).toISOString().split("T")[0]);
+                setEditingArrivedDate(new Date(exame.arrivedDate).toISOString());
             }
         }
+    }
+
+    function handleEditingArriveDate(event: React.ChangeEvent<HTMLInputElement>) {
+        const newDate = new Date(event.target.value);
+
+        setEditingArrivedDate(newDate.toISOString());
+        console.log(newDate.toISOString());
     }
 
     function handleEditExameSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -253,7 +261,7 @@ function ExamesPanel() {
         editingExameProps.exameId = editingExameId;
         editingExameProps.docId = editingDocId;
         editingExameProps.type = editingExameType;
-        editingExameProps.arriveDate = editingArriveDate;
+        editingExameProps.arrivedDate = editingArrivedDate;
         editingExameProps.patientName = editingPacientName;
         editingExameProps.patientNumber = editingPatientNumber;
 
@@ -268,7 +276,7 @@ function ExamesPanel() {
                             patientName: editingPacientName,
                             docId: editingDocId,
                             patientNumber: editingPatientNumber,
-                            arrivedDate: editingArriveDate,
+                            arrivedDate: editingArrivedDate,
                         }
                         : exame
                 );
@@ -445,7 +453,7 @@ function ExamesPanel() {
                         </div>
                         <div className="form-wrapper">
                             <span>Chegada:</span>
-                            <input type="date" name="arriveDate" id="arriveDateEl" value={editingArriveDate} onChange={(e) => setEditingArriveDate(e.target.value)} />
+                            <input type="date" name="arriveDate" id="arriveDateEl" value={new Date(editingArrivedDate).toISOString().split("T")[0]} onChange={handleEditingArriveDate} />
                         </div>
 
                         <button type="submit" id="editExameSubmit">Salvar Alterações</button>

@@ -4,7 +4,7 @@ export interface IEditExame {
     exameId: string;
     docId: string;
     type: string;
-    arriveDate: string;
+    arrivedDate: string;
     patientName: string;
     patientNumber: string;
 }
