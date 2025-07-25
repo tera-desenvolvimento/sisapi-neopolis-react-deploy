@@ -254,8 +254,8 @@ function ExamesPanel() {
         editingExameProps.docId = editingDocId;
         editingExameProps.type = editingExameType;
         editingExameProps.arriveDate = editingArriveDate;
-        editingExameProps.pacientName = editingPacientName;
-        editingExameProps.pacientNumber = editingPatientNumber;
+        editingExameProps.patientName = editingPacientName;
+        editingExameProps.patientNumber = editingPatientNumber;
 
         editExame(editingExameProps)
             .then(response => {

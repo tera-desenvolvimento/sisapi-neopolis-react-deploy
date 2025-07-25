@@ -5,8 +5,8 @@ export interface IEditExame {
     docId: string;
     type: string;
     arriveDate: string;
-    pacientName: string;
-    pacientNumber: string;
+    patientName: string;
+    patientNumber: string;
 }
 
 export async function editExame(exameData: IEditExame) {
