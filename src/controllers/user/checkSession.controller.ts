@@ -5,7 +5,8 @@ import { getCookies, removeCookies } from "./authenticate.controller";
 const authenticationUrls = [
     '/login',
     '/esqueci-minha-senha',
-    '/resetar-senha'
+    '/resetar-senha',
+    '/email-enviado'
 ];
 
 window.addEventListener('load', () => {

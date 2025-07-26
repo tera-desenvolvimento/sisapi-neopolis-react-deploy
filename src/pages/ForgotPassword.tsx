@@ -46,7 +46,7 @@ const ForgotPassword = () => {
                             if (emailInfoElement) {
                                 emailInfoElement.innerText = "Código enviado para o e-mail. Verifique sua caixa de entrada.";
                                 setTimeout(() => {
-                                    window.location.href = '/login';
+                                    window.location.href = '/email-enviado';
                                 }, 3000);   
                             }
                         })

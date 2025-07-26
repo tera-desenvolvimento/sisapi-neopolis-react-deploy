@@ -55,6 +55,17 @@ body:has(.login-container) {
     color: #040845;
 }
 
+.login-container span.sent {
+    color: #33A100;
+    text-align: center;
+    font-family: 'Poppins-Bold';
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
 .login-container span {
     font-family: 'Poppins-Regular';
     font-size: 12px;
@@ -124,6 +135,18 @@ form button {
     font-family: 'Poppins-Bold';
     font-size: 14px;
     border: none;
+}
+
+.login-container a.back {
+    padding: 10px 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #0042C8;
+    color: #FFFFFF;
+    font-family: 'Poppins-Bold';
+    font-size: 14px;
+    border: none;
+    text-decoration: none;
 }
 
 .logo-sisapi img {
