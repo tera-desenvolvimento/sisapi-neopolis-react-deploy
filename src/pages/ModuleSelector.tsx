@@ -27,7 +27,6 @@ const ModuleSelector = () => {
                     <div className="form-group">
                         <select id="module" name="module" defaultValue="" required onChange={handleModuleSelection}>
                             <option value="" disabled>Selecione um módulo</option>
-                            <option value="admin">Administração</option>
                             <option value="exames">Exames</option>
                         </select>
                     </div>
