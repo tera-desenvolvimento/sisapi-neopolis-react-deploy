@@ -37,7 +37,7 @@ const ForgotPassword = () => {
                         email: email,
                         subject: "Recuperação de Senha - Sisapi",
                         html: `Olá, para recuperar sua senha, acesse o seguinte link: <br/>
-                        <a href="http://neopolis.sisapi.com.br/resetar-senha?token=${response.token}&userId=${response.userId}">Clique aqui para redefinir sua senha</a><br/>
+                        <a href="${window.location.origin}/resetar-senha?token=${response.token}&userId=${response.userId}">Clique aqui para redefinir sua senha</a><br/>
                         <br>Se você não solicitou essa recuperação, por favor ignore este e-mail.`
                     };
 
