@@ -124,7 +124,6 @@ function ExamesPanel() {
                     setExames([...exames, response.data]);
 
                     setDocId("");
-                    setType("");
                     setPatientName("");
                     setPatientNumber("");
                     
@@ -433,7 +432,7 @@ function ExamesPanel() {
                         <div className="form-wrapper">
                             <span>Tipo de exame:</span>
                             <div className="select-wrapper">
-                                <select name="exameType" id="exameTypeEl" onChange={handleTypeChange}>
+                                <select name="exameType" id="exameTypeEl" value={type} onChange={handleTypeChange}>
                                     {
                                         exameTypes.map((exameType) => ( 
                                             <option key={exameType.exameTypeId} value={exameType.type}>
