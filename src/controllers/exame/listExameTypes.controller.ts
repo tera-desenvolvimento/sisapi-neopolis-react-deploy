@@ -7,7 +7,6 @@ export interface IExameResponse {
 }
 
 export interface IExameType {
-    exameTypeId: string;
     type: string;
 }
 

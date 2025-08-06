@@ -156,12 +156,13 @@ function ExamesPanel() {
     }
 
     function excludeExameType(event: React.MouseEvent<HTMLButtonElement>) {
-        const exameTypeId = (event.target as HTMLButtonElement).dataset.exameId;
+        const exameType = (event.target as HTMLButtonElement).dataset.exameType;
+        console.log(exameType);
 
-        if (exameTypeId) {
-            removeExameType(exameTypeId)
+        if (exameType) {
+            removeExameType(exameType)
                 .then(() => {
-                    setExameTypes(exameTypes.filter(type => type.exameTypeId !== exameTypeId));
+                    setExameTypes(exameTypes.filter(type => type.type !== exameType));
                 })
                 .catch((error) => {
                     console.error("Erro ao remover tipo de exame:", error);
@@ -435,7 +436,7 @@ function ExamesPanel() {
                                 <select name="exameType" id="exameTypeEl" value={type} onChange={handleTypeChange}>
                                     {
                                         exameTypes.map((exameType) => ( 
-                                            <option key={exameType.exameTypeId} value={exameType.type}>
+                                            <option key={exameType.type} value={exameType.type}>
                                                 {exameType.type}
                                             </option>
                                         ))
@@ -477,7 +478,7 @@ function ExamesPanel() {
                                 <select name="exameType" id="exameTypeEl" value={editingExameType} onChange={(e) => setEditingExameType(e.target.value)}>
                                     {
                                         exameTypes.map((exameType) => ( 
-                                            <option key={exameType.exameTypeId} value={exameType.type}>
+                                            <option key={exameType.type} value={exameType.type}>
                                                 {exameType.type}
                                             </option>
                                         ))
@@ -535,12 +536,10 @@ function ExamesPanel() {
 
                         <div className="exame-types-list">
                             {exameTypes.map((exameType) => (
-                                <div className="exame-type-item" key={exameType.exameTypeId}>
+                                <div className="exame-type-item" key={exameType.type}>
                                     <span>{exameType.type}</span>
-                                    <button className="delete-btn" data-exame-id={exameType.exameTypeId} onClick={excludeExameType}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none" data-exame-id={exameType.exameTypeId} >
-                                            <path d="M14.1761 4.8022L11.4764 7.5L14.1761 10.1978C14.7036 10.7254 15 11.4409 15 12.1869C15 12.933 14.7036 13.6485 14.1761 14.1761C13.6485 14.7036 12.933 15 12.1869 15C11.4409 15 10.7254 14.7036 10.1978 14.1761L7.5 11.4764L4.8022 14.1761C4.27465 14.7036 3.55913 15 2.81306 15C2.06699 15 1.35148 14.7036 0.823927 14.1761C0.296376 13.6485 0 12.933 0 12.1869C0 11.4409 0.296376 10.7254 0.823927 10.1978L3.5236 7.5L0.823927 4.8022C0.296376 4.27465 -5.55866e-09 3.55913 0 2.81306C5.55866e-09 2.06699 0.296376 1.35148 0.823927 0.823928C1.35148 0.296376 2.06699 5.55866e-09 2.81306 0C3.55913 -5.55866e-09 4.27465 0.296376 4.8022 0.823928L7.5 3.5236L10.1978 0.823928C10.459 0.56271 10.7691 0.355502 11.1104 0.214133C11.4517 0.0727629 11.8175 0 12.1869 0C12.5564 0 12.9222 0.0727629 13.2634 0.214133C13.6047 0.355502 13.9149 0.56271 14.1761 0.823928C14.4373 1.08514 14.6445 1.39525 14.7859 1.73655C14.9272 2.07785 15 2.44365 15 2.81306C15 3.18248 14.9272 3.54828 14.7859 3.88958C14.6445 4.23087 14.4373 4.54098 14.1761 4.8022Z" fill="#DB0000" data-exame-id={exameType.exameTypeId}/>
-                                        </svg>
+                                    <button className="delete-btn" data-exame-type={exameType.type} onClick={excludeExameType}>
+                                        X
                                     </button>
                                 </div>
                             ))}
