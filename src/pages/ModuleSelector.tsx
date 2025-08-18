@@ -28,6 +28,7 @@ const ModuleSelector = () => {
                         <select id="module" name="module" defaultValue="" required onChange={handleModuleSelection}>
                             <option value="" disabled>Selecione um módulo</option>
                             <option value="exames">Exames</option>
+                            <option value="transportes">Transportes</option>
                         </select>
                     </div>
                 </form>

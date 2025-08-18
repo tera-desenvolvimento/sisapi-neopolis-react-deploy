@@ -321,18 +321,22 @@ function ExamesPanel() {
 
     }
 
-    function doTheSearch(event: React.ChangeEvent<HTMLInputElement>) {
-        setQueryStringVal(event.target.value);
+    function doTheSearch(event: React.KeyboardEvent<HTMLInputElement>) {
+        setQueryStringVal(event.currentTarget.value);
 
-        const queryString: ISearch = {
-            delivered: false,
-            queryString: queryStringVal
-        };
+        if ((queryStringVal.length - 1) > 0) {
+            const queryString: ISearch = {
+                delivered: false,
+                queryString: queryStringVal
+            };
 
         searchExame(queryString)
             .then(response => {
                 setExames(response);
             })
+        } else {
+            listExames().then((response: IResponse) => { setExames(response.data); })
+        }
     }
 
     return (
@@ -343,7 +347,7 @@ function ExamesPanel() {
                     <img src={logo01} alt="Logo" className="logo" />
                 </div>
                 <div className="search-container">
-                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput" onChange={doTheSearch}/>
+                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput" onKeyUpCapture={doTheSearch}/>
                 </div>
                 <div className="exames-list-container">
                     <table className="exames-table">

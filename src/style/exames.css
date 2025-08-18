@@ -14,10 +14,19 @@ body:has(.exames-container) {
   min-height: 80vh;
 }
 
+.exames-container {
+    width: 1050px;
+}
+
+.exames-container.delivered {
+    width: 1250px;
+}
+
 .exames-container .exames-list-container {
     overflow-y: scroll;
     height: 65vh;
-    scrollbar-width: none;
+    scrollbar-width: thin;
+    width: 100%;
 }
 
 .exames-container .header-container {

@@ -18,29 +18,33 @@ function DeliveredExames() {
         });
     }, []);
     
-    function doTheSearch(event: React.ChangeEvent<HTMLInputElement>) {
-        setQueryStringVal(event.target.value);
+    function doTheSearch(event: React.KeyboardEvent<HTMLInputElement>) {
+        setQueryStringVal(event.currentTarget.value);
 
-        const queryString: ISearch = {
-            delivered: true,
-            queryString: queryStringVal
-        };
+        if ((queryStringVal.length - 1) > 0) {
+            const queryString: ISearch = {
+                delivered: true,
+                queryString: queryStringVal
+            };
 
         searchExame(queryString)
             .then(response => {
                 setDeliveredExames(response);
             })
+        } else {
+            listDeliveredExames().then((response) => { setDeliveredExames(response.data); });
+        }
     }
 
     return (
         <React.Fragment>
-            <div className="exames-container">
+            <div className="exames-container delivered">
                 <div className="header-container">
                     <b>Exames retirados:</b>
                     <img src={logo01} alt="Logo" className="logo" />
                 </div>
                 <div className="search-container">
-                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput" onChange={doTheSearch}/>
+                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput" onKeyUpCapture={doTheSearch}/>
                 </div>
 
                 <div className="exames-list-container">
