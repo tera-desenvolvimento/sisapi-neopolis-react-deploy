@@ -2,7 +2,6 @@ import React, {useState, useMemo} from "react";
 import '../controllers/user/checkSession.controller';
 
 import logo01 from "../img/logo-01.svg";
-import wppIcon from "../img/wpp-icon.svg";
 import logoutIcon from "../img/logout.svg";
 
 import "../style/exames.css";

@@ -95,6 +95,11 @@ body, * {
   src: url('../fonts/Poppins/Poppins-ThinItalic.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Lexend';
+  src: url('../fonts/Lexend/Lexend-Regular.ttf') format('truetype');
+}
+
 .hidden {
   display: none !important;
 }

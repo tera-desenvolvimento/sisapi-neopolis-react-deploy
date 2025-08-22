@@ -5,7 +5,7 @@ import sisapiLogo from "../img/sisapi-logo.svg";
 
 import "../style/login.css";
 
-import { authenticate, IAuthenticateData, setCookie, ICookieData } from "../controllers/user/authenticate.controller";
+import { authenticate, IAuthenticateData, setCookie } from "../controllers/user/authenticate.controller";
 
 const Login = () => {
     const [docId, setDocId] = useState("");

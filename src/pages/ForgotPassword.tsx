@@ -9,7 +9,6 @@ import { requestPasswordRecovery, IRecoverData } from "../controllers/user/reque
 import { sendEmail, IEmailData } from "../controllers/misc/sendEmail.controller";
 
 const ForgotPassword = () => {
-    const [userId, setUserId] = useState("");
     const [docId, setDocId] = useState("");
     const [email, setEmail] = useState("");
 
