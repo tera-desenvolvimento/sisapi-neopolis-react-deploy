@@ -66,6 +66,11 @@
     border-radius: 20px;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+.transport-element.active {
+    display: flex;
 }
 
 .transport-header {
@@ -76,8 +81,7 @@
 
 .transport-header .logo-wrapper {
     display: flex;
-    align-items: flex-end;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .transport-header .logo-wrapper img {
@@ -122,4 +126,90 @@
     padding: 5px;
     margin: 0 5px;
     border-radius: 5px;
+}
+
+.transport-body .transport-table {
+    padding-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0 10px;
+    border-collapse: separate;
+}
+
+.transport-body .transport-table th, .transport-body .transport-table td {
+    text-align: left;
+}
+
+.transport-body .transport-table th {
+    font-family: "Lexend";
+    font-size: 10px;
+}
+
+.transport-body .transport-table td {
+    font-family: "Poppins-SemiBold";
+    font-size: 11px;
+    height: 35px;
+}
+
+.transport-row .transport-info {
+    background-color: #EDEDED;
+    margin-bottom: 5px;
+}
+
+.transport-row .transport-info {
+    padding: 10px 0;
+}
+
+.transport-row .transport-info.start {
+    border-radius: 10px 0 0 10px;
+    padding-left: 20px;
+}
+
+.transport-row .transport-info.end {
+    border-radius: 0 10px 10px 0;
+    border-right: 10px;
+}
+
+.transport-body .transport-table .transport-row .transport-actions {
+    display: flex;
+    gap: 10px;
+    padding-left: 10px;
+}
+
+
+.transport-body .transport-table .transport-row button {
+    background-color: #0042C8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins-semiBold';
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.transport-body .transport-table .transport-row button img {
+    width: 20px;
+}
+
+.swipe-transport-controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    width: 100%;
+}
+
+.swipe-transport-controls button {
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins-semiBold';
+    padding: 5px 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
 }
