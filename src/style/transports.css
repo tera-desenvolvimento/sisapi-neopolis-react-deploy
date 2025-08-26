@@ -34,9 +34,9 @@
 }
 
 .bottom-container {
-    position: absolute;
+    position: sticky;
     bottom: 40px;
-    left: 40px;
+    margin-left: 40px;
     width: unset;
 }
 

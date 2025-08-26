@@ -23,6 +23,7 @@ import excludeIcon from "../img/exclude-icon.svg";
 import addRowIcon from "../img/add-row.svg";
 
 import "../style/transports.css";
+import { set } from "date-fns";
 
 type Patient = {
     name: string;
@@ -87,39 +88,44 @@ function TransportsPanel() {
     const [newPatientData, setNewPatientData] = useState({} as Patient);
     const [newVehicleData, setNewVehicleData] = useState({} as CVehicle);
     const [newDriverData, setNewDriverData] = useState({} as CDriver);
+    const [loaded, setLoaded] = useState(false);
 
-    window.onload = () => {
-        listTransports(selectedDate.toLocaleDateString())
-            .then(data => {
-                setTransports(data.trips);
-            })
+    if (!loaded) {
+        (function loadData() {
+            listTransports(selectedDate.toLocaleDateString())
+                .then(data => {
+                    setTransports(data.trips);
+                })
             .catch(error => {
                 console.error(error);
             });
 
-        listDestinations()
-            .then(data => {
-                setDestinations(data.tripDestinations);
-            })
-            .catch(error => {
-                console.error(error);
-            });
+            listDestinations()
+                .then(data => {
+                    setDestinations(data.tripDestinations);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
 
-        listDrivers()
-            .then(data => {
-                setDrivers(data.drivers);
-            })
-            .catch(error => {
-                console.error(error);
-            });
+            listDrivers()
+                .then(data => {
+                    setDrivers(data.drivers);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
 
-        listVehicles()
-            .then(data => {
-                setVehicles(data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
+            listVehicles()
+                .then(data => {
+                    setVehicles(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+                setLoaded(true);
+        })();
     }
 
     function handleDateChange(date: Date) {
