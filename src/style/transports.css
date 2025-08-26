@@ -34,7 +34,7 @@
 }
 
 .bottom-container {
-    position: sticky;
+    position: fixed;
     bottom: 40px;
     margin-left: 40px;
     width: unset;
