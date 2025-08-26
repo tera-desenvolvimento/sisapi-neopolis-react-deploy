@@ -303,6 +303,11 @@ body:has(.exames-container) {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
+}
+
+.new-exame-container .new-exame-wrapper form .form-wrapper.horizontal div {
+    flex: 1;
 }
 
 .new-exame-container .new-exame-wrapper form .form-wrapper.horizontal > div {

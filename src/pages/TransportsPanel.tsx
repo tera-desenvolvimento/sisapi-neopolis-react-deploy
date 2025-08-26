@@ -13,6 +13,8 @@ import addDestination from "../controllers/transports/addDestination.controller"
 import removeDestination from "../controllers/transports/removeDestination.controller";
 import addDriver from "../controllers/transports/addDriver.controller";
 import removeTransport from "../controllers/transports/removeTransport.controller";
+import removeVehicle from "../controllers/transports/removeVehicle.controller";
+import removeDriver from "../controllers/transports/removeDriver.controller";
 
 import logoutIcon from "../img/logout.svg";
 import logoNeopolis from "../img/logo-01.svg";
@@ -21,7 +23,6 @@ import excludeIcon from "../img/exclude-icon.svg";
 import addRowIcon from "../img/add-row.svg";
 
 import "../style/transports.css";
-import { set } from "date-fns";
 
 type Patient = {
     name: string;
@@ -52,14 +53,12 @@ type Destination = {
 
 type Driver = {
     name: string;
-    nickName: string;
     docId: string;
     _id: string;
 }
 
 type CDriver = {
     name: string;
-    nickName: string;
     docId: string;
 }
 
@@ -329,8 +328,7 @@ function TransportsPanel() {
     async function handleAddDriver() {
         try {
             const newDriver = await addDriver(newDriverData);
-            setDrivers([...drivers, newDriver]);
-            toggleNewDriverContainer();
+            setDrivers([...drivers, newDriver.driver]);
         } catch (error) {
             console.error("Error adding driver:", error);
         }
@@ -344,6 +342,28 @@ function TransportsPanel() {
             .catch(error => {
                 console.error("Error deleting transport:", error);
             });
+    }
+
+    async function handleDeleteVehicle(event: React.MouseEvent<HTMLButtonElement>) {
+        const vehicleId = event.currentTarget.dataset.vehicleId || "";
+
+        try {
+            await removeVehicle(vehicleId);
+            setVehicles(vehicles.filter(veh => veh._id !== vehicleId));
+        } catch (error) {
+            console.error("Error removing vehicle:", error);
+        }
+    }
+
+    async function handleDeleteDriver(event: React.MouseEvent<HTMLButtonElement>) {
+        const driverId = event.currentTarget.dataset.driverId || "";
+
+        try {
+            await removeDriver(driverId);
+            setDrivers(drivers.filter(driver => driver._id !== driverId));
+        } catch (error) {
+            console.error("Error removing driver:", error);
+        }
     }
 
     return (
@@ -408,7 +428,7 @@ function TransportsPanel() {
                                                                 <option value="">Selecione o motorista</option>
                                                                 {
                                                                     drivers.map(driver => (
-                                                                        <option key={driver._id} value={driver._id}> {driver.name} ({driver.nickName}) </option>
+                                                                        <option key={driver._id} value={driver._id}>{driver.name}</option>
                                                                     ))
                                                                 }
                                                             </select>
@@ -477,7 +497,7 @@ function TransportsPanel() {
                                                         }
 
                                                         {
-                                                            transport.patients.length < 12 ? (
+                                                            transport.patients.length < 15 ? (
                                                                 <tr className="transport-row">
                                                                     <td className="transport-index">{transport.patients.length + 1}</td>
                                                                     <td className="transport-info start"></td>
@@ -497,7 +517,7 @@ function TransportsPanel() {
                                             </div>
 
                                             <div className="transport-controls-container">
-                                                <button className="delete-transport" onClick={() => handleDeleteTransport(transport._id)}>Excluir transporte</button>
+                                                <button className="delete-transport hidden" onClick={() => handleDeleteTransport(transport._id)}>Excluir transporte</button>
                                                 <button className="print-transport">Imprimir</button>
                                             </div>
                                         </div>
@@ -560,29 +580,29 @@ function TransportsPanel() {
                     <form className="new-exame-info" id="newPacientForm" onSubmit={handleNewPatientSubmit}>
                         <div className="form-wrapper">
                             <span>Nome Completo:</span>
-                            <input type="text" name="name" id="patientNameEl" placeholder="Digite o nome do paciente" onChange={handleNewPatientChange}/>
+                            <input type="text" name="name" id="patientNameEl" placeholder="Digite o nome do paciente" onChange={handleNewPatientChange} required/>
                         </div>
                         <div className="form-wrapper">
                             <span>Endereço:</span>
-                            <input type="text" name="address" id="addressEl" placeholder="Digite o endereço" onChange={handleNewPatientChange}/>
+                            <input type="text" name="address" id="addressEl" placeholder="Digite o endereço" onChange={handleNewPatientChange} required/>
                         </div>
                         <div className="form-wrapper horizontal">
                             <div>
                                 <span>CPF:</span>
-                                <input type="text" name="docId" id="docIdEl" placeholder="Digite o CPF" onChange={handleNewPatientChange}/>
+                                <input type="text" name="docId" id="docIdEl" placeholder="Digite o CPF" onChange={handleNewPatientChange} required/>
                             </div>
                             <div>
                                 <span>Telefone:</span>
-                                <input type="text" name="phone" id="patientPhoneEl" placeholder="Ex.: 557988888888" onChange={handleNewPatientChange}/>
+                                <input type="text" name="phone" id="patientPhoneEl" placeholder="Ex.: 557988888888" onChange={handleNewPatientChange} required/>
                             </div>
                         </div>
                         <div className="form-wrapper">
                             <span>Pegar em:</span>
-                            <input type="text" name="pickupLocation" id="pickupLocationEl" placeholder="Digite o local de retirada" onChange={handleNewPatientChange}/>
+                            <input type="text" name="pickupLocation" id="pickupLocationEl" placeholder="Digite o local de retirada" onChange={handleNewPatientChange} required/>
                         </div>
                         <div className="form-wrapper">
                             <span>Destino:</span>
-                            <input type="text" name="destination" id="destinationEl" placeholder="Digite o destino" onChange={handleNewPatientChange}/>
+                            <input type="text" name="destination" id="destinationEl" placeholder="Digite o destino" onChange={handleNewPatientChange} required/>
                         </div>
 
                         <button type="submit">Cadastrar</button>
@@ -599,25 +619,35 @@ function TransportsPanel() {
                     </div>
 
                     <form className="new-exame-info" id="newVehicleForm" onSubmit={handleNewVehicleSubmit}>
-                        <div className="form-wrapper">
-                            <span>Descrição:</span>
-                            <input type="text" name="description" id="descriptionEl" placeholder="Digite a descrição" onChange={handleNewVehicleChange} />
+                        <div className="form-wrapper horizontal">
+                            <div>
+                                <span>Descrição:</span>
+                                <input type="text" name="description" id="descriptionEl" placeholder="Digite a descrição" onChange={handleNewVehicleChange} />
+                            </div>
+                            <div>
+                                <span>Placa:</span>
+                                <input type="text" name="plate" id="plateEl" placeholder="Digite a placa" onChange={handleNewVehicleChange} />
+                            </div>
                         </div>
-                        <div className="form-wrapper">
-                            <span>Placa:</span>
-                            <input type="text" name="plate" id="plateEl" placeholder="Digite a placa" onChange={handleNewVehicleChange} />
-                        </div>
-                        <div className="form-wrapper horizontal checkbox-wrapper">
-                            <input type="checkbox" name="inspectionStatus" id="inspectedEl" onChange={handleNewVehicleChange} />
-                            <label htmlFor="inspectedEl">Inspecionado?</label>
-                        </div>
-                        <div className="form-wrapper" id="inspectionDetailsWrapper">
-                            <span>Detalhes da Inspeção:</span>
-                            <textarea name="inspectionDetails" id="inspectionDetailsEl" placeholder="Digite os detalhes da inspeção" style={{ resize: "none", height: "200px" }} onChange={handleNewVehicleChange}></textarea>
-                        </div>
+                        
 
                         <button type="submit">Cadastrar</button>
                     </form>
+
+                    <div className="exame-types">
+                        <b>Destinos cadastrados:</b>
+
+                        <div className="exame-types-list">
+                            {vehicles.map((vehicle) => (
+                                <div className="exame-type-item" key={vehicle._id}>
+                                    <span>{vehicle.description} - {vehicle.plate}</span>
+                                    <button className="delete-btn" data-vehicle-id={vehicle._id} onClick={handleDeleteVehicle}>
+                                        X
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -674,21 +704,34 @@ function TransportsPanel() {
                     </div>
 
                     <form className="new-exame-info" id="newDriverForm" onSubmit={e => { e.preventDefault(); }}>
-                        <div className="form-wrapper">
-                            <span>Nome:</span>
-                            <input type="text" name="name" id="nameEl" placeholder="Digite o nome do motorista" onChange={handleNewDriverChange} />
-                        </div>
-                        <div className="form-wrapper">
-                            <span>Apelido:</span>
-                            <input type="text" name="nickName" id="nicknameEl" placeholder="Digite o apelido" onChange={handleNewDriverChange} />
-                        </div>
-                        <div className="form-wrapper">
-                            <span>CPF:</span>
-                            <input type="text" name="docId" id="docIdEl" placeholder="Digite o CPF" onChange={handleNewDriverChange} />
+                        <div className="form-wrapper horizontal">
+                            <div>
+                                <span>Nome:</span>
+                                <input type="text" name="name" id="nameEl" placeholder="Digite o nome do motorista" onChange={handleNewDriverChange} />
+                            </div>
+                            <div>
+                                <span>CPF:</span>
+                                <input type="text" name="docId" id="docIdEl" placeholder="Digite o CPF" onChange={handleNewDriverChange} />
+                            </div>
                         </div>
 
                         <button type="submit" onClick={handleAddDriver}>Cadastrar</button>
                     </form>
+
+                    <div className="exame-types">
+                        <b>Motoristas cadastrados:</b>
+
+                        <div className="exame-types-list">
+                            {drivers.map((driver) => (
+                                <div className="exame-type-item" key={driver._id}>
+                                    <span>{driver.name} - {driver.docId}</span>
+                                    <button className="delete-btn" data-driver-id={driver._id} onClick={handleDeleteDriver}>
+                                        X
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
 

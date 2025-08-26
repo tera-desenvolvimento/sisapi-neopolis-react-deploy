@@ -79,8 +79,6 @@
     width: -webkit-fill-available;
     padding: 10px 20px;
     padding-right: 60px;
-    position: absolute;
-    bottom: 100px;
 }
 
 .transport-element .transport-controls-container .delete-transport {
