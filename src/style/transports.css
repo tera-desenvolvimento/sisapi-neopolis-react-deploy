@@ -73,6 +73,54 @@
     display: flex;
 }
 
+.transport-element .transport-controls-container {
+    display: flex;
+    justify-content: space-between;
+    width: -webkit-fill-available;
+    padding: 10px 20px;
+    padding-right: 60px;
+    position: absolute;
+    bottom: 100px;
+}
+
+.transport-element .transport-controls-container .delete-transport {
+    background-color: #DB0000;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Poppins-Regular';
+    font-size: 12px;
+    padding: 10px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.3s;
+}
+
+.transport-element .transport-controls-container .delete-transport:hover {
+    background-color: #bd0202;
+}
+
+.transport-element .transport-controls-container .print-transport {
+    background-color: #0042C8;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Poppins-Regular';
+    font-size: 12px;
+    padding: 10px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.3s;
+}
+
+.transport-element .transport-controls-container .print-transport:hover {
+    background-color: #0032A8;
+}
+
 .transport-header {
     display: flex;
     justify-content: space-between;
@@ -212,4 +260,27 @@
     gap: 10px;
     align-items: center;
     justify-content: center;
+}
+
+#newVehicleForm .checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#newVehicleForm .checkbox-wrapper input[type="checkbox"] {
+    display: none;
+}
+
+#newVehicleForm .checkbox-wrapper label {
+    font-family: 'Poppins-SemiBold';
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+#newVehicleForm .checkbox-wrapper input[type="checkbox"]:checked + label {
+    color: #FFF;
+    background-color: #33A100;
 }
