@@ -8,6 +8,7 @@ import ExamesPanel from "./pages/ExamesPanel";
 import DeliveredExames from "./pages/DeliveredExames";
 import MailSent from "./pages/MailSent";
 import TransportsPanel from "./pages/TransportsPanel";
+import PrintTransport from "./pages/PrintTransport";
 
 const MyRoutes = () => {
     return (
@@ -21,6 +22,7 @@ const MyRoutes = () => {
                 <Route path="/exames-entregues" element={<DeliveredExames />} />
                 <Route path="/email-enviado" element={<MailSent/>}/>
                 <Route path="/transportes" element={<TransportsPanel />} />
+                <Route path="/transportes/imprimir/:id" element={<PrintTransport />} />
             </Routes>
         </Router>
     )

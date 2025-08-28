@@ -372,6 +372,10 @@ function TransportsPanel() {
         }
     }
 
+    function goPrint(id: string) {
+        window.location.href = `/transportes/imprimir/${id}`;
+    }
+
     return (
         <React.Fragment>
             <div className="main-container">
@@ -524,7 +528,7 @@ function TransportsPanel() {
 
                                             <div className="transport-controls-container">
                                                 <button className="delete-transport hidden" onClick={() => handleDeleteTransport(transport._id)}>Excluir transporte</button>
-                                                <button className="print-transport">Imprimir</button>
+                                                <button className="print-transport" onClick={() => goPrint(transport._id)}>Imprimir</button>
                                             </div>
                                         </div>
                                     ))
