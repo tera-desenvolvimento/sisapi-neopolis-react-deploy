@@ -566,7 +566,7 @@ function TransportsPanel() {
                 }
 
             </div>
-            <div className="bottom-container">
+            <div className="bottom-container transport">
                 <div className="user-info-container">
                     <b id="user-name">{userData?.name}</b>
                     <button id="logout" onClick={doLogout}>

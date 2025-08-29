@@ -33,7 +33,7 @@
     font-size: 2.6rem;
 }
 
-.bottom-container {
+.bottom-container.transport {
     position: fixed;
     bottom: 40px;
     margin-left: 40px;

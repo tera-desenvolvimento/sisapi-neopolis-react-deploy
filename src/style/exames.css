@@ -11,7 +11,7 @@ body:has(.exames-container) {
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  min-height: 80vh;
+  max-height: 80vh;
 }
 
 .exames-container {
