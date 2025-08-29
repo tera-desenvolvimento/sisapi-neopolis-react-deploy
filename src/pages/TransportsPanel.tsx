@@ -15,6 +15,7 @@ import addDriver from "../controllers/transports/addDriver.controller";
 import removeTransport from "../controllers/transports/removeTransport.controller";
 import removeVehicle from "../controllers/transports/removeVehicle.controller";
 import removeDriver from "../controllers/transports/removeDriver.controller";
+import notifyPatient from "../controllers/transports/notifyPatient.controller";
 
 import logoutIcon from "../img/logout.svg";
 import logoNeopolis from "../img/logo-01.svg";
@@ -23,7 +24,6 @@ import excludeIcon from "../img/exclude-icon.svg";
 import addRowIcon from "../img/add-row.svg";
 
 import "../style/transports.css";
-import { set } from "date-fns";
 
 type Patient = {
     name: string;
@@ -376,6 +376,25 @@ function TransportsPanel() {
         window.location.href = `/transportes/imprimir/${id}`;
     }
 
+    async function handleNotifyPatient(event: React.MouseEvent<HTMLButtonElement>) {
+        const tripId = event.currentTarget.dataset.tripId || "";
+        const patientName = event.currentTarget.dataset.patientName || "";
+        const patientNumber = event.currentTarget.dataset.patientNumber || "";
+
+        console.log(event.currentTarget);
+
+        const btn = event.currentTarget as HTMLElement | null;
+        if (btn) {
+            btn.classList.add("sent");
+        }
+
+        try {
+            await notifyPatient(tripId, patientName, patientNumber);
+        } catch (error) {
+            console.error("Error notifying patient:", error);
+        }
+    }
+
     return (
         <React.Fragment>
             <div className="main-container">
@@ -500,7 +519,7 @@ function TransportsPanel() {
                                                                     <td className="transport-info end">{patient.destination}</td>
                                                                     <td className="transport-actions">
                                                                         <button onClick={handleDeletePatient} data-transport-id={transport._id} data-patient-index={patientIndex}><img src={excludeIcon} alt="Excluir" /></button>
-                                                                        <button><img src={wppIcon} alt="WhatsApp" /></button>
+                                                                        <button data-trip-id={transport._id} data-patient-name={patient.name} data-patient-number={patient.phone} onClick={handleNotifyPatient}><img src={wppIcon} alt="WhatsApp" /></button>
                                                                     </td>
                                                                 </tr>
                                                             ))

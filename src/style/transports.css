@@ -236,6 +236,10 @@
     justify-content: center;
 }
 
+.transport-body .transport-table .transport-row button.sent {
+    background-color: #33A100;
+}
+
 .transport-body .transport-table .transport-row button img {
     width: 20px;
 }
