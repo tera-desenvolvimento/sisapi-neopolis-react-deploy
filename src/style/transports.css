@@ -161,6 +161,7 @@
     padding: 5px;
     border-radius: 5px;
     background-color: #0047FF;
+    cursor: pointer;
 }
 
 .transport-header .general-data-wrapper .line .separator input, .transport-header .general-data-wrapper .line .separator select {
