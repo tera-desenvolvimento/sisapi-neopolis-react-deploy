@@ -353,8 +353,12 @@ function TransportsPanel() {
 
     function handleDeleteTransport(transportId: string) {
         removeTransport(transportId)
-            .then(() => {
-                setTransports(transports.filter(transport => transport._id !== transportId));
+            .then(response => {
+                if (response.message === "trip has patients") {
+                    alert("Não é possível remover transportes que contenham pacientes. Revise os dados e tente novamente!")
+                } else {
+                    setTransports(transports.filter(transport => transport._id !== transportId));
+                }
             })
             .catch(error => {
                 console.error("Error deleting transport:", error);
@@ -570,7 +574,7 @@ function TransportsPanel() {
                                             </div>
 
                                             <div className="transport-controls-container">
-                                                <button className="delete-transport hidden" onClick={() => handleDeleteTransport(transport._id)}>Excluir transporte</button>
+                                                <button className="delete-transport" onClick={() => handleDeleteTransport(transport._id)}>Excluir transporte</button>
                                                 <button className="print-transport" onClick={() => goPrint(transport._id)}>Imprimir</button>
                                             </div>
                                         </div>
