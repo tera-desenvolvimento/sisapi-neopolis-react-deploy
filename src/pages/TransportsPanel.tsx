@@ -392,9 +392,10 @@ function TransportsPanel() {
         const patientName = event.currentTarget.dataset.patientName || "";
         const patientNumber = event.currentTarget.dataset.patientNumber || "";
         const docId = event.currentTarget.dataset.docId;
+        const destination = event.currentTarget.dataset.destination || "";
 
         try {
-            await notifyPatient(tripId, patientName, patientNumber);
+            await notifyPatient(tripId, patientName, patientNumber, destination);
             const transport = transports.find(transport => transport._id === tripId);
             if (transport) {
                 const patient = transport.patients.find(patient => patient.docId === docId);
@@ -542,7 +543,7 @@ function TransportsPanel() {
                                                                     <td className="transport-info end">{patient.destination}</td>
                                                                     <td className="transport-actions">
                                                                         <button onClick={handleDeletePatient} data-transport-id={transport._id} data-patient-index={patientIndex}><img src={excludeIcon} alt="Excluir" /></button>
-                                                                        <button className={ patient.notified ? "sent" : ""}  data-trip-id={transport._id} data-patient-name={patient.name} data-patient-number={patient.phone} data-doc-id={patient.docId} disabled={patient.notified} onClick={handleNotifyPatient}><img src={patient.notified ? checkIcon : wppIcon } alt="WhatsApp" /></button>
+                                                                        <button className={ patient.notified ? "sent" : ""}  data-trip-id={transport._id} data-patient-name={patient.name} data-patient-number={patient.phone} data-doc-id={patient.docId} disabled={patient.notified} data-destination={patient.destination} onClick={handleNotifyPatient}><img src={patient.notified ? checkIcon : wppIcon } alt="WhatsApp" /></button>
                                                                     </td>
                                                                 </tr>
                                                             ))

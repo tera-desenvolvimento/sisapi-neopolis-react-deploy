@@ -1,11 +1,12 @@
 import axios from "axios";
 
-async function notifyPatient(tripId: string, patientName: string, patientNumber: string) {
+async function notifyPatient(tripId: string, patientName: string, patientNumber: string, destination: string) {
     try {
         const response = await axios.post(`${process.env.REACT_APP_API_URL}/trip/notifyPatient`, {
             tripId,
             patientName: patientName.split(" ")[0],
-            patientNumber
+            patientNumber,
+            destination
         });
 
         return response.data;
