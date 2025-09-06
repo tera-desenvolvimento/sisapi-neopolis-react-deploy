@@ -678,7 +678,7 @@ function TransportsPanel() {
             </div>
             <div className="bottom-container transport">
                 <div className="user-info-container">
-                    <b id="user-name">{(userData as user).name.split(" ")[0]}</b>
+                    <b id="user-name">{(userData as user).name.split(" ")[0] + " " + (userData as user).name.split(" ")[1]}</b>
                     <button id="logout" onClick={doLogout}>
                         <img src={logoutIcon} alt="Sair" />
                         Sair
