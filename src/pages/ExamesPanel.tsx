@@ -16,6 +16,10 @@ import { editExame, IEditExame } from "../controllers/exame/editExame.controller
 import { searchExame, ISearch } from "../controllers/exame/searchExame.controller";
 import { removeExameType } from "../controllers/exame/removeExameType.controller";
 
+type user = {
+    name: string
+}
+
 function ExamesPanel() {
     const initialDate = new Date();
     const userData = getCookies("userData");
@@ -60,7 +64,11 @@ function ExamesPanel() {
     }
 
     function handleDocIdChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setDocId(event.target.value);
+        var cpf = event.target.value;
+        cpf = cpf.replace(/[^\d]/g, "");
+        cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+
+        setDocId(cpf);
     }
 
     function handleTypeChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -406,7 +414,7 @@ function ExamesPanel() {
             </div>
             <div className="bottom-container">
                 <div className="user-info-container">
-                    <b id="user-name">{userData?.name}</b>
+                    <b id="user-name">{(userData as user).name.split(" ")[0]}</b>
                     <button id="logout" onClick={doLogout}>
                         <img src={logoutIcon} alt="Sair" />
                         Sair

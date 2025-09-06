@@ -7,6 +7,10 @@ import { listDeliveredExames, IExame } from "../controllers/exame/listExames.con
 import { getCookies, doLogout } from "../controllers/user/authenticate.controller";
 import { searchExame, ISearch } from "../controllers/exame/searchExame.controller";
 
+type user = {
+    name: string
+}
+
 function DeliveredExames() {
     const userData = getCookies("userData");
     const [deliveredExames, setDeliveredExames] = useState([] as IExame[]);
@@ -88,7 +92,7 @@ function DeliveredExames() {
             </div>
                         <div className="bottom-container">
                 <div className="user-info-container">
-                    <b id="user-name">{userData?.name}</b>
+                    <b id="user-name">{(userData as user).name.split(" ")[0]}</b>
                     <button id="logout" onClick={doLogout}>
                         <img src={logoutIcon} alt="Sair" />
                         Sair

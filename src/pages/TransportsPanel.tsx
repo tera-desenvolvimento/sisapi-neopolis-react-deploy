@@ -26,6 +26,10 @@ import addRowIcon from "../img/add-row.svg";
 
 import "../style/transports.css";
 
+type user = {
+    name: string
+}
+
 type Patient = {
     name: string;
     docId: string;
@@ -182,10 +186,23 @@ function TransportsPanel() {
     }
 
     function handleNewPatientChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setNewPatientData({
-            ...newPatientData,
-            [event.target.name]: event.target.value
-        });
+        if (event.target.id === "docIdEl"){
+            var cpf = event.target.value;
+            cpf = cpf.replace(/[^\d]/g, "");
+            cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+
+            setNewPatientData({
+                ...newPatientData,
+                docId: cpf
+            });
+        } else {
+            setNewPatientData({
+                ...newPatientData,
+                [event.target.name]: event.target.value
+            });
+        }
+
+        
     }
 
     async function handleNewPatientSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -615,7 +632,7 @@ function TransportsPanel() {
             </div>
             <div className="bottom-container transport">
                 <div className="user-info-container">
-                    <b id="user-name">{userData?.name}</b>
+                    <b id="user-name">{(userData as user).name.split(" ")[0]}</b>
                     <button id="logout" onClick={doLogout}>
                         <img src={logoutIcon} alt="Sair" />
                         Sair
@@ -646,7 +663,7 @@ function TransportsPanel() {
                         <div className="form-wrapper horizontal">
                             <div>
                                 <span>CPF:</span>
-                                <input type="text" name="docId" id="docIdEl" placeholder="Digite o CPF" onChange={handleNewPatientChange} required/>
+                                <input type="text" name="docId" id="docIdEl" placeholder="Digite o CPF" onChange={handleNewPatientChange} required value={newPatientData.docId}/>
                             </div>
                             <div>
                                 <span>Telefone:</span>
