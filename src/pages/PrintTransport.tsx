@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { useReactToPrint } from 'react-to-print';
 import { useParams } from "react-router-dom";
 import findTransport from "../controllers/transports/findTransport.controller";
 import listDrivers from "../controllers/transports/listDrivers.controller";
@@ -40,15 +41,9 @@ type Vehicle = {
     plate: string
 }
 
-function goPrint(event: React.MouseEvent<HTMLButtonElement>) {
-    event.preventDefault();
-    event.currentTarget.style.display = "none";
-    window.print();
-    window.history.back();
-}
-
 const PrintTransport = () => {
     const { id } = useParams();
+    const componentRef = useRef<HTMLDivElement>(null);
     const [transportData, setTransportData] = useState<Transport>({} as Transport);
     const [loaded, setLoaded] = useState(false);
     const [driversData, setDriversData] = useState<Driver[]>([]);
@@ -73,9 +68,18 @@ const PrintTransport = () => {
         setLoaded(true);
     }
 
+    const handlePrint = useReactToPrint({
+        documentTitle: 'Relatório de Transportes',
+        pageStyle: '@page { size: A4 landscape; margin: 0 !important }',
+        contentRef: componentRef,
+        onAfterPrint() {
+            window.close();
+        },
+    });
+
     return (
         <React.Fragment>
-            <div className="main-page" style={{ width: "-webkit-fill-available", padding: "18px", fontSize: "90%" }}>
+            <div className="main-page" style={{ width: "-webkit-fill-available", padding: "18px", fontSize: "90%" }} ref={componentRef}>
                 <div className="page-header" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "18px", marginBottom: "36px", textAlign: "center" }}>
                     <img src={pdfLogo} alt="PDF Logo" style={{ width: "108px", height: "auto" }} />
                     <span style={{ fontSize: "10.8px", fontFamily: "Poppins-Regular" }}>RELAÇÃO DE PACIENTES QUE REALIZAM TRATAMENTO FORA DO MUNICÍPIO <br /> QUE SERÃO TRANSPORTADOS PELO VEÍCULO MUNICIPAL VINCULADO À SECRETARIA</span>
@@ -159,7 +163,7 @@ const PrintTransport = () => {
             </div>
 
             <div className="control">
-                <button onClick={goPrint} style={{ padding: "10px 20px", fontSize: "12px", cursor: "pointer", backgroundColor: "#4CAF50", color: "white", border: "none", borderRadius: "4px" }}>Imprimir</button>
+                <button onClick={handlePrint} style={{ padding: "10px 20px", fontSize: "12px", cursor: "pointer", backgroundColor: "#4CAF50", color: "white", border: "none", borderRadius: "4px" }}>Imprimir</button>
             </div>
         </React.Fragment>
     );

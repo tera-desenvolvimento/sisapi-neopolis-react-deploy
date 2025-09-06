@@ -405,7 +405,7 @@ function TransportsPanel() {
     }
 
     function goPrint(id: string) {
-        window.location.href = `/transportes/imprimir/${id}`;
+        window.open(`/transportes/imprimir/${id}`, '_blank')?.focus();
     }
 
     async function handleNotifyPatient(event: React.MouseEvent<HTMLButtonElement>) {
