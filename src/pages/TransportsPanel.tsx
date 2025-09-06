@@ -201,8 +201,6 @@ function TransportsPanel() {
                 [event.target.name]: event.target.value
             });
         }
-
-        
     }
 
     async function handleNewPatientSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -270,7 +268,33 @@ function TransportsPanel() {
     async function handleCreateTransport() {
         try {
             const newTransport = await createTransport(selectedDate.toLocaleDateString());
-            setTransports([...transports, newTransport.trip]);
+
+            const updatedTransports = [...transports, newTransport.trip];
+            setTransports(updatedTransports);
+
+            setTimeout(() => {
+                const realItems = Array.from(
+                document.querySelectorAll<HTMLDivElement>(".transport-element:not(.new-transport)")
+            );
+
+            if (realItems.length === 0) return;
+
+            realItems.forEach(el => el.classList.remove("active"));
+
+            const id = newTransport?.trip?.id ?? newTransport?.trip?._id;
+            const byId = id
+                ? document.querySelector<HTMLDivElement>(
+                    `.transport-element:not(.new-transport)[data-id="${id}"]`
+                )
+                : null;
+
+            const target = byId ?? realItems[realItems.length - 1];
+
+            target.classList.add("active");
+            }, 50);
+            
+            document.querySelector(".transport-element.new-transport")?.classList.remove("active");
+
         } catch (error) {
             console.error("Error creating transport:", error);
         }
@@ -372,15 +396,37 @@ function TransportsPanel() {
         removeTransport(transportId)
             .then(response => {
                 if (response.message === "trip has patients") {
-                    alert("Não é possível remover transportes que contenham pacientes. Revise os dados e tente novamente!")
+                    alert("Não é possível remover transportes que contenham pacientes. Revise os dados e tente novamente!");
                 } else {
-                    setTransports(transports.filter(transport => transport._id !== transportId));
+                    const currentElement = document.querySelector(
+                        `.transport-element[data-id="${transportId}"]`
+                    ) as HTMLDivElement | null;
+                    const currentIndex = currentElement ? Number(currentElement.dataset.index) : -1;
+
+                    listTransports(selectedDate.toLocaleDateString())
+                        .then(data => {
+                            setTransports(data.trips);
+
+                            setTimeout(() => {
+                                const elements = document.querySelectorAll(".transport-element");
+
+                                let targetIndex = currentIndex > 0 ? currentIndex - 1 : 0;
+
+                                const target = elements[targetIndex] as HTMLDivElement | undefined;
+                                if (target) {
+                                    elements.forEach(el => el.classList.remove("active"));
+                                    target.classList.add("active");
+                                }
+                            }, 50);
+                        })
+                        .catch(err => console.error("Erro ao listar transportes:", err));
                 }
             })
             .catch(error => {
                 console.error("Error deleting transport:", error);
             });
     }
+
 
     async function handleDeleteVehicle(event: React.MouseEvent<HTMLButtonElement>) {
         const vehicleId = event.currentTarget.dataset.vehicleId || "";
