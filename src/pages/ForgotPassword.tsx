@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 
 import logo01 from "../img/logo-01.svg";
-import sisapiLogo from "../img/sisapi-logo.svg";
-
-import "../style/login.css";
+import sisapiLogoWhite from "../img/sisapi-logo-white.svg";
 
 import { requestPasswordRecovery, IRecoverData } from "../controllers/user/requestPasswordRecovery.controller";
 import { sendEmail, IEmailData } from "../controllers/misc/sendEmail.controller";
@@ -20,9 +18,7 @@ const ForgotPassword = () => {
         setEmail(event.target.value);
     }
 
-    function handleResetPassword(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
+    function handleResetPassword() {;
         const data: IRecoverData = {
             email: email
         };
@@ -30,8 +26,6 @@ const ForgotPassword = () => {
         requestPasswordRecovery(data)
             .then(response => {
                 if (response.token) {
-                    const emailInfoElement = document.getElementById("emailInfo");
-
                     const emailData: IEmailData = {
                         email: email,
                         subject: "Recuperação de Senha - Sisapi",
@@ -42,12 +36,9 @@ const ForgotPassword = () => {
 
                     sendEmail(emailData)
                         .then(() => {
-                            if (emailInfoElement) {
-                                emailInfoElement.innerText = "Código enviado para o e-mail. Verifique sua caixa de entrada.";
-                                setTimeout(() => {
-                                    window.location.href = '/email-enviado';
-                                }, 3000);   
-                            }
+                            setTimeout(() => {
+                                window.location.href = '/email-enviado';
+                            }, 3000);   
                         })
                         .catch(error => {
                             console.error("Erro ao enviar e-mail:", error);
@@ -70,33 +61,42 @@ const ForgotPassword = () => {
 
     return (
         <React.Fragment>
-            <div className="login-container">
-                <a href="/login" className="back-button">Voltar</a>
-                <img src={logo01} alt="Logo" className="w-btn" />
-                <b>Sistema de Automação de Processos Internos</b>
-                <span>Informe os dados para continuar</span>
-                <form autoComplete='on' onSubmit={handleResetPassword}>
-                    <div className="form-group">
-                        <input type="text" id="docId" name="docId" placeholder="000.000.000-00" required value={docId} onChange={handleDocIdChange} />
+            <div className="new-login-container">
+                <div className="main-wrapper">
+                    <div className="central-wrapper">
+                        <div className="city-logo-container">
+                            <a href="/login" className="back-button">Voltar</a>
+                            <span>Desenvolvido para</span>
+                            <img src={logo01} alt="Logo" />
+                        </div>
+
+                        <small>Informe os dados para redefinir sua senha</small>
+
+                        <form className="form-container" onSubmit={e => e.preventDefault()}>
+                            <div className="form-wrapper">
+                                <input type="text" name="docId" id="docIdEl" placeholder="Digite seu CPF" value={docId} onChange={handleDocIdChange} required/>
+                            </div>
+                            <div className="form-wrapper">
+                                <input type="email" name="emai" id="email" placeholder="Digite seu email" value={email} onChange={handleEmailChange} required/>
+                            </div>
+
+                            <div className="form-wrapper">
+                                <span className="message hidden" id="message">Informações não encontradas<br />Revise os dados e tente novamente.</span>
+                            </div>
+
+                            <div className="form-wrapper button-wrapper">
+                                <button onClick={handleResetPassword}>Resetar senha</button>
+                            </div>
+                        </form>
                     </div>
-                    <div className="form-group">
-                        <input type="email" id="email" name="email" placeholder="email@example.com" required value={email} onChange={handleEmailChange} />
-                    </div>
-                    <div className="form-group">
-                        <span className="message hidden" id="message">CPF ou e-mail digitado inválido</span>
-                    </div>
-                    <div className="form-group">
-                        <span id="emailInfo">O código para gerar uma nova senha chegará no seu e-mail</span>
-                    </div>
-                    <button type="submit">Resetar senha </button>
-                </form>
-                <div className="logo-sisapi">
-                    <img src={sisapiLogo} alt="Sisapi Logo" />
+                </div>
+                <div className="system-logo-wrapper">
+                    <span>Sistema de Automação<br />de Processos Internos.</span>
+                    <img src={sisapiLogoWhite} alt="system-logo" />
                 </div>
             </div>
-            <div className="pattern-rodape"></div>
         </React.Fragment>
-    );
-};
+    )
+}
 
 export default ForgotPassword;

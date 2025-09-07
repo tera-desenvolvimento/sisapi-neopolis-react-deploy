@@ -2,8 +2,7 @@ import React from "react";
 import { resetPassword, IPasswordData } from "../controllers/user/resetPassword.controller"
 
 import logo01 from "../img/logo-01.svg";
-
-import "../style/login.css";
+import sisapiLogoWhite from "../img/sisapi-logo-white.svg";
 
 const ResetPassword = () => {
     const handleResetPassword = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -47,26 +46,45 @@ const ResetPassword = () => {
 
     return (
         <React.Fragment>
-            <div className="login-container">
-                <img src={logo01} alt="Logo" />
-                <b>Sistema de Automação de Processos Internos</b>
-                <span>Insira sua nova senha</span>
-                <form autoComplete='on' onSubmit={handleResetPassword}>
-                    <div className="form-group">
-                        <input type="password" id="password" name="password" placeholder="Digite sua nova senha" required />
+            <div className="new-login-container">
+                <div className="main-wrapper">
+                    <div className="central-wrapper">
+                        <div className="city-logo-container">
+                            <span>Desenvolvido para</span>
+                            <img src={logo01} alt="Logo" />
+                        </div>
+
+                        <small>Insira sua nova senha</small>
+
+                        <form className="form-container" onSubmit={handleResetPassword}>
+                            <div className="form-wrapper password-wrapper">
+                                <input type="password" name="password" id="password" placeholder="Digite sua nova senha" required/>
+                            </div>
+                            <div className="form-wrapper forgot-wrapper">
+                                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme sua nova senha" required/>
+                            </div>
+
+                            <div className="form-wrapper">
+                                <span className="message hidden" id="message">Código de identificação ou senha incorreto</span>
+                            </div>
+
+                            <div className="form-group">
+                                <span className="message hidden" id="message">Senhas não coincidem</span>
+                            </div>
+
+                            <div className="form-wrapper button-wrapper">
+                                <button type="submit">Resetar senha</button>
+                            </div>
+                        </form>
                     </div>
-                    <div className="form-group">
-                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirme sua nova senha" required />
-                    </div>
-                    <div className="form-group">
-                        <span className="message hidden" id="message">Senhas não coincidem</span>
-                    </div>
-                    <button type="submit">Resetar senha</button>
-                </form>
+                </div>
+                <div className="system-logo-wrapper">
+                    <span>Sistema de Automação<br />de Processos Internos.</span>
+                    <img src={sisapiLogoWhite} alt="system-logo" />
+                </div>
             </div>
-            <div className="pattern-rodape"></div>
         </React.Fragment>
-    );
-};
+    )
+}
 
 export default ResetPassword;

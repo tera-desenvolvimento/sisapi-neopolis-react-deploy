@@ -4,9 +4,13 @@ import { getCookies, removeCookies } from "./authenticate.controller";
 
 const authenticationUrls = [
     '/login',
+    '/new-login',
     '/esqueci-minha-senha',
+    '/new-esqueci-minha-senha',
     '/resetar-senha',
-    '/email-enviado'
+    '/new-resetar-senha',    
+    '/email-enviado',
+    '/new-email-enviado'
 ];
 
 window.addEventListener('load', () => {

@@ -1,27 +1,32 @@
 import React from "react";
 
 import logo01 from "../img/logo-01.svg";
-import sisapiLogo from "../img/sisapi-logo.svg";
+import sisapiLogoWhite from "../img/sisapi-logo-white.svg";
 
 const MailSent = () => {
     return (
         <React.Fragment>
-            <div className="login-container">
-                <a href="/login" className="back-button">Voltar</a>
-                <img src={logo01} alt="Logo" className="w-btn" />
-                <b>Sistema de Automação de Processo s Internos</b>
-                
-                <span className="sent">Para redefinir sua senha, acesse o link <br /> que foi encaminhado para o seu e-mail</span>
+            <div className="new-login-container">
+                <div className="main-wrapper">
+                    <div className="central-wrapper">
+                        <div className="city-logo-container">
+                            <span>Desenvolvido para</span>
+                            <img src={logo01} alt="Logo" />
+                        </div>
 
-                <a href="/login" className="back">Acessar painel</a>
+                        <span className="sent">Para redefinir sua senha, acesse o link <br /> que foi encaminhado para o seu e-mail</span>
+
+                        <a href="/login" className="back-button">Acessar painel</a>
                 
-                <div className="logo-sisapi">
-                    <img src={sisapiLogo} alt="Sisapi Logo" />
+                    </div>
+                </div>
+                <div className="system-logo-wrapper">
+                    <span>Sistema de Automação<br />de Processos Internos.</span>
+                    <img src={sisapiLogoWhite} alt="system-logo" />
                 </div>
             </div>
-            <div className="pattern-rodape"></div>
         </React.Fragment>
-    );
-};
+    )
+}
 
 export default MailSent;

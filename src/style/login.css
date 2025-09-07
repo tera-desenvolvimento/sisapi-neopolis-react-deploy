@@ -1,84 +1,83 @@
-body:has(.login-container) {
+.new-login-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
-
-.pattern-rodape {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    flex-direction: row;
     width: -webkit-fill-available;
-    height: 30vh;
-    z-index: -1;
-    background-image: url('../img/pattern-rodape.svg');
-    background-repeat: repeat;
-    background-size: cover;
+    height: 100vh;
+    justify-content: space-between;
 }
 
-.login-container {
+/* Right content styling */
+
+.new-login-container .system-logo-wrapper {
+    background-color: #0042C8;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    gap: 20px;
+    flex-direction: column;
+    width: 60%;
+}
+
+.new-login-container .system-logo-wrapper span {
+    font-family: 'Poppins-Bold';
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.new-login-container .system-logo-wrapper img {
+    height: 70px;
+}
+
+/* Left content styling */
+
+.new-login-container .main-wrapper {
+    width: -webkit-fill-available;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-login-container .main-wrapper .central-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    justify-content: center;
-    background-color: #FFFFFF;
-    height: fit-content;
-    padding: 40px;
-    border-radius: 30px;
-    -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.27); 
-    box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.27);
+    gap: 20px;
 }
 
-.back-button {
+.new-login-container .main-wrapper .central-wrapper .city-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.new-login-container .main-wrapper .central-wrapper .city-logo-container span {
     font-family: 'Poppins-Bold';
     font-size: 12px;
-    padding: 10px 20px;
-    border-radius: 10px;
-    background-color: #0042C8;
-    color: #FFFFFF;
-    text-decoration: none;
-    position: relative;
-    top: -15px;
-    left: -150px;
-}
-
-.login-container img {
-    width: 260px;
-}
-
-.login-container b {
-    font-family: 'Poppins-Bold';
-    font-size: 15px;
     color: #040845;
 }
 
-.login-container span.sent {
-    color: #33A100;
-    text-align: center;
-    font-family: 'Poppins-Bold';
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-    padding-top: 50px;
-    padding-bottom: 50px;
+.new-login-container .main-wrapper .central-wrapper .city-logo-container img {
+    height: 50px;
 }
 
-.login-container span {
+.new-login-container .main-wrapper .central-wrapper .city-logo-container a.back-button {
+    margin-bottom: -30px;
+    padding: 10px 30px;
+    position: relative;
+    top: -15px;
+    left: -150px;
+    font-size: 12px;
+}
+
+.new-login-container .main-wrapper .central-wrapper small {
     font-family: 'Poppins-Regular';
     font-size: 12px;
     color: #040845;
 }
 
-.login-container span.message {
-    font-family: 'Poppins-Light';
-    font-size: 12px;
-    color: #FF0000;
-}
-
-form {
+.form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -86,21 +85,45 @@ form {
     gap: 10px;
 }
 
-.form-group {
+.new-login-container .main-wrapper .central-wrapper .form-wrapper {
     display: flex;
     justify-content: center;
     width: 100%;
     gap: 5px;
 }
 
-.form-group a {
+.new-login-container .main-wrapper .central-wrapper .form-wrapper.password-wrapper {
+    align-items: center;
+}
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    margin-right: -310px;
+}
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper a {
     font-family: 'Poppins-Regular';
     font-size: 12px;
     color: #0047F9;
     text-decoration: none;
 }
 
-.form-group input, .form-group select {
+.new-login-container .main-wrapper .central-wrapper .form-wrapper select {
+    width: -webkit-fill-available;
+    height: 40px;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 20px;
+    font-family: 'Poppins-Bold';
+    font-size: 14px;
+    background-color: #0042C8;
+    color: #ffffff;
+}
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper input {
     width: -webkit-fill-available;
     height: 40px;
     border-radius: 10px;
@@ -111,53 +134,52 @@ form {
     background-color: #F1F5F8;
 }
 
-.form-group select {
-    font-family: 'Poppins-Bold';
-    color: #0042C8;
-    margin-bottom: 80px;
-}
-
-.form-group input::placeholder {
+.new-login-container .main-wrapper .central-wrapper .form-wrapper input::placeholder {
     font-family: 'Poppins-Light';
+    font-size: 12px;
 }
 
-.form-group label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    margin-right: -320px;
+.new-login-container .main-wrapper .central-wrapper .form-wrapper.forgot-wrapper {
+    justify-content: flex-end;
+    font-family: 'Poppins-Regular';
+    font-size: 10px;
+    color: #040845;
 }
 
-.form-group input.error {
-    outline: none;
-    border: 1px solid #FF0000;
+.new-login-container .main-wrapper .central-wrapper .form-wrapper.forgot-wrapper a {
+    font-size: 10px;
 }
 
-form button {
-    padding: 10px 40px;
-    height: 40px;
-    border-radius: 10px;
+.new-login-container .main-wrapper .central-wrapper .form-wrapper.button-wrapper {
+    padding-top: 30px;
+}
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper.button-wrapper button, .new-login-container .main-wrapper .central-wrapper a.back-button {
     background-color: #0042C8;
-    color: #FFFFFF;
-    font-family: 'Poppins-Bold';
-    font-size: 14px;
-    border: none;
-}
-
-.login-container a.back {
-    padding: 10px 40px;
-    height: 40px;
+    border: 2px solid #0042C8;
+    color: #ffffff;
+    padding: 10px 50px;
     border-radius: 10px;
-    background-color: #0042C8;
-    color: #FFFFFF;
     font-family: 'Poppins-Bold';
-    font-size: 14px;
-    border: none;
     text-decoration: none;
+    align-self: center;
 }
 
-.logo-sisapi img {
-    width: 100px;
-    margin-bottom: -20px;
+.new-login-container .main-wrapper .central-wrapper .form-wrapper.button-wrapper button:hover, .new-login-container .main-wrapper .central-wrapper a:hover {
+    background-color: #ffffff;
+    color: #0042C8;
+}
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper .message {
+    font-family: 'Poppins-Regular';
+    text-align: center;
+    font-size: 12px;
+    color: #DB0000;
+}
+
+.new-login-container .main-wrapper .central-wrapper .sent {
+    font-family: 'Poppins-Bold';
+    font-size: 25px;
+    color: #33A100;
+    padding: 40px 0;
 }
