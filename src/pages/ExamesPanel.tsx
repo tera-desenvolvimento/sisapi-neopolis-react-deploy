@@ -579,11 +579,11 @@ function ExamesPanel() {
                             <span>Tipo de exame:</span>
                             <b id="retiradaTipoEl">Hemograma</b>
                         </div>
+                        <div className="form-wrapper">
+                            <span>Nome do paciente:</span>
+                            <b id="retiradaNomeEl">João da Silva</b>
+                        </div>
                         <div className="form-wrapper horizontal">
-                            <div>
-                                <span>Nome do paciente:</span>
-                                <b id="retiradaNomeEl">João da Silva</b>
-                            </div>
                             <div>
                                 <span>Cpf:</span>
                                 <b id="retiradaCpfEl">123.456.789-00</b>
