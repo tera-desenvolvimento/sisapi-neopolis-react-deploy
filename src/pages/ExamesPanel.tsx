@@ -594,16 +594,13 @@ function ExamesPanel() {
                             </div>
                         </div>
 
-                        <div className="form-wrapper">
-                            <span>Retirado por:</span>
-                        </div>
-                        <div className="form-wrapper">
-                            <span>Nome Completo:</span>
-                            <input type="text" name="retiradaName" id="retiradaNameIn" placeholder="Digite o nome completo" value={retiranteName} onChange={handleRetiranteNameChange} />
+                        <div className="form-wrapper" style={{ marginTop: "20px" }}>
+                           <span>Retirado por:</span>
+                            <input type="text" name="retiradaName" id="retiradaNameIn" value={retiranteName} onChange={handleRetiranteNameChange} />
                         </div>
                         <div className="form-wrapper">
                             <span>Cpf:</span>
-                            <input type="text" name="retiradaCpf" id="retiradaCpfIn" placeholder="Digite o CPF" value={retiranteDocId} onChange={handleRetiranteDocIdChange} />
+                            <input type="text" name="retiradaCpf" id="retiradaCpfIn" value={retiranteDocId} onChange={handleRetiranteDocIdChange} />
                         </div>
                         <div className="check-wrapper">
                             <label htmlFor="retiradaPacienteEl">Retirado pelo paciente</label>
