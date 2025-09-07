@@ -849,8 +849,6 @@ function TransportsPanel() {
                     </div>
                 </div>
             </div>
-
-            <div className="pattern-rodape-light"></div>
         </React.Fragment>
     );
 }

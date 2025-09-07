@@ -611,8 +611,6 @@ function ExamesPanel() {
                     </form>
                 </div>
             </div>
-
-            <div className="pattern-rodape-light"></div>
         </React.Fragment>
     );
 }
