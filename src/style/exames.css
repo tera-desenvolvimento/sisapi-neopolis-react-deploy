@@ -39,7 +39,7 @@ body:has(.exames-container) {
 }
 
 .exames-container .header-container b {
-    font-family: 'Poppins-Bold';
+    font-family: 'SFPro-Bold';
     font-size: 24px;
     color: #333;
     margin: 0;
@@ -69,7 +69,7 @@ body:has(.exames-container) {
 
 .search-container input::placeholder {
     color: #919191;
-    font-family: 'Poppins-Bold';
+    font-family: 'SFPro-Bold';
     font-size: 12px;
 }
 
@@ -80,30 +80,32 @@ body:has(.exames-container) {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-family: 'Poppins-Bold';
+    font-family: 'SFPro-Bold';
     width: 210px;
 }
 
 .exames-list-container .exames-table {
     width: 100%;
+    table-layout: auto;
     border-collapse: collapse;
     border-spacing: 0 10px;
     border-collapse: separate;
 }
 
 .exames-list-container .exames-table th,
-.exames-list-container .exames-table td {
+.exames-list-container .exames-table td:not(.btn-cell) {
     padding: 0 20px;
     text-align: left;
+    white-space:nowrap;
 }
 
 .exames-list-container .exames-table th {
     color: #161179;
-    font-family: 'Poppins-Bold';
+    font-family: 'SFPro-Bold';
 }
 
 .exames-list-container .exames-table .exame-row {
-    font-family: 'Poppins-Bold';
+    font-family: 'SFPro-Bold';
     font-size: 12px;
 }
 
@@ -129,8 +131,8 @@ body:has(.exames-container) {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-family: 'Poppins-semiBold';
-    padding: 5px 10px;
+    font-family: 'SFPro-Bold';
+    padding: 10px 20px;
 }
 
 .exames-list-container .exames-table .exame-row .btn.delivered, .exames-list-container .exames-table .exame-row .btn.whatsapp {
@@ -147,7 +149,9 @@ body:has(.exames-container) {
 }
 
 .exames-list-container .exames-table .exame-row .btn-cell {
-    padding: 0 5px;
+    padding-left: 10px;
+    white-space: nowrap;
+    width: 1%
 }
 
 .exames-list-container .exames-table .exame-row .btn img {
@@ -169,7 +173,7 @@ body:has(.exames-container) {
 }
 
 .user-info-container b {
-    font-family: 'Poppins-Bold';
+    font-family: 'SFPro-Bold';
     font-size: 17px;
     color: #333;
 }
@@ -180,7 +184,7 @@ body:has(.exames-container) {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-family: 'Poppins-Light';
+    font-family: 'SFPro-Regular';
     display: flex;
     align-items: center;
     gap: 5px;
@@ -204,7 +208,7 @@ body:has(.exames-container) {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-family: 'Poppins-Bold';
+    font-family: 'SFPro-Bold';
     font-size: 12px;
     display: flex;
     align-items: center;
@@ -261,7 +265,7 @@ body:has(.exames-container) {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-family: 'Poppins-Bold';
+    font-family: 'SFPro-Bold';
 }
 
 .new-exame-container .new-exame-wrapper .top-buttons-wrapper div {
@@ -270,13 +274,13 @@ body:has(.exames-container) {
 }
 
 .new-exame-container .new-exame-wrapper .top-buttons-wrapper div b {
-    font-family: 'Poppins-SemiBold';
+    font-family: 'SFPro-SemiBold';
     font-size: 16px;
     color: #161179;
 }
 
 .new-exame-container .new-exame-wrapper .top-buttons-wrapper div span {
-    font-family: 'Poppins-SemiBold';
+    font-family: 'SFPro-SemiBold';
     font-size: 12px;
     color: #333;
 }
@@ -295,7 +299,7 @@ body:has(.exames-container) {
 }
 
 .new-exame-container .new-exame-wrapper form .form-wrapper b {
-    font-family: 'Poppins-Regular';
+    font-family: 'SFPro-Regular';
     font-size: 12px;
 }
 
@@ -330,7 +334,7 @@ body:has(.exames-container) {
     height: 35px;
     border-radius: 10px;
     cursor: pointer;
-    font-family: 'Poppins-Bold';
+    font-family: 'SFPro-Bold';
     margin: 0;
 }
 
@@ -341,12 +345,12 @@ body:has(.exames-container) {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-family: 'Poppins-Bold';
+    font-family: 'SFPro-Bold';
     margin: 0;
 }
 
 .new-exame-container .new-exame-wrapper form .form-wrapper span  {
-    font-family: 'Poppins-bold';
+    font-family: 'SFPro-bold';
     font-size: 14px;
     color: #161179;
     margin-bottom: 5px;
@@ -359,14 +363,14 @@ body:has(.exames-container) {
     border: none;
     border-radius: 10px;
     font-size: 12px;
-    font-family: 'Poppins-SemiBold';
+    font-family: 'SFPro-SemiBold';
     height: fit-content;
 }
 
 .new-exame-container .new-exame-wrapper form .form-wrapper input::placeholder,
 .new-exame-container .new-exame-wrapper form .form-wrapper select::placeholder {
     color: #919191;
-    font-family: 'Poppins-SemiBold';
+    font-family: 'SFPro-SemiBold';
     font-size: 12px;
 }
 
@@ -378,7 +382,7 @@ body:has(.exames-container) {
     border-radius: 10px;
     align-self: center;
     cursor: pointer;
-    font-family: 'Poppins-Bold';
+    font-family: 'SFPro-Bold';
     margin-top: 20px;
 }
 
@@ -388,7 +392,7 @@ body:has(.exames-container) {
     width: 100%;
     gap: 10px;
     margin-top: 20px;
-    font-family: 'Poppins-Regular';
+    font-family: 'SFPro-Regular';
     font-size: 12px;
 }
 
@@ -401,7 +405,7 @@ body:has(.exames-container) {
 }
 
 .new-exame-container .exame-types b {
-    font-family: 'Poppins-Bold';
+    font-family: 'SFPro-Bold';
     font-size: 16px;
     color: #161179;
     margin-bottom: 10px;
@@ -419,7 +423,7 @@ body:has(.exames-container) {
 }
 
 .new-exame-container .exame-types .exame-types-list .exame-type-item {
-    font-family: 'Poppins-SemiBold';
+    font-family: 'SFPro-SemiBold';
     font-size: 12px;
     display: flex;
     justify-content: space-between;
@@ -434,5 +438,5 @@ body:has(.exames-container) {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-family: 'Poppins-SemiBold';
+    font-family: 'SFPro-SemiBold';
 }

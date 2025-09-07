@@ -354,7 +354,7 @@ function ExamesPanel() {
                     <img src={logo01} alt="Logo" className="logo" />
                 </div>
                 <div className="search-container">
-                    <input type="text" placeholder="Digite nome do paciente"  id="searchInput" onKeyUpCapture={doTheSearch}/>
+                    <input type="text" placeholder="Digite o nome do paciente"  id="searchInput" onKeyUpCapture={doTheSearch}/>
                 </div>
                 <div className="exames-list-container">
                     <table className="exames-table">
