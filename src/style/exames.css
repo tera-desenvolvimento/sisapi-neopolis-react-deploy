@@ -74,7 +74,7 @@ body:has(.exames-container) {
 }
 
 .search-container button {
-    background-color: #0042C8;
+    background-color: #161179;
     color: white;
     padding: 7px 20px;
     border: none;
@@ -98,7 +98,7 @@ body:has(.exames-container) {
 }
 
 .exames-list-container .exames-table th {
-    color: #0042C8;
+    color: #161179;
     font-family: 'Poppins-Bold';
 }
 
@@ -124,7 +124,7 @@ body:has(.exames-container) {
 }
 
 .exames-list-container .exames-table .exame-row .btn {
-    background-color: #0042C8;
+    background-color: #161179;
     color: white;
     border: none;
     border-radius: 5px;
@@ -176,7 +176,7 @@ body:has(.exames-container) {
 
 .user-info-container button {
     background-color: transparent;
-    color: #0042C8;
+    color: #161179;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -197,7 +197,7 @@ body:has(.exames-container) {
 }
 
 .buttons-container button, .buttons-container a {
-    background-color: #0042C8;
+    background-color: #161179;
     color: white;
     text-decoration: none;
     padding: 7px 20px;
@@ -255,7 +255,7 @@ body:has(.exames-container) {
 }
 
 .new-exame-container .new-exame-wrapper .top-buttons-wrapper button {
-    background-color: #0042C8;
+    background-color: #161179;
     color: white;
     padding: 5px 20px;
     border: none;
@@ -272,7 +272,7 @@ body:has(.exames-container) {
 .new-exame-container .new-exame-wrapper .top-buttons-wrapper div b {
     font-family: 'Poppins-SemiBold';
     font-size: 16px;
-    color: #0042C8;
+    color: #161179;
 }
 
 .new-exame-container .new-exame-wrapper .top-buttons-wrapper div span {
@@ -335,7 +335,7 @@ body:has(.exames-container) {
 }
 
 .new-exame-container .new-exame-wrapper form .form-wrapper .select-wrapper button {
-    background-color: #0042C8;
+    background-color: #161179;
     color: white;
     padding: 8px 10px;
     border: none;
@@ -348,7 +348,7 @@ body:has(.exames-container) {
 .new-exame-container .new-exame-wrapper form .form-wrapper span  {
     font-family: 'Poppins-bold';
     font-size: 14px;
-    color: #0042C8;
+    color: #161179;
     margin-bottom: 5px;
 }
 
@@ -403,7 +403,7 @@ body:has(.exames-container) {
 .new-exame-container .exame-types b {
     font-family: 'Poppins-Bold';
     font-size: 16px;
-    color: #0042C8;
+    color: #161179;
     margin-bottom: 10px;
 }
 

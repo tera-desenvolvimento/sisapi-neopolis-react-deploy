@@ -163,6 +163,7 @@
     font-family: 'Poppins-Bold';
     text-decoration: none;
     align-self: center;
+    cursor: pointer;
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper.button-wrapper button:hover, .new-login-container .main-wrapper .central-wrapper a:hover {
