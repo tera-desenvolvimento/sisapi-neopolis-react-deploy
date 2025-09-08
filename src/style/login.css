@@ -119,8 +119,22 @@
     padding-right: 20px;
     font-family: 'Poppins-Bold';
     font-size: 14px;
-    background-color: #161179;
     color: #ffffff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url('../img/select-arrow.svg') no-repeat right 10px center;
+    background-color: #161179;
+    background-size: 16px;
+    padding-right: 30px;
+}
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper select:open {
+    background: url('../img/select-arrow-open.svg') no-repeat right 10px center;
+    background-color: #161179;
+    background-size: 16px;
+    padding-right: 30px;
+
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper input {
