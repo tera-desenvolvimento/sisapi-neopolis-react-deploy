@@ -40,7 +40,7 @@ body:has(.exames-container) {
 
 .exames-container .header-container b {
     font-family: 'SFPro-Bold';
-    font-size: 24px;
+    font-size: 30px;
     color: #333;
     margin: 0;
 }
@@ -94,7 +94,7 @@ body:has(.exames-container) {
 
 .exames-list-container .exames-table th,
 .exames-list-container .exames-table td:not(.btn-cell) {
-    padding: 0 20px;
+    padding: 0 10px;
     text-align: left;
     white-space:nowrap;
 }
@@ -296,6 +296,7 @@ body:has(.exames-container) {
     display: flex;
     flex-direction: column;
     width: 100%;
+    padding-top: 10px;
 }
 
 .new-exame-container .new-exame-wrapper form .form-wrapper b {
@@ -341,7 +342,7 @@ body:has(.exames-container) {
 .new-exame-container .new-exame-wrapper form .form-wrapper .select-wrapper button {
     background-color: #161179;
     color: white;
-    padding: 8px 10px;
+    padding: 8px 12px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -383,7 +384,7 @@ body:has(.exames-container) {
     align-self: center;
     cursor: pointer;
     font-family: 'SFPro-Bold';
-    margin-top: 20px;
+    margin-top: 60px;
 }
 
 .new-exame-container .new-exame-wrapper form .check-wrapper {

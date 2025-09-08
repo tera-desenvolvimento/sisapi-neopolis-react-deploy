@@ -64,7 +64,7 @@
 
 .new-login-container .main-wrapper .central-wrapper .city-logo-container a.back-button {
     margin-bottom: -30px;
-    padding: 10px 30px;
+    padding: 10px 20px;
     position: relative;
     top: -15px;
     left: -150px;
@@ -172,12 +172,13 @@
     background-color: #161179;
     border: 2px solid #161179;
     color: #ffffff;
-    padding: 10px 50px;
+    padding: 10px 20px;
     border-radius: 10px;
     font-family: 'Poppins-Bold';
     text-decoration: none;
     align-self: center;
     cursor: pointer;
+    font-size: 14px;
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper.button-wrapper button:hover, .new-login-container .main-wrapper .central-wrapper a:hover {
