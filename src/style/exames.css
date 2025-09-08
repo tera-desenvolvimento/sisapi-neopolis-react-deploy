@@ -76,7 +76,7 @@ body:has(.exames-container) {
 .search-container button {
     background-color: #161179;
     color: white;
-    padding: 7px 20px;
+    padding: 4px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -127,12 +127,23 @@ body:has(.exames-container) {
 
 .exames-list-container .exames-table .exame-row .btn {
     background-color: #161179;
+    border: 2px solid #161179;
     color: white;
-    border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     font-family: 'SFPro-Bold';
     padding: 10px 20px;
+    transition: ease-in-out .2s all;
+}
+
+.exames-list-container .exames-table .exame-row .btn:not(.green):hover {
+    background-color: #ffffff;
+    border: 2px solid #161179;
+    color: #161179;
+
+    path {
+        fill: #161179;;
+    }
 }
 
 .exames-list-container .exames-table .exame-row .btn.delivered, .exames-list-container .exames-table .exame-row .btn.whatsapp {
@@ -146,6 +157,7 @@ body:has(.exames-container) {
 
 .exames-list-container .exames-table .exame-row .btn.delivered {
     background-color: #33A100;
+    border: 3px solid #33A100;
 }
 
 .exames-list-container .exames-table .exame-row .btn-cell {
@@ -202,6 +214,7 @@ body:has(.exames-container) {
 
 .buttons-container button, .buttons-container a {
     background-color: #161179;
+    border: 2px solid #161179;
     color: white;
     text-decoration: none;
     padding: 7px 20px;
@@ -212,6 +225,12 @@ body:has(.exames-container) {
     font-size: 12px;
     display: flex;
     align-items: center;
+}
+
+.buttons-container button:hover, .buttons-container a:hover {
+    background-color: #ffffff;
+    border: 2px solid #161179;
+    color: #161179;
 }
 
 .pattern-rodape-light {
