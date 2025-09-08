@@ -111,22 +111,66 @@
     text-decoration: none;
 }
 
-.new-login-container .main-wrapper .central-wrapper .form-wrapper select {
+.new-login-container .main-wrapper .central-wrapper .form-wrapper #showOptions {
     width: -webkit-fill-available;
     height: 40px;
     border-radius: 10px;
-    padding-left: 10px;
-    padding-right: 20px;
+    padding: 20px;
     font-family: 'Poppins-Bold';
     font-size: 14px;
     color: #ffffff;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: url('../img/select-arrow.svg') no-repeat right 10px center;
     background-color: #161179;
     background-size: 16px;
-    padding-right: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+}
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper #showOptions img {
+    height: 12px;
+}
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper .modules-wrapper {
+    margin-top: 5px;
+    background-color: #F1F5F8;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+    border-radius: 6px;
+    width: -webkit-fill-available;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+    position: relative;
+    top: -60px;
+    transition: ease-in-out .1s top;
+    visibility: hidden;
+}
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper .modules-wrapper.opened {
+    top: 0;
+    visibility: visible;
+}
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper .modules-wrapper button {
+    color: #161179;
+    background-color: #F1F5F8;
+    padding: 10px 20px;
+    width: -webkit-fill-available;
+    border-radius: 6px;
+    font-family: 'Poppins-Bold';
+    text-decoration: none;
+    align-self: center;
+    text-align: start;
+    cursor: pointer;
+    font-size: 14px;
+    transition: ease-in-out .2s all;
+}
+
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper .modules-wrapper button:hover {
+    color: #ffffff;
+    background-color: #161179;
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper select:open {

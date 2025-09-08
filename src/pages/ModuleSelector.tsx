@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import '../controllers/user/checkSession.controller';
 
 import logo01 from "../img/logo-01.svg";
 import sisapiLogoWhite from "../img/sisapi-logo-white.svg";
+import selectArrowImg from "../img/select-arrow.svg";
+import selectArrowOpenImg from "../img/select-arrow-open.svg";
 
 const ModuleSelector = () => {
-    function handleModuleSelection(event: React.ChangeEvent<HTMLSelectElement>) {
-        event.preventDefault()
+    const [menuOpened, setMenuOpened] = useState(false);        
 
-        const selectedModule = event.target.value;
-        if (selectedModule) {
-            window.location.href = `/${selectedModule}`;
-        }
+    function handleMenuOpened () {
+        setMenuOpened(!menuOpened);
+    }
+
+    function handleModuleSelection(selectedModule: string) {
+        window.location.href = `/${selectedModule}`;
     }
 
     return (
@@ -27,12 +30,17 @@ const ModuleSelector = () => {
                         <small>Selecione o seu módulo</small>
 
                         <form className="form-container" onSubmit={e => e.preventDefault()}>
-                            <div className="form-wrapper password-wrapper">
-                                <select id="module" name="module" defaultValue="" required onChange={handleModuleSelection}>
-                                    <option value="" disabled>Selecione um módulo</option>
-                                    <option value="exames">Exames</option>
-                                    <option value="transportes">Transportes</option>
-                                </select>
+                            <div className="form-wrapper">
+                                <button id="showOptions" onClick={handleMenuOpened}>
+                                    <span>Clique para escolher um módulo</span>
+                                    <img src={menuOpened ? selectArrowOpenImg : selectArrowImg} alt="" />
+                                </button>
+                            </div>
+                            <div className="form-wrapper">
+                                <div className={menuOpened ? "modules-wrapper opened" : "modules-wrapper" }>
+                                    <button onClick={() => handleModuleSelection("exames")}>Resultados de exames</button>
+                                    <button onClick={() => handleModuleSelection("transportes")}>Transportes</button>
+                                </div>
                             </div>
                         </form>
                     </div>

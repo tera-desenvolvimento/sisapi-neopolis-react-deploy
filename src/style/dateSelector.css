@@ -51,7 +51,7 @@
 
 .react-datepicker__day--today.react-datepicker__day--selected , .react-datepicker__day--selected {
     border-radius: 6px;
-    background: #0042C8 !important;
+    background: #161179 !important;
     box-shadow: 0 1px 1px 0 rgba(0, 14, 51, 0.05);
     color: #FFF;
 }
