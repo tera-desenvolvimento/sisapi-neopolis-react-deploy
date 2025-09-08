@@ -7,6 +7,40 @@
     height: 100vh;
 }
 
+.aside-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: -webkit-fill-available;
+    padding-top: 10px;
+}
+
+.aside-container .menu-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.aside-container .menu-container .menu-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+    gap: 5px;
+}
+
+.aside-container .menu-container .menu-wrapper a {
+    display: flex;
+    gap: 10px;
+    text-decoration: none;
+    font-family: 'SFPro-Regular';
+    font-size: 14px;
+    color: #333;
+}
+
+.aside-container .menu-container .menu-wrapper a.selected {
+    color: #161179;
+}
+
 .new-transport {
     grid-column: span 4;
     display: flex;

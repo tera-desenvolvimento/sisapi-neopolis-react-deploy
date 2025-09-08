@@ -10,8 +10,6 @@
     border: none;
     border-radius: 20px;
     height: fit-content;
-    position: fixed;
-    top: 20px;
     z-index: 1000;
 }
 
