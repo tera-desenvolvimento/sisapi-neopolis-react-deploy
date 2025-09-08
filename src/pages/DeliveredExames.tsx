@@ -77,7 +77,7 @@ function DeliveredExames() {
                                                 day: '2-digit'
                                             })
                                         }</td>
-                                    <td className="exame-info end">{exame.retiranteName.split(" ")[0] + " " + exame.retiranteName.split(" ")[1] + " "} ({exame.retiranteDocId}) - {
+                                    <td className="exame-info end"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", width: "150px", display: "inline-block" }}>{exame.retiranteName}</span> ({exame.retiranteDocId}) - {
                                         new Date(exame.retiradaDate).toLocaleDateString("pt-BR", {
                                             year: 'numeric',
                                             month: '2-digit',
