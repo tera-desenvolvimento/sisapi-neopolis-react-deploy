@@ -83,7 +83,7 @@ const PrintFixedTransport = () => {
                 <div className="transport-details" style={{ marginBottom: "18px", fontFamily: "Poppins-Regular", fontSize: "9px", display: "flex", flexDirection: "column", gap: "9px" }}>
                     <div className="row" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
                         <div className="separator">
-                            <b>MOTORISTA: {driversData.find(driver => driver._id === transportData.driverId)?.name.split(" ")[0]}</b>
+                            <b>MOTORISTA: {driversData.find(driver => driver._id === transportData.driverId)?.name}</b>
                         </div>
                         <div className="separator">
                             <b>DESTINO: {transportData.destination}</b>
