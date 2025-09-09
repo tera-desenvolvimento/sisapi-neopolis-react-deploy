@@ -155,6 +155,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: ease-in-out 0.3s;
 }
 
 .transport-element .transport-controls-container .delete-transport:hover {
@@ -225,7 +226,17 @@
     padding: 5px 8px;
     border-radius: 5px;
     background-color: #161179;
+    border: 2px solid #161179;
     cursor: pointer;
+}
+
+.transport-header .general-data-wrapper .line .separator button:hover {
+    background-color: #ffffff;
+    border: 2px solid #161179;
+
+    path {
+        fill: #161179;
+    }
 }
 
 .transport-header .general-data-wrapper .line .separator input, .transport-header .general-data-wrapper .line .separator select {
@@ -290,7 +301,7 @@
 .transport-body .transport-table .transport-row button {
     background-color: #161179;
     color: white;
-    border: none;
+    border: 2px solid #161179;
     border-radius: 5px;
     cursor: pointer;
     font-family: 'Poppins-semiBold';
@@ -298,10 +309,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: ease-in-out .3s;
+}
+
+.transport-body .transport-table .transport-row button:hover {
+    background-color: #ffffff;
+    color: #161179;
+    border: 2px solid #161179;
+
+    path {
+        fill: #161179;
+    }
 }
 
 .transport-body .transport-table .transport-row button.sent {
     background-color: #33A100;
+    border: 2px solid #33A100;
+}
+
+.transport-body .transport-table .transport-row button.sent:hover {
+    background-color: #ffffff;
+
+    path {
+        fill: #33A100;
+    }
 }
 
 .transport-body .transport-table .transport-row button img {
@@ -313,6 +344,18 @@
     justify-content: space-between;
     padding: 10px 20px;
     width: 100%;
+}
+
+.swipe-transport-controls button circle, .swipe-transport-controls button path {
+    transition: ease-in-out .3s;
+}
+
+.swipe-transport-controls button:hover circle {
+    fill: #ffffff;
+}
+
+.swipe-transport-controls button:hover path {
+    fill: #161179;
 }
 
 .swipe-transport-controls.end {
