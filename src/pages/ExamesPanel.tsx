@@ -415,9 +415,9 @@ function ExamesPanel() {
             <div className="bottom-container">
                 <div className="user-info-container">
                     <b id="user-name">{(userData as user).name.split(" ")[0] + " " + (userData as user).name.split(" ")[1]}</b>
-                    <button id="logout" onClick={doLogout}>
+                    <button id="logout" onClick={() => window.location.href = "/"}>
                         <img src={logoutIcon} alt="Sair" />
-                        Sair
+                        Trocar módulo
                     </button>
                 </div>
 

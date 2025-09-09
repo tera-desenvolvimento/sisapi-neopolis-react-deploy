@@ -279,12 +279,18 @@ body:has(.exames-container) {
 
 .new-exame-container .new-exame-wrapper .top-buttons-wrapper button {
     background-color: #161179;
+    border: 2px solid #161179;
     color: white;
     padding: 5px 20px;
-    border: none;
     border-radius: 10px;
     cursor: pointer;
     font-family: 'SFPro-Bold';
+}
+
+.new-exame-container .new-exame-wrapper .top-buttons-wrapper button:hover {
+    background-color: #ffffff;
+    border: 2px solid #161179;
+    color: #161179;
 }
 
 .new-exame-container .new-exame-wrapper .top-buttons-wrapper div {
