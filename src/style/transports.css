@@ -145,8 +145,8 @@
 
 .transport-element .transport-controls-container .delete-transport {
     background-color: #DB0000;
+    border: 2px solid #DB0000;
     color: white;
-    border: none;
     border-radius: 10px;
     cursor: pointer;
     font-family: 'Poppins-Regular';
@@ -155,17 +155,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: ease-in-out 0.3s;
 }
 
 .transport-element .transport-controls-container .delete-transport:hover {
-    background-color: #bd0202;
+    background-color: #ffffff;
+    border: 2px solid #DB0000;
+    color: #DB0000;
 }
 
 .transport-element .transport-controls-container .print-transport {
     background-color: #161179;
+    border: 2px solid #161179;
     color: white;
-    border: none;
     border-radius: 10px;
     cursor: pointer;
     font-family: 'Poppins-Regular';
@@ -178,7 +179,9 @@
 }
 
 .transport-element .transport-controls-container .print-transport:hover {
-    background-color: #0032A8;
+    background-color: #ffffff;
+    border: 2px solid #161179;
+    color: #161179;
 }
 
 .transport-header {
@@ -212,7 +215,7 @@
 }
 
 .transport-header .general-data-wrapper .line .separator span {
-    color: #0047FF;
+    color: #161179;
     text-align: center;
     font-family: "Lexend";
     font-size: 10px;
