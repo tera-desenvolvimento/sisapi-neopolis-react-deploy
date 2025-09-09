@@ -9,6 +9,8 @@ import DeliveredExames from "./pages/DeliveredExames";
 import MailSent from "./pages/MailSent";
 import TransportsPanel from "./pages/TransportsPanel";
 import PrintTransport from "./pages/PrintTransport";
+import FixedTransports from "./pages/FixedTransports";
+import PrintFixedTransport from "./pages/PrintFixedTransport";
 
 const MyRoutes = () => {
     return (
@@ -22,7 +24,9 @@ const MyRoutes = () => {
                 <Route path="/exames-entregues" element={<DeliveredExames />} />
                 <Route path="/email-enviado" element={<MailSent/>}/>
                 <Route path="/transportes" element={<TransportsPanel />} />
+                <Route path="/transportes/fixos" element={<FixedTransports/>} />
                 <Route path="/transportes/imprimir/:id" element={<PrintTransport />} />
+                <Route path="/transportes/fixos/imprimir/:id" element={<PrintFixedTransport/>} />
             </Routes>
         </Router>
     )

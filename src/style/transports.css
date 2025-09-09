@@ -37,6 +37,14 @@
     color: #333;
 }
 
+.aside-container .menu-container .menu-wrapper a:not(.selected):hover {
+    color: #000000;
+
+    path {
+        fill: #000000;
+    }
+}
+
 .aside-container .menu-container .menu-wrapper a.selected {
     color: #161179;
 }
@@ -86,8 +94,15 @@
 
 .transports-swiper {
     width: 100%;
+    height: 100%;
     display: flex;
     overflow: hidden;
+}
+
+.transports-swiper.list {
+    flex-direction: column;
+    height: 80vh;
+    overflow-y: scroll;
 }
 
 .transport-element {
@@ -103,6 +118,10 @@
     display: none;
 }
 
+.transport-element.fixed {
+    height: fit-content;
+}
+
 .transport-element.active {
     display: flex;
 }
@@ -111,6 +130,10 @@
     margin-top: 20px;
     height: 70vh;
     overflow: scroll
+}
+
+.transport-element.fixed .transport-body {
+    height: fit-content;
 }
 
 .transport-element .transport-controls-container {
@@ -161,7 +184,6 @@
 .transport-header {
     display: flex;
     justify-content: space-between;
-    padding: 0 20px;
 }
 
 .transport-header .logo-wrapper {
@@ -170,7 +192,7 @@
 }
 
 .transport-header .logo-wrapper img {
-    height: 30px;
+    height: 25px;
 }
 
 .transport-header .general-data-wrapper {
@@ -262,7 +284,6 @@
     padding-left: 10px;
 }
 
-
 .transport-body .transport-table .transport-row button {
     background-color: #161179;
     color: white;
@@ -289,6 +310,10 @@
     justify-content: space-between;
     padding: 10px 20px;
     width: 100%;
+}
+
+.swipe-transport-controls.end {
+    justify-content: flex-end;
 }
 
 .swipe-transport-controls button {
