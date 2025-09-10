@@ -125,6 +125,7 @@
     justify-content: space-between;
     align-items: center;
     z-index: 2;
+    cursor: pointer;
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper #showOptions img {
@@ -242,4 +243,33 @@
     font-size: 25px;
     color: #33A100;
     padding: 40px 0;
+}
+
+.new-login-container .main-wrapper .central-wrapper .logout {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-family: 'Poppins-Regular';
+    background-color: #DB0000;
+    border: 2px solid #DB0000;
+    color: #ffffff;
+    transition: ease-in-out .2s all;
+    cursor: pointer;
+}
+
+.new-login-container .main-wrapper .central-wrapper .logout path {
+    fill: #ffffff;
+    transition: ease-in-out .2s all;
+}
+
+.new-login-container .main-wrapper .central-wrapper .logout:hover {
+    background-color: #ffffff;
+    border: 2px solid #DB0000;
+    color: #DB0000;
+}
+
+.new-login-container .main-wrapper .central-wrapper .logout:hover path {
+    fill: #DB0000;
 }

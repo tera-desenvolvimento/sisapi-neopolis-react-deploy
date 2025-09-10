@@ -19,7 +19,6 @@ import notifyPatient from "../controllers/transports/notifyPatient.controller";
 
 import logoutIcon from "../img/logout.svg";
 import logoNeopolis from "../img/logo-01.svg";
-import addRowIcon from "../img/add-row.svg";
 
 import "../style/transports.css";
 
