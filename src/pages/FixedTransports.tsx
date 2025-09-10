@@ -96,7 +96,6 @@ function FixedTransports() {
             listFixedTransports()
                 .then(data => {
                     setTransports(data.fixedTrips);
-                    console.log(transports);
                 })
             .catch(error => {
                 console.error(error);

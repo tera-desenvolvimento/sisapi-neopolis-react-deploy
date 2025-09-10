@@ -67,7 +67,7 @@ function DeliveredExames() {
                             {deliveredExames.map((exame) => (
                                 <tr key={exame.exameId} className="exame-row delivered">
                                     <td className="exame-info start">{exame.type}</td>
-                                    <td className="exame-info">{exame.patientName}</td>
+                                    <td className="exame-info"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", width: "150px", display: "inline-block" }}>{exame.patientName}</span></td>
                                     <td className="exame-info">{exame.docId}</td>
                                     <td className="exame-info">{exame.patientNumber}</td>
                                     <td className="exame-info">{

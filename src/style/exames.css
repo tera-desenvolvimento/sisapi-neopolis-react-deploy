@@ -15,12 +15,6 @@ body:has(.exames-container) {
     width: 1200px;
 }
 
-@media (max-width: 1200px) {
-    .exames-container {
-        scale: 0.8
-    }
-}
-
 .exames-container.delivered {
     width: 1250px;
 }
@@ -467,4 +461,14 @@ body:has(.exames-container) {
     border-radius: 5px;
     cursor: pointer;
     font-family: 'SFPro-Bold';
+}
+
+@media (max-width: 1200px) {
+    .exames-container {
+        width: unset;
+    }
+
+    .exames-container.delivered {
+        width: unset;
+    }
 }
