@@ -7,15 +7,18 @@ body:has(.exames-container) {
 }
 
 .exames-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-height: 80vh;
+    width: 1200px;
 }
 
-.exames-container {
-    width: 1200px;
+@media (max-width: 1200px) {
+    .exames-container {
+        scale: 0.8
+    }
 }
 
 .exames-container.delivered {
@@ -218,7 +221,6 @@ body:has(.exames-container) {
     color: white;
     text-decoration: none;
     padding: 7px 20px;
-    border: none;
     border-radius: 10px;
     cursor: pointer;
     font-family: 'SFPro-Bold';
