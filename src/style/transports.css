@@ -55,7 +55,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 87vh !important;
+    height: 84vh !important;
 }
 
 .new-transport button {
@@ -213,6 +213,10 @@
     display: flex;
     align-items: center;
     margin-right: 20px;
+}
+
+.transport-header .general-data-wrapper .line .separator div {
+    display: flex;
 }
 
 .transport-header .general-data-wrapper .line .separator span {
@@ -396,4 +400,32 @@
 #newVehicleForm .checkbox-wrapper input[type="checkbox"]:checked + label {
     color: #FFF;
     background-color: #33A100;
+}
+
+@media (max-width: 1200px) {
+    .transport-header {
+        flex-direction: column-reverse;
+        gap: 10px;
+        align-items: flex-end;
+    }
+
+    .transport-header .general-data-wrapper {
+        align-self: flex-start;
+        width: -webkit-fill-available;
+    }
+
+    .transport-header .general-data-wrapper .line {
+        justify-content: space-between;
+    }
+
+    .transport-header .general-data-wrapper .line .separator {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .transport-header .general-data-wrapper .line .separator input, .transport-header .general-data-wrapper .line .separator select {
+        margin-left: 0;
+    }
+
+    
 }
