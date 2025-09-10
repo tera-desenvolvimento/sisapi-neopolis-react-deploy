@@ -64,10 +64,6 @@ const ResetPassword = () => {
                                 <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirme sua nova senha" required/>
                             </div>
 
-                            <div className="form-wrapper">
-                                <span className="message hidden" id="message">Código de identificação ou senha incorreto</span>
-                            </div>
-
                             <div className="form-group">
                                 <span className="message hidden" id="message">Senhas não coincidem</span>
                             </div>
