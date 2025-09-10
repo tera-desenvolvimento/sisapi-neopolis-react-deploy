@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DateSelector from "../components/DateSelector";
-import { doLogout, getCookies } from "../controllers/user/authenticate.controller";
+import { getCookies } from "../controllers/user/authenticate.controller";
 import createTransport from "../controllers/transports/createTransport.controller";
 import listTransports from "../controllers/transports/listTransports.controller";
 import listDestinations from "../controllers/transports/listDestinations.controller";

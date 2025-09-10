@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { doLogout, getCookies } from "../controllers/user/authenticate.controller";
+import { getCookies } from "../controllers/user/authenticate.controller";
 
 import listFixedTransports from "../controllers/transports/fixed/listFixedTransports.controller";
 import createFixedTransport from "../controllers/transports/fixed/createFixedTransport.controller";
 import addPatient from "../controllers/transports/fixed/addPatient.controller";
 import updateFixedTransport from "../controllers/transports/fixed/updateFixedTransports.controller";
-import notifyPatient from "../controllers/transports/fixed/notifyPatient.controller";
 import removeFixedTransport from "../controllers/transports/fixed/removeFixedTransport.controller";
 import listVehicles from "../controllers/transports/listVehicles.controller";
 import listDestinations from "../controllers/transports/listDestinations.controller";
@@ -19,8 +18,6 @@ import removeDriver from "../controllers/transports/removeDriver.controller";
 
 import logoutIcon from "../img/logout.svg";
 import logoNeopolis from "../img/logo-01.svg";
-import excludeIcon from "../img/exclude-icon.svg";
-import addRowIcon from "../img/add-row.svg";
 
 import "../style/transports.css";
 
@@ -317,11 +314,6 @@ function FixedTransports() {
                 if (response.message === "Fixed trip has patients") {
                     alert("Não é possível remover transportes que contenham pacientes. Revise os dados e tente novamente!");
                 } else {
-                    const currentElement = document.querySelector(
-                        `.transport-element[data-id="${transportId}"]`
-                    ) as HTMLDivElement | null;
-                    const currentIndex = currentElement ? Number(currentElement.dataset.index) : -1;
-
                     listFixedTransports()
                         .then(data => {
                             setTransports(data.fixedTrips);

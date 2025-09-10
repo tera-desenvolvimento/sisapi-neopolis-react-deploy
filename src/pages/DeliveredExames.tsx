@@ -4,7 +4,7 @@ import logo01 from "../img/logo-01.svg";
 import logoutIcon from "../img/logout.svg";
 
 import { listDeliveredExames, IExame } from "../controllers/exame/listExames.controller";
-import { getCookies, doLogout } from "../controllers/user/authenticate.controller";
+import { getCookies } from "../controllers/user/authenticate.controller";
 import { searchExame, ISearch } from "../controllers/exame/searchExame.controller";
 
 type user = {

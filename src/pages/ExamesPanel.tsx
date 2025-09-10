@@ -5,7 +5,7 @@ import logo01 from "../img/logo-01.svg";
 import logoutIcon from "../img/logout.svg";
 
 import "../style/exames.css";
-import { getCookies, doLogout } from "../controllers/user/authenticate.controller";
+import { getCookies } from "../controllers/user/authenticate.controller";
 import { listExames, IExame, IResponse } from "../controllers/exame/listExames.controller";
 import { listExameTypes, IExameType, IExameResponse} from "../controllers/exame/listExameTypes.controller";
 import { createExame, ICreateExame } from "../controllers/exame/createExame.controller";
