@@ -374,7 +374,7 @@ function ExamesPanel() {
                             {exames.map((exame) => (
                                 <tr className="exame-row" data-exame-id={exame.exameId}>
                                     <td className="exame-info start">{exame.type}</td>
-                                    <td className="exame-info">{exame.patientName}</td>
+                                    <td className="exame-info"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", width: "150px", display: "inline-block" }}>{exame.patientName}</span></td>
                                     <td className="exame-info">{exame.docId}</td>
                                     <td className="exame-info">{exame.patientNumber}</td>
                                     <td className="exame-info end">
