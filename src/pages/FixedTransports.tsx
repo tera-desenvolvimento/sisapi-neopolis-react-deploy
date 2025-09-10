@@ -342,14 +342,14 @@ function FixedTransports() {
             transports.forEach(async transport => {
                 if (transport._id === transportId) {
                     transport.patients.splice(parseInt(patientIndex), 1);
-                }
 
-                await updateFixedTransport(transportId, { patients: transport.patients });
+                    await updateFixedTransport(transportId, { patients: transport.patients });
 
-                listFixedTransports()
-                    .then(data => {
-                        setTransports(data.fixedTrips);
-                    });
+                    listFixedTransports()
+                        .then(data => {
+                            setTransports(data.fixedTrips);
+                        });
+                }   
             });
         }
     }
