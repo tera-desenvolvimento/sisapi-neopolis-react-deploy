@@ -249,14 +249,14 @@ function TransportsPanel() {
             transports.forEach(async transport => {
                 if (transport._id === transportId) {
                     transport.patients.splice(parseInt(patientIndex), 1);
-                }
 
-                await updateTrip(transportId, { patients: transport.patients });
+                    await updateTrip(transportId, { patients: transport.patients });
 
-                listTransports(selectedDate.toLocaleDateString())
-                    .then(data => {
-                        setTransports(data.trips);
-                    });
+                    listTransports(selectedDate.toLocaleDateString())
+                        .then(data => {
+                            setTransports(data.trips);
+                        });
+                }                
             });
         }
     }
