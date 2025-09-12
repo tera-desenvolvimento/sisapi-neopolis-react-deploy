@@ -92,6 +92,9 @@ function TransportsPanel() {
     const [newDriverData, setNewDriverData] = useState({} as CDriver);
     const [loaded, setLoaded] = useState(false);
     const [location, setLocation] = useState("");
+    const [editPatientData, setEditPatientData] = useState({} as Patient);
+    const [editPatientIndex, setEditPatientIndex] = useState(0);
+    const [editPatientTransportId, setEditPatientTransportId] = useState("");
 
     if (!loaded) {
         (function loadData() {
@@ -181,6 +184,63 @@ function TransportsPanel() {
         }
     }
 
+    function toggleEditPatientContainer(event: React.MouseEvent<HTMLButtonElement>) {
+        const transportId = event.currentTarget.dataset.transportId || "";
+        const patientIndex = event.currentTarget.dataset.patientIndex || "";
+        const container = document.getElementById("editPatientContainer");
+        if (container) {
+            container.classList.toggle("hidden");
+
+            setEditPatientTransportId(transportId);
+            setEditPatientIndex(patientIndex as unknown as number);
+
+            const transport = transports.find(transport => transport._id === transportId);
+            if (transport) {
+                const patient = transport.patients[patientIndex as unknown as number];
+                if (patient) {
+                    setEditPatientData(patient);
+                }
+            }
+        }
+    }
+
+    function editPatientDataSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        if (editPatientTransportId && editPatientIndex !== null) {
+            const updatedTransports = transports.map(async transport => {
+                if (transport._id === editPatientTransportId) {
+                    const updatedPatients = [...transport.patients];
+                    updatedPatients[editPatientIndex] = editPatientData;
+
+                    const updates = {
+                        patients: updatedPatients
+                    };
+
+                    try {
+                        await updateTrip(editPatientTransportId, updates);
+
+                        listTransports(selectedDate.toLocaleDateString())
+                            .then(data => {
+                                setTransports(data.trips);
+                            });
+                    } catch (error) {
+                        console.error("Error updating trip:", error);
+                    }
+                }
+            });
+
+            setEditPatientTransportId("");
+            setEditPatientIndex(0);
+            setEditPatientData({} as Patient);
+
+            const container = document.getElementById("editPatientContainer");
+            if (container) {
+                container.classList.toggle("hidden");
+            }   
+        }
+    }
+
     function handleNewPatientChange(event: React.ChangeEvent<HTMLInputElement>) {
         if (event.target.id === "docIdEl"){
             var cpf = event.target.value;
@@ -194,6 +254,24 @@ function TransportsPanel() {
         } else {
             setNewPatientData({
                 ...newPatientData,
+                [event.target.name]: event.target.value
+            });
+        }
+    }
+
+    function handleEditPatientChange(event: React.ChangeEvent<HTMLInputElement>) {
+        if (event.target.id === "docIdEl"){
+            var cpf = event.target.value;
+            cpf = cpf.replace(/[^\d]/g, "");
+            cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+
+            setEditPatientData({
+                ...newPatientData,
+                docId: cpf
+            });
+        } else {
+            setEditPatientData({
+                ...editPatientData,
                 [event.target.name]: event.target.value
             });
         }
@@ -649,6 +727,7 @@ function TransportsPanel() {
                                                                     <td className="transport-info">{patient.pickupLocation}</td>
                                                                     <td className="transport-info end">{patient.destination}</td>
                                                                     <td className="transport-actions">
+                                                                        <button onClick={toggleEditPatientContainer} data-transport-id={transport._id} data-patient-index={patientIndex}>Editar</button>
                                                                         <button onClick={handleDeletePatient} data-transport-id={transport._id} data-patient-index={patientIndex}>
                                                                             <svg width="20" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                                 <path d="M18.9953 13.5751L24.4983 8.07494C25.2965 7.27674 25.7449 6.19415 25.7449 5.06532C25.7449 3.9365 25.2965 2.85391 24.4983 2.05571C23.7001 1.25751 22.6175 0.809082 21.4886 0.809082C20.3598 0.809082 19.2772 1.25751 18.479 2.05571L12.9789 7.55868L7.47875 2.05571C6.68055 1.25751 5.59796 0.809082 4.46913 0.809082C3.34031 0.809082 2.25772 1.25751 1.45952 2.05571C0.661315 2.85391 0.212891 3.9365 0.212891 5.06532C0.212891 6.19415 0.661315 7.27674 1.45952 8.07494L6.96249 13.5751L1.45952 19.0752C0.661315 19.8734 0.212891 20.956 0.212891 22.0848C0.212891 23.2137 0.661315 24.2963 1.45952 25.0945C2.25772 25.8927 3.34031 26.3411 4.46913 26.3411C5.59796 26.3411 6.68055 25.8927 7.47875 25.0945L12.9789 19.5915L18.479 25.0945C19.2772 25.8927 20.3598 26.3411 21.4886 26.3411C22.6175 26.3411 23.7001 25.8927 24.4983 25.0945C25.2965 24.2963 25.7449 23.2137 25.7449 22.0848C25.7449 20.956 25.2965 19.8734 24.4983 19.0752L18.9953 13.5751Z" fill="#FFFFFF"/>
@@ -793,6 +872,47 @@ function TransportsPanel() {
                         </div>
 
                         <button type="submit">Cadastrar</button>
+                    </form>
+                </div>
+            </div>
+
+            <div className="new-exame-container hidden" id="editPatientContainer">
+                <div className="new-exame-wrapper">
+                    <div className="top-buttons-wrapper">
+                        <button className="back" onClick={toggleEditPatientContainer}>
+                            Voltar
+                        </button>
+                    </div>
+
+                    <form className="new-exame-info" id="newPacientForm" onSubmit={editPatientDataSubmit}>
+                        <div className="form-wrapper">
+                            <span>Nome Completo:</span>
+                            <input type="text" name="name" id="patientNameEl" placeholder="Digite o nome do paciente" onChange={handleEditPatientChange} required value={editPatientData.name}/>
+                        </div>
+                        <div className="form-wrapper">
+                            <span>Endereço:</span>
+                            <input type="text" name="address" id="addressEl" placeholder="Digite o endereço" onChange={handleEditPatientChange} required value={editPatientData.address}/>
+                        </div>
+                        <div className="form-wrapper horizontal">
+                            <div>
+                                <span>CPF:</span>
+                                <input type="text" name="docId" id="docIdEl" placeholder="Digite o CPF" onChange={handleEditPatientChange} required value={editPatientData.docId}/>
+                            </div>
+                            <div>
+                                <span>Telefone:</span>
+                                <input type="text" name="phone" id="patientPhoneEl" placeholder="Ex.: 557988888888" onChange={handleEditPatientChange} required value={editPatientData.phone}/>
+                            </div>
+                        </div>
+                        <div className="form-wrapper">
+                            <span>Pegar em:</span>
+                            <input type="text" name="pickupLocation" id="pickupLocationEl" placeholder="Digite o local de retirada" onChange={handleEditPatientChange} required value={editPatientData.pickupLocation}/>
+                        </div>
+                        <div className="form-wrapper">
+                            <span>Destino:</span>
+                            <input type="text" name="destination" id="destinationEl" placeholder="Digite o destino" onChange={handleEditPatientChange} required value={editPatientData.destination}/>
+                        </div>
+
+                        <button type="submit">Atualizar</button>
                     </form>
                 </div>
             </div>
