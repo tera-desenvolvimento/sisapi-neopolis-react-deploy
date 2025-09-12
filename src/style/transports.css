@@ -463,7 +463,7 @@
     background-color: #33A100;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
     .transport-header {
         flex-direction: column-reverse;
         gap: 10px;
