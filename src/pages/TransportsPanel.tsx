@@ -726,7 +726,7 @@ function TransportsPanel() {
                                                                     <td className="transport-index">{patientIndex + 1}</td>
                                                                     <td className="transport-info start"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", width: "150px", display: "inline-block" }}>{patient.name}</span></td>
                                                                     <td className="transport-info">{patient.docId}</td>
-                                                                    <td className="transport-info">{patient.address}</td>
+                                                                    <td className="transport-info"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", width: "150px", display: "inline-block" }}>{patient.address}</span></td>
                                                                     <td className="transport-info">{patient.phone}</td>
                                                                     <td className="transport-info">{patient.pickupLocation}</td>
                                                                     <td className="transport-info end">{patient.destination}</td>
