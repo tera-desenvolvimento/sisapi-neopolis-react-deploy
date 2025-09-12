@@ -11,6 +11,7 @@ import TransportsPanel from "./pages/TransportsPanel";
 import PrintTransport from "./pages/PrintTransport";
 import FixedTransports from "./pages/FixedTransports";
 import PrintFixedTransport from "./pages/PrintFixedTransport";
+import TransportRequests from "./pages/TransportRequests";
 
 const MyRoutes = () => {
     return (
@@ -27,6 +28,7 @@ const MyRoutes = () => {
                 <Route path="/transportes/fixos" element={<FixedTransports/>} />
                 <Route path="/transportes/imprimir/:id" element={<PrintTransport />} />
                 <Route path="/transportes/fixos/imprimir/:id" element={<PrintFixedTransport/>} />
+                <Route path="/transportes/solicitacoes" element={<TransportRequests/>} />
             </Routes>
         </Router>
     )

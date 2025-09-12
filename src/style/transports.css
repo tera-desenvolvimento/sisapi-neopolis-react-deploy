@@ -323,7 +323,7 @@
 }
 
 .transport-row .transport-info {
-    padding: 10px 0;
+    padding: 7px 0;
 }
 
 .transport-row .transport-info.start {
@@ -346,6 +346,10 @@
 
 .transport-body .transport-table .transport-row .transport-actions.new {
     margin-right: -30px;
+}
+
+.transport-body .transport-table .transport-row .transport-actions.requests {
+    margin-right: -50px;
 }
 
 .transport-body .transport-table .transport-row button {
