@@ -757,7 +757,7 @@ function TransportsPanel() {
                                                                     <td className="transport-info">{patient.address}</td>
                                                                     <td className="transport-info">{patient.phone}</td>
                                                                     <td className="transport-info">{patient.pickupLocation}</td>
-                                                                    <td className="transport-info end">{patient.destination}</td>
+                                                                    <td className="transport-info end"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: "150px", display: "inline-block" }}>{patient.destination}</span></td>
                                                                     <td className="transport-actions">
                                                                         <button onClick={toggleEditPatientContainer} data-transport-id={transport._id} data-patient-index={patientIndex}>Editar</button>
                                                                         <button onClick={handleDeletePatient} data-transport-id={transport._id} data-patient-index={patientIndex} className="delete">

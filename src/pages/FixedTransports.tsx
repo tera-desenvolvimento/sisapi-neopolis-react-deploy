@@ -549,7 +549,7 @@ function FixedTransports() {
                                                             transport.patients.map((patient, patientIndex) => (
                                                                 <tr className="transport-row" key={patientIndex}>
                                                                     <td className="transport-index">{patientIndex + 1}</td>
-                                                                    <td className="transport-info start"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", width: "150px", display: "inline-block" }}>{patient.name}</span></td>
+                                                                    <td className="transport-info start"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: "150px", display: "inline-block" }}>{patient.name}</span></td>
                                                                     <td className="transport-info">{patient.docId}</td>
                                                                     <td className="transport-info">{patient.address}</td>
                                                                     <td className="transport-info">{patient.phone}</td>
