@@ -680,7 +680,11 @@ function TransportsPanel() {
                                                     <div className="line">
                                                         <div className="separator">
                                                             <span>Saída Neópolis:</span>
-                                                            <input type="time" name="exitTime" id="exitTime" data-transport-id={transport._id} onChange={handleUpdateTrip} value={transport.exitTime} />
+                                                            <select name="exitTime" id="exitTime" data-transport-id={transport._id} onChange={handleUpdateTrip} value={transport.exitTime} >
+                                                                <option value="04:00">04:00</option>
+                                                                <option value="06:00">06:00</option>
+                                                                <option value="09:00">09:00</option>
+                                                            </select>
                                                         </div>
                                                         <div className="separator">
                                                             <span>Descanso:</span>
