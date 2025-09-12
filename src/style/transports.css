@@ -3,8 +3,23 @@
     grid-template-columns: repeat(5, 1fr);
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
+    padding: 40px;
     height: 100vh;
+}
+
+.main-container .menu-button {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background-color: #161179;
+    border: none;
+    cursor: pointer;
+    width: 60px;
+    height: 30px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 5px;
 }
 
 .aside-container {
@@ -12,7 +27,16 @@
     flex-direction: column;
     gap: 20px;
     height: -webkit-fill-available;
-    padding-top: 10px;
+    padding: 20px;
+    position: fixed;
+    background-color: #878787;
+    left: -500px;
+    transition: left 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.aside-container.open {
+    left: 0;
 }
 
 .aside-container .menu-container {
@@ -21,11 +45,22 @@
     gap: 10px;
 }
 
+.aside-container .menu-container .logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.aside-container .menu-container .logo-wrapper button {
+    background-color: transparent;
+    cursor: pointer;
+}
+
 .aside-container .menu-container .menu-wrapper {
     display: flex;
     flex-direction: column;
     padding-left: 15px;
-    gap: 5px;
+    gap: 10px;
 }
 
 .aside-container .menu-container .menu-wrapper a {
@@ -34,7 +69,7 @@
     text-decoration: none;
     font-family: 'SFPro-Regular';
     font-size: 14px;
-    color: #333;
+    color: #fff;
 }
 
 .aside-container .menu-container .menu-wrapper a:not(.selected):hover {
@@ -50,7 +85,7 @@
 }
 
 .new-transport {
-    grid-column: span 4;
+    grid-column: span 5;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -79,12 +114,15 @@
 .bottom-container.transport {
     position: fixed;
     bottom: 40px;
-    margin-left: 40px;
     width: unset;
 }
 
+.bottom-container.transport .user-info-container b, .bottom-container.transport .user-info-container button {
+    color: #ffffff;
+}
+
 .transports-container {
-    grid-column: span 4;
+    grid-column: span 5;
     height: 97vh;
     display: flex;
     flex-direction: column;
@@ -129,7 +167,7 @@
 .transport-element .transport-body {
     margin-top: 20px;
     height: 70vh;
-    overflow: scroll
+    overflow-y: scroll;
 }
 
 .transport-element.fixed .transport-body {
@@ -196,7 +234,7 @@
 }
 
 .transport-header .logo-wrapper img {
-    height: 25px;
+    height: 30px;
 }
 
 .transport-header .general-data-wrapper {
@@ -211,8 +249,10 @@
 
 .transport-header .general-data-wrapper .line .separator {
     display: flex;
-    align-items: center;
     margin-right: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
 }
 
 .transport-header .general-data-wrapper .line .separator div {
@@ -221,7 +261,6 @@
 
 .transport-header .general-data-wrapper .line .separator span {
     color: #161179;
-    text-align: center;
     font-family: "Lexend";
     font-size: 10px;
 }
@@ -251,6 +290,7 @@
     background-color: #d9d9d9;
     padding: 5px;
     margin: 0 5px;
+    margin-left: 0;
     border-radius: 5px;
 }
 
@@ -300,6 +340,12 @@
     display: flex;
     gap: 10px;
     padding-left: 10px;
+    width: fit-content;
+    margin-right: -70px;
+}
+
+.transport-body .transport-table .transport-row .transport-actions.new {
+    margin-right: -30px;
 }
 
 .transport-body .transport-table .transport-row button {
@@ -316,6 +362,11 @@
     transition: ease-in-out .3s;
 }
 
+.transport-body .transport-table .transport-row button.delete {
+    background-color: #DB0000;
+    border: 2px solid #DB0000;
+}
+
 .transport-body .transport-table .transport-row button:hover {
     background-color: #ffffff;
     color: #161179;
@@ -323,6 +374,16 @@
 
     path {
         fill: #161179;
+    }
+}
+
+.transport-body .transport-table .transport-row button.delete:hover {
+    background-color: #ffffff;
+    color: #DB0000;
+    border: 2px solid #DB0000;
+
+    path {
+        fill: #DB0000;
     }
 }
 
@@ -427,5 +488,8 @@
         margin-left: 0;
     }
 
+    .transport-body .transport-table .transport-row .transport-actions {
+        margin-right: -20px;
+    }
     
 }

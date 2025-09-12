@@ -8,7 +8,7 @@
 .react-datepicker {
     background-color: #F1F1F1;
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     height: fit-content;
     z-index: 1000;
 }
@@ -16,8 +16,12 @@
 .react-datepicker__header {
     background-color: #F1F1F1;
     border: none;
-    border-top-right-radius: 20px !important;
-    border-top-left-radius: 20px;
+    border-top-right-radius: 10px !important;
+    border-top-left-radius: 10px;
+}
+
+.react-datepicker__day-names {
+    padding-left: 5px;
 }
 
 .react-datepicker__day--outside-month {
