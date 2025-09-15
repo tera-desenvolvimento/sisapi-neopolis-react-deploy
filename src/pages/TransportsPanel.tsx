@@ -794,7 +794,7 @@ function TransportsPanel() {
                                                         }
 
                                                         {
-                                                            transport.patients.length < 14 ? (
+                                                            transport.patients.length < 15 ? (
                                                                 <tr className="transport-row">
                                                                     <td className="transport-index">{transport.patients.length + 1}</td>
                                                                     <td className="transport-info start"></td>
