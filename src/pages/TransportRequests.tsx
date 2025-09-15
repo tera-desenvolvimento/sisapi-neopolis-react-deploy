@@ -247,7 +247,7 @@ function TransportRequests() {
                                 </div>
                             </div>
 
-                            <div className="transport-body">
+                            <div className="transport-body request">
                                 <table className="transport-table">
                                     <thead>
                                         <tr>
