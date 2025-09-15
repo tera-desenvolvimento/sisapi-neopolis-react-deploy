@@ -408,6 +408,10 @@ body:has(.exames-container) {
     margin-top: 60px;
 }
 
+.new-exame-container .new-exame-wrapper form button.reject {
+    background-color: #DB0000;
+}
+
 .new-exame-container .new-exame-wrapper form .check-wrapper {
     display: flex;
     justify-content: flex-end;

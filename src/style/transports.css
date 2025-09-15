@@ -228,6 +228,10 @@
     justify-content: space-between;
 }
 
+.transport-header.requests {
+    justify-content: flex-end;
+}
+
 .transport-header .logo-wrapper {
     display: flex;
     align-items: flex-start;
@@ -235,6 +239,10 @@
 
 .transport-header .logo-wrapper img {
     height: 30px;
+}
+
+.transport-header.requests .logo-wrapper img {
+    height: 50px;
 }
 
 .transport-header .general-data-wrapper {
@@ -350,6 +358,7 @@
 
 .transport-body .transport-table .transport-row .transport-actions.requests {
     margin-right: -50px;
+    min-height: 44px;
 }
 
 .transport-body .transport-table .transport-row button {
@@ -364,6 +373,7 @@
     align-items: center;
     justify-content: center;
     transition: ease-in-out .3s;
+    font-size: 10px;
 }
 
 .transport-body .transport-table .transport-row button.delete {

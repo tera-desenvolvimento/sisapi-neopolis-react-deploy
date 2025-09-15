@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { getCookies } from "../controllers/user/authenticate.controller";
 
 import listTransportRequests from "../controllers/transports/requests/listTransportRequests.controller";
+import declineTransportRequest from "../controllers/transports/requests/declineTransportRequest.controller";
+import acceptTransportRequest from "../controllers/transports/requests/acceptTransportRequest.controller";
+import listTransports from "../controllers/transports/listTransports.controller";
+import WhapiImage from "../controllers/transports/requests/whapiImage.controller";
 
 import logoutIcon from "../img/logout-wt.svg";
 import logoNeopolis from "../img/logo-01.svg";
@@ -27,11 +31,35 @@ type TransportRequest = {
     createdAt: string,
 }
 
+type Patient = {
+    name: string;
+    docId: string;
+    phone: string;
+    address: string;
+    pickupLocation: string;
+    destination: string;
+    notified: boolean;
+}
+
+type Transport = {
+    date: string;
+    exitTime: string;
+    restTime: string;
+    returnTime: string;
+    arriveTime: string;
+    destination: string;
+    vehicleId: string;
+    driverId: string;
+    patients: Patient[];
+    _id: string;
+};
+
 function TransportRequests() {
     const userData = getCookies("userData");
 
     const [requests, setRequests] = useState<TransportRequest[]>([]);
     const [loaded, setLoaded] = useState(false);
+    const [docImageUrl, setDocImageUrl] = useState("");
 
     if (!loaded) {
         (async function fetchTransportRequests() {
@@ -47,7 +75,92 @@ function TransportRequests() {
         const aside = document.querySelector(".aside-container");
         aside?.classList.toggle("open");
     }
-    
+
+    async function toggleSchedulingDocumentContainer(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        const container = document.getElementById("shedulingDocumentContainer");
+        const imgUrl = await WhapiImage(event.currentTarget.dataset.imageId || "");
+        setDocImageUrl(imgUrl);
+
+        if (imgUrl && container) {
+          container.classList.toggle("hidden");
+        }
+    }
+
+    function toggleDeclineRequestContainer(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        const container = document.getElementById("declineRequestContainer");
+        const requestId = event.currentTarget.dataset.requestId || "";
+        const form = document.getElementById("declineRequestForm");
+
+        if (container) {
+            container.classList.toggle("hidden");
+            if (form) form.setAttribute("data-request-id", requestId);
+        }
+    }
+
+    async function handleDeclineRequest(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        const requestId = event.currentTarget.dataset.requestId || "";
+        const reasonId = event.currentTarget.reason.value;
+        const reason = reasonId === "1" ? "Imagem do agendamento não legível" : reasonId === "2" ? "Documento de agendamento inválido" : "Vagas esgotadas para o carro selecionado";
+
+        try {
+            await declineTransportRequest(requestId, reason);
+            setRequests(requests.filter(req => req._id !== requestId));
+
+            document.getElementById("declineRequestContainer")?.classList.toggle("hidden");
+        } catch (error) {
+            console.error("Error declining transport request:", error);
+        }
+    }
+
+    async function handleAcceptRequest(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        const requestId = event.currentTarget.dataset.requestId || "";
+        const requestData = requests.find(req => req._id === requestId) as TransportRequest;
+        const date = requestData.tripDate;
+        const exitTime = requestData.exitTime;
+        const filteredTransports = [] as Array<Transport>;
+        const dispoTransports = [] as Array<string>;
+
+        await listTransports(date)
+            .then((response) => {
+                response.trips.forEach((trip: Transport) => {
+                    if (trip.exitTime === exitTime) {
+                        filteredTransports.push(trip)
+                    }
+                })
+            })
+
+        filteredTransports.forEach(transport => {
+            const transportId = transport._id;
+            const patients = transport.patients;
+
+            if (exitTime === "04:00") {
+                if (patients.length < 14) {
+                    dispoTransports.push(transportId)
+                }
+            } else if (exitTime === "06:00") {
+                if (patients.length < 13) {
+                    dispoTransports.push(transportId)
+                }
+            } else if (exitTime === "09:00") {
+                if (patients.length < 14) {
+                    dispoTransports.push(transportId)
+                }
+            }
+        })
+
+        if (dispoTransports.length) {
+            await acceptTransportRequest(requestId, dispoTransports[0])
+                .then(response => {
+                    setRequests(requests.filter(req => req._id !== requestId));
+                })
+        } else {
+            alert("Sem vagas dispoíveis para o carro selecionado!")
+        }
+        
+    }
+
     return (
         <React.Fragment>
             <div className="aside-container">
@@ -68,9 +181,9 @@ function TransportRequests() {
                     </div>
 
                     <div className="menu-wrapper">
-                        <a href="#" className="selected">
+                        <a href="/transportes">
                             <svg width="16" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17.7292 1.91667H17.25V1.4375C17.25 1.05625 17.0985 0.690617 16.829 0.421034C16.5594 0.15145 16.1937 0 15.8125 0C15.4313 0 15.0656 0.15145 14.796 0.421034C14.5264 0.690617 14.375 1.05625 14.375 1.4375V1.91667H8.625V1.4375C8.625 1.05625 8.47355 0.690617 8.20397 0.421034C7.93438 0.15145 7.56875 0 7.1875 0C6.80625 0 6.44062 0.15145 6.17103 0.421034C5.90145 0.690617 5.75 1.05625 5.75 1.4375V1.91667H5.27083C3.87292 1.91667 2.53226 2.47199 1.54379 3.46046C0.555318 4.44893 0 5.78959 0 7.1875V17.7292C0 19.1271 0.555318 20.4677 1.54379 21.4562C2.53226 22.4447 3.87292 23 5.27083 23H17.7292C19.1271 23 20.4677 22.4447 21.4562 21.4562C22.4447 20.4677 23 19.1271 23 17.7292V7.1875C23 5.78959 22.4447 4.44893 21.4562 3.46046C20.4677 2.47199 19.1271 1.91667 17.7292 1.91667ZM17.7292 20.125H5.27083C4.63542 20.125 4.02603 19.8726 3.57672 19.4233C3.12742 18.974 2.875 18.3646 2.875 17.7292V9.58333H20.125V17.7292C20.125 18.3646 19.8726 18.974 19.4233 19.4233C18.974 19.8726 18.3646 20.125 17.7292 20.125Z" fill="#161179"/>
+                                <path d="M17.7292 1.91667H17.25V1.4375C17.25 1.05625 17.0985 0.690617 16.829 0.421034C16.5594 0.15145 16.1937 0 15.8125 0C15.4313 0 15.0656 0.15145 14.796 0.421034C14.5264 0.690617 14.375 1.05625 14.375 1.4375V1.91667H8.625V1.4375C8.625 1.05625 8.47355 0.690617 8.20397 0.421034C7.93438 0.15145 7.56875 0 7.1875 0C6.80625 0 6.44062 0.15145 6.17103 0.421034C5.90145 0.690617 5.75 1.05625 5.75 1.4375V1.91667H5.27083C3.87292 1.91667 2.53226 2.47199 1.54379 3.46046C0.555318 4.44893 0 5.78959 0 7.1875V17.7292C0 19.1271 0.555318 20.4677 1.54379 21.4562C2.53226 22.4447 3.87292 23 5.27083 23H17.7292C19.1271 23 20.4677 22.4447 21.4562 21.4562C22.4447 20.4677 23 19.1271 23 17.7292V7.1875C23 5.78959 22.4447 4.44893 21.4562 3.46046C20.4677 2.47199 19.1271 1.91667 17.7292 1.91667ZM17.7292 20.125H5.27083C4.63542 20.125 4.02603 19.8726 3.57672 19.4233C3.12742 18.974 2.875 18.3646 2.875 17.7292V9.58333H20.125V17.7292C20.125 18.3646 19.8726 18.974 19.4233 19.4233C18.974 19.8726 18.3646 20.125 17.7292 20.125Z" fill="#ffffff"/>
                             </svg>
 
                             <span>Agendar Vagas</span>
@@ -83,6 +196,17 @@ function TransportRequests() {
                             </svg>
 
                             <span>Pacientes Fixos</span>
+                        </a>
+
+                        <a href="#" className="selected">
+                            <svg width="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7.4525 14.0167C3.19089 14.4019 -0.0558482 18.0029 0.000728186 22.2814V22.4984C0.000728186 23.3268 0.672285 23.9984 1.50068 23.9984C2.32908 23.9984 3.00063 23.3268 3.00063 22.4984V22.2214C2.95554 19.5944 4.89423 17.3542 7.50049 17.0216C10.2516 16.7488 12.7031 18.7579 12.9759 21.509C12.992 21.6717 13.0002 21.835 13.0003 21.9984V22.4984C13.0003 23.3268 13.6719 23.9984 14.5003 23.9984C15.3287 23.9984 16.0002 23.3268 16.0002 22.4984V21.9984C15.9953 17.5753 12.4057 13.9937 7.98264 13.9985C7.80573 13.9987 7.62893 14.0048 7.4525 14.0167Z" fill="#161179"/>
+                                <path d="M8.00055 11.9996C11.3141 11.9996 14.0004 9.3134 14.0004 5.99981C14.0004 2.68623 11.3141 0 8.00055 0C4.68696 0 2.00073 2.68623 2.00073 5.99981C2.00406 9.31204 4.68832 11.9963 8.00055 11.9996ZM8.00055 2.99991C9.65734 2.99991 11.0005 4.34302 11.0005 5.99981C11.0005 7.6566 9.65734 8.99972 8.00055 8.99972C6.34375 8.99972 5.00064 7.6566 5.00064 5.99981C5.00064 4.34302 6.34375 2.99991 8.00055 2.99991Z" fill="#161179"/>
+                                <path d="M22.5002 9.9999H21.0003V8.49995C21.0003 7.67156 20.3287 7 19.5003 7C18.6719 7 18.0004 7.67156 18.0004 8.49995V9.9999H16.5004C15.672 9.9999 15.0005 10.6715 15.0005 11.4999C15.0005 12.3282 15.672 12.9998 16.5004 12.9998H18.0004V14.4998C18.0004 15.3281 18.6719 15.9997 19.5003 15.9997C20.3287 15.9997 21.0003 15.3281 21.0003 14.4998V12.9998H22.5002C23.3286 12.9998 24.0002 12.3282 24.0002 11.4999C24.0002 10.6715 23.3286 9.9999 22.5002 9.9999Z" fill="#161179"/>
+                            </svg>
+
+
+                            <span>Solicitações de Agendamento</span>
                         </a>
 
                         <a href={window.location.origin + "/boletim-transportes.pdf"} target="_blank" rel="noopener noreferrer">
@@ -117,7 +241,7 @@ function TransportRequests() {
                 <div className="transports-container" id="transports-container">
                     <div className="transports-swiper">
                         <div className="transport-element active">
-                            <div className="transport-header">
+                            <div className="transport-header requests">
                                 <div className="logo-wrapper">
                                     <img src={logoNeopolis} alt="Logo Neópolis" />
                                 </div>
@@ -140,36 +264,79 @@ function TransportRequests() {
                                     <tbody>
                                         {
                                             requests.map((request) => (
-                                                <tr className="transport-row">
-                                                    <td className="transport-info start"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: "170px", display: "inline-block" }}>{request.name}</span></td>
-                                                    <td className="transport-info"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: "170px", display: "inline-block" }}>{request.docId}</span></td>
-                                                    <td className="transport-info"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: "170px", display: "inline-block" }}>{request.address}</span></td>
-                                                    <td className="transport-info"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: "170px", display: "inline-block" }}>{request.phone}</span></td>
-                                                    <td className="transport-info"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: "170px", display: "inline-block" }}>{request.destination}</span></td>
-                                                    <td className="transport-info"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: "170px", display: "inline-block" }}>{request.tripDate} - {request.exitTime}</span></td>
-                                                    <td className="transport-info end"><span style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: "170px", display: "inline-block" }}>{request.shedulingDocumentImage}</span></td>
+                                                request.requestStatus === "pending" ? 
+                                                <tr className="transport-row" key={request._id}>
+                                                    <td className="transport-info start">{request.name}</td>
+                                                    <td className="transport-info">{request.docId}</td>
+                                                    <td className="transport-info">{request.address}</td>
+                                                    <td className="transport-info">{request.phone}</td>
+                                                    <td className="transport-info">{request.destination}</td>
+                                                    <td className="transport-info">{request.tripDate} - {request.exitTime}</td>
+                                                    <td className="transport-info end">
+                                                        <button data-image-id={request.shedulingDocumentImage} onClick={toggleSchedulingDocumentContainer}>
+                                                            Clique para exibir
+                                                        </button>
+                                                    </td>
                                                     <td className="transport-actions requests">
-                                                        <button className="sent">
+                                                        <button className="sent" data-request-id={request._id} onClick={handleAcceptRequest}>
                                                             <svg width="20" viewBox="0 0 29 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                 <path d="M21.1182 1.23177L9.38185 12.8838L7.05591 10.4931C6.68281 10.1077 6.2369 9.79909 5.74364 9.58479C5.25039 9.37049 4.71945 9.25474 4.18114 9.24416C3.64283 9.23357 3.10769 9.32836 2.60628 9.52311C2.10487 9.71785 1.647 10.0087 1.25882 10.3792C0.87064 10.7496 0.559748 11.1923 0.343897 11.682C0.128047 12.1717 0.0114642 12.6988 0.000804605 13.2333C-0.0207234 14.3126 0.390504 15.3563 1.14402 16.1346L4.59604 19.7002C5.19447 20.331 5.91368 20.8369 6.71153 21.1882C7.50938 21.5395 8.36983 21.7293 9.24247 21.7463H9.35179C11.0842 21.742 12.745 21.0594 13.9736 19.8468L26.9125 6.99808C27.3041 6.6226 27.6164 6.17346 27.8313 5.67687C28.0462 5.18027 28.1593 4.64616 28.164 4.1057C28.1687 3.56525 28.065 3.02927 27.8588 2.52904C27.6527 2.02881 27.3483 1.57435 26.9633 1.19217C26.5784 0.809999 26.1207 0.507764 25.6168 0.303104C25.113 0.098444 24.5731 -0.00454274 24.0287 0.000153682C23.4844 0.0048501 22.9464 0.117135 22.4462 0.330458C21.946 0.54378 21.4936 0.853867 21.1154 1.24262L21.1182 1.23177Z" fill="white"/>
                                                             </svg>
                                                         </button>
-                                                        <button className="delete">
+                                                        <button className="delete" data-request-id={request._id} onClick={toggleDeclineRequestContainer}>
                                                             <svg width="20" viewBox="0 0 26 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                 <path d="M18.9953 13.5751L24.4983 8.07494C25.2965 7.27674 25.7449 6.19415 25.7449 5.06532C25.7449 3.9365 25.2965 2.85391 24.4983 2.05571C23.7001 1.25751 22.6175 0.809082 21.4886 0.809082C20.3598 0.809082 19.2772 1.25751 18.479 2.05571L12.9789 7.55868L7.47875 2.05571C6.68055 1.25751 5.59796 0.809082 4.46913 0.809082C3.34031 0.809082 2.25772 1.25751 1.45952 2.05571C0.661315 2.85391 0.212891 3.9365 0.212891 5.06532C0.212891 6.19415 0.661315 7.27674 1.45952 8.07494L6.96249 13.5751L1.45952 19.0752C0.661315 19.8734 0.212891 20.956 0.212891 22.0848C0.212891 23.2137 0.661315 24.2963 1.45952 25.0945C2.25772 25.8927 3.34031 26.3411 4.46913 26.3411C5.59796 26.3411 6.68055 25.8927 7.47875 25.0945L12.9789 19.5915L18.479 25.0945C19.2772 25.8927 20.3598 26.3411 21.4886 26.3411C22.6175 26.3411 23.7001 25.8927 24.4983 25.0945C25.2965 24.2963 25.7449 23.2137 25.7449 22.0848C25.7449 20.956 25.2965 19.8734 24.4983 19.0752L18.9953 13.5751Z" fill="#FFFFFF"/>
                                                             </svg>
                                                         </button>
                                                     </td>
                                                 </tr>
+                                                : null
                                             ))
                                         }
-
-                                        
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className="new-exame-container hidden" id="shedulingDocumentContainer">
+                <div className="new-exame-wrapper">
+                    <div className="top-buttons-wrapper">
+                        <button className="back" onClick={toggleSchedulingDocumentContainer}>
+                            Voltar
+                        </button>
+                    </div>
+
+                    <form className="new-exame-info">
+                        <div id="docAgendamento" style={{ maxHeight: "600px", width: "-webkit-fill-available", textAlign: "center" }}>
+                            <img id="schedulingDocumentImage" src={docImageUrl} alt="Documento de agendamento" style={{ maxHeight: "600px", width: "auto" }} />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div className="new-exame-container hidden" id="declineRequestContainer">
+                <div className="new-exame-wrapper">
+                    <div className="top-buttons-wrapper">
+                        <button className="back" onClick={toggleDeclineRequestContainer}>
+                            Voltar
+                        </button>
+                    </div>
+
+                    <form className="new-exame-info" id="declineRequestForm" onSubmit={handleDeclineRequest}>
+                        <div className="form-wrapper">
+                            <span>Informe o motivo da reprovação:</span>
+                            <select name="reason" id="reasonElement" required>
+                                <option value="">Selecione um motivo</option>
+                                <option value="1">Imagem do agendamento não legível</option>
+                                <option value="2">Documento de agendamento inválido</option>
+                                <option value="3">Vagas esgotadas para o carro selecionado</option>
+                            </select>
+                        </div>
+
+                        <button className="reject" type="submit">Reprovar</button>
+                    </form>
                 </div>
             </div>
         </React.Fragment>
