@@ -284,6 +284,8 @@ function TransportsPanel() {
 
             addPatient(transportId, newPatientData)
                 .then(data => {
+                    setNewPatientData({} as Patient);
+
                     transports.forEach(transport => {
                         if (transport._id === transportId) {
                             listTransports(selectedDate.toLocaleDateString())
