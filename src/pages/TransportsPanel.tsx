@@ -177,7 +177,23 @@ function TransportsPanel() {
     }
 
     function toggleNewPatientContainer(event: React.MouseEvent<HTMLButtonElement>) {
-        const container = document.getElementById("newPacientContainer");
+        const container = document.getElementById("newPacientContainer") as HTMLInputElement;
+        const name = document.getElementById("newpatientNameEl") as HTMLInputElement;
+        const address = document.getElementById("newaddressEl") as HTMLInputElement;
+        const docId = document.getElementById("newDocIdEl") as HTMLInputElement;
+        const phone = document.getElementById("newpatientPhoneEl") as HTMLInputElement;
+        const pickupLocation = document.getElementById("newpickupLocationEl") as HTMLInputElement;
+        const destination = document.getElementById("newdestinationEl") as HTMLInputElement;
+
+        if (name) name.value = "";
+        if (address) address.value = "";
+        if (docId) docId.value = "";
+        if (phone) phone.value = "";
+        if (pickupLocation) pickupLocation.value = "";
+        if (destination) destination.value = "";
+
+        setNewPatientData({} as Patient);
+
         if (container) {
             container.classList.toggle("hidden");
             container.dataset.transportId = event.currentTarget.dataset.transportId || "";
@@ -242,14 +258,14 @@ function TransportsPanel() {
     }
 
     function handleNewPatientChange(event: React.ChangeEvent<HTMLInputElement>) {
-        if (event.target.id === "docIdEl"){
-            var cpf = event.target.value;
-            cpf = cpf.replace(/[^\d]/g, "");
-            cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        if (event.target.id === "newDocIdEl"){
+            var docId = event.target.value;
+            docId = docId.replace(/[^\d]/g, "");
+            docId = docId.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 
             setNewPatientData({
                 ...newPatientData,
-                docId: cpf
+                docId: docId
             });
         } else {
             setNewPatientData({
@@ -260,7 +276,7 @@ function TransportsPanel() {
     }
 
     function handleEditPatientChange(event: React.ChangeEvent<HTMLInputElement>) {
-        if (event.target.id === "docIdEl"){
+        if (event.target.id === "editdocIdEl"){
             var cpf = event.target.value;
             cpf = cpf.replace(/[^\d]/g, "");
             cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
@@ -880,29 +896,29 @@ function TransportsPanel() {
                     <form className="new-exame-info" id="newPacientForm" onSubmit={handleNewPatientSubmit}>
                         <div className="form-wrapper">
                             <span>Nome Completo:</span>
-                            <input type="text" name="name" id="patientNameEl" placeholder="Digite o nome do paciente" onChange={handleNewPatientChange} required/>
+                            <input type="text" name="name" id="newpatientNameEl" placeholder="Digite o nome do paciente" onChange={handleNewPatientChange} value={newPatientData.name} required/>
                         </div>
                         <div className="form-wrapper">
                             <span>Endereço:</span>
-                            <input type="text" name="address" id="addressEl" placeholder="Digite o endereço" onChange={handleNewPatientChange} required/>
+                            <input type="text" name="address" id="newaddressEl" placeholder="Digite o endereço" onChange={handleNewPatientChange} value={newPatientData.address} required/>
                         </div>
                         <div className="form-wrapper horizontal">
                             <div>
                                 <span>CPF:</span>
-                                <input type="text" name="docId" id="docIdEl" placeholder="Digite o CPF" onChange={handleNewPatientChange} required value={newPatientData.docId}/>
+                                <input type="text" name="docId" id="newDocIdEl" placeholder="Digite o CPF" onChange={handleNewPatientChange} value={newPatientData.docId} required/>
                             </div>
                             <div>
                                 <span>Telefone:</span>
-                                <input type="text" name="phone" id="patientPhoneEl" placeholder="Ex.: 557988888888" onChange={handleNewPatientChange} required/>
+                                <input type="text" name="phone" id="newpatientPhoneEl" placeholder="Ex.: 557988888888" onChange={handleNewPatientChange} value={newPatientData.phone} required/>
                             </div>
                         </div>
                         <div className="form-wrapper">
                             <span>Pegar em:</span>
-                            <input type="text" name="pickupLocation" id="pickupLocationEl" placeholder="Digite o local de retirada" onChange={handleNewPatientChange} required/>
+                            <input type="text" name="pickupLocation" id="newpickupLocationEl" placeholder="Digite o local de retirada" onChange={handleNewPatientChange} value={newPatientData.pickupLocation} required/>
                         </div>
                         <div className="form-wrapper">
                             <span>Destino:</span>
-                            <input type="text" name="destination" id="destinationEl" placeholder="Digite o destino" onChange={handleNewPatientChange} required/>
+                            <input type="text" name="destination" id="newdestinationEl" placeholder="Digite o destino" onChange={handleNewPatientChange} value={newPatientData.destination} required/>
                         </div>
 
                         <button type="submit">Cadastrar</button>
@@ -918,32 +934,32 @@ function TransportsPanel() {
                         </button>
                     </div>
 
-                    <form className="new-exame-info" id="newPacientForm" onSubmit={editPatientDataSubmit}>
+                    <form className="new-exame-info" id="editPacientForm" onSubmit={editPatientDataSubmit}>
                         <div className="form-wrapper">
                             <span>Nome Completo:</span>
-                            <input type="text" name="name" id="patientNameEl" placeholder="Digite o nome do paciente" onChange={handleEditPatientChange} required value={editPatientData.name}/>
+                            <input type="text" name="name" id="editpatientNameEl" placeholder="Digite o nome do paciente" onChange={handleEditPatientChange} required value={editPatientData.name}/>
                         </div>
                         <div className="form-wrapper">
                             <span>Endereço:</span>
-                            <input type="text" name="address" id="addressEl" placeholder="Digite o endereço" onChange={handleEditPatientChange} required value={editPatientData.address}/>
+                            <input type="text" name="address" id="editaddressEl" placeholder="Digite o endereço" onChange={handleEditPatientChange} required value={editPatientData.address}/>
                         </div>
                         <div className="form-wrapper horizontal">
                             <div>
                                 <span>CPF:</span>
-                                <input type="text" name="docId" id="docIdEl" placeholder="Digite o CPF" onChange={handleEditPatientChange} required value={editPatientData.docId}/>
+                                <input type="text" name="docId" id="editdocIdEl" placeholder="Digite o CPF" onChange={handleEditPatientChange} required value={editPatientData.docId}/>
                             </div>
                             <div>
                                 <span>Telefone:</span>
-                                <input type="text" name="phone" id="patientPhoneEl" placeholder="Ex.: 557988888888" onChange={handleEditPatientChange} required value={editPatientData.phone}/>
+                                <input type="text" name="phone" id="editpatientPhoneEl" placeholder="Ex.: 557988888888" onChange={handleEditPatientChange} required value={editPatientData.phone}/>
                             </div>
                         </div>
                         <div className="form-wrapper">
                             <span>Pegar em:</span>
-                            <input type="text" name="pickupLocation" id="pickupLocationEl" placeholder="Digite o local de retirada" onChange={handleEditPatientChange} required value={editPatientData.pickupLocation}/>
+                            <input type="text" name="pickupLocation" id="editpickupLocationEl" placeholder="Digite o local de retirada" onChange={handleEditPatientChange} required value={editPatientData.pickupLocation}/>
                         </div>
                         <div className="form-wrapper">
                             <span>Destino:</span>
-                            <input type="text" name="destination" id="destinationEl" placeholder="Digite o destino" onChange={handleEditPatientChange} required value={editPatientData.destination}/>
+                            <input type="text" name="destination" id="editdestinationEl" placeholder="Digite o destino" onChange={handleEditPatientChange} required value={editPatientData.destination}/>
                         </div>
 
                         <button type="submit">Atualizar</button>
