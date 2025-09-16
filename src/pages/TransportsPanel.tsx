@@ -204,6 +204,7 @@ function TransportsPanel() {
         const transportId = event.currentTarget.dataset.transportId || "";
         const patientIndex = event.currentTarget.dataset.patientIndex || "";
         const container = document.getElementById("editPatientContainer");
+        
         if (container) {
             container.classList.toggle("hidden");
 
@@ -277,13 +278,13 @@ function TransportsPanel() {
 
     function handleEditPatientChange(event: React.ChangeEvent<HTMLInputElement>) {
         if (event.target.id === "editdocIdEl"){
-            var cpf = event.target.value;
-            cpf = cpf.replace(/[^\d]/g, "");
-            cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            var docId = event.target.value;
+            docId = docId.replace(/[^\d]/g, "");
+            docId = docId.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
 
             setEditPatientData({
-                ...newPatientData,
-                docId: cpf
+                ...editPatientData,
+                docId: docId
             });
         } else {
             setEditPatientData({
