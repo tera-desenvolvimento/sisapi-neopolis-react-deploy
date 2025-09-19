@@ -458,25 +458,25 @@
     justify-content: center;
 }
 
-#newVehicleForm .checkbox-wrapper {
+#newPacientForm .checkbox-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
 }
 
-#newVehicleForm .checkbox-wrapper input[type="checkbox"] {
+#newPacientForm .checkbox-wrapper input[type="checkbox"] {
     display: none;
 }
 
-#newVehicleForm .checkbox-wrapper label {
+#newPacientForm .checkbox-wrapper label {
     font-family: 'Poppins-SemiBold';
     font-size: 12px;
     padding: 5px 10px;
     border-radius: 5px;
 }
 
-#newVehicleForm .checkbox-wrapper input[type="checkbox"]:checked + label {
+#newPacientForm .checkbox-wrapper input[type="checkbox"]:checked + label {
     color: #FFF;
     background-color: #33A100;
 }

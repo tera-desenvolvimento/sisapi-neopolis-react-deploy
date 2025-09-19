@@ -96,6 +96,9 @@ function TransportsPanel() {
     const [editPatientIndex, setEditPatientIndex] = useState(0);
     const [editPatientTransportId, setEditPatientTransportId] = useState("");
 
+    const [newAcompanhanteData, setNewAcompanhanteData] = useState({} as Patient);
+    const [hasAcompanhante, setHasAcompanhante] = useState(false);
+
     if (!loaded) {
         (function loadData() {
             listTransports(selectedDate.toLocaleDateString())
@@ -258,6 +261,10 @@ function TransportsPanel() {
         }
     }
 
+    function handleHasAcompanhante(event: React.ChangeEvent<HTMLInputElement>) {
+        setHasAcompanhante(event.target.checked);
+    }
+
     function handleNewPatientChange(event: React.ChangeEvent<HTMLInputElement>) {
         if (event.target.id === "newDocIdEl"){
             var docId = event.target.value;
@@ -299,24 +306,52 @@ function TransportsPanel() {
         if (event) {
             var transportId = event.currentTarget.parentElement?.parentElement?.dataset.transportId || "";
 
-            addPatient(transportId, newPatientData)
-                .then(data => {
-                    setNewPatientData({} as Patient);
+            if (hasAcompanhante) {
+                addPatient(transportId, newPatientData)
+                    .then(() => {
+                        let acompanhanteData = newPatientData;
+                        acompanhanteData.name = "ACOMPANHANTE";
 
-                    transports.forEach(transport => {
-                        if (transport._id === transportId) {
-                            listTransports(selectedDate.toLocaleDateString())
-                                .then(data => {
-                                    setTransports(data.trips);
+                        addPatient(transportId, acompanhanteData)
+                            .then(data => {
+                                setNewPatientData({} as Patient);
+
+                                transports.forEach(transport => {
+                                    if (transport._id === transportId) {
+                                        listTransports(selectedDate.toLocaleDateString())
+                                            .then(data => {
+                                                setTransports(data.trips);
+                                            });
+                                    }
                                 });
-                        }
-                    });
 
-                    const container = document.getElementById("newPacientContainer");
-                    if (container) {
-                        container.classList.add("hidden");
-                    }
-                })
+                                const container = document.getElementById("newPacientContainer");
+                                if (container) {
+                                    container.classList.add("hidden");
+                                }
+                            })
+                    })
+
+            } else {
+                addPatient(transportId, newPatientData)
+                    .then(data => {
+                        setNewPatientData({} as Patient);
+
+                        transports.forEach(transport => {
+                            if (transport._id === transportId) {
+                                listTransports(selectedDate.toLocaleDateString())
+                                    .then(data => {
+                                        setTransports(data.trips);
+                                    });
+                            }
+                        });
+
+                        const container = document.getElementById("newPacientContainer");
+                        if (container) {
+                            container.classList.add("hidden");
+                        }
+                    })
+            }
         }
     }
 
@@ -920,6 +955,11 @@ function TransportsPanel() {
                         <div className="form-wrapper">
                             <span>Destino:</span>
                             <input type="text" name="destination" id="newdestinationEl" placeholder="Digite o destino" onChange={handleNewPatientChange} value={newPatientData.destination} required/>
+                        </div>
+
+                        <div className="form-wrapper checkbox-wrapper">
+                            <input type="checkbox" id="setAcomp" onChange={handleHasAcompanhante} />
+                            <label htmlFor="setAcomp" className="acompanhante-button">Tem Acompanhante</label>
                         </div>
 
                         <button type="submit">Cadastrar</button>
