@@ -315,6 +315,7 @@ function TransportsPanel() {
                         addPatient(transportId, acompanhanteData)
                             .then(data => {
                                 setNewPatientData({} as Patient);
+                                setHasAcompanhante(false);
 
                                 transports.forEach(transport => {
                                     if (transport._id === transportId) {
