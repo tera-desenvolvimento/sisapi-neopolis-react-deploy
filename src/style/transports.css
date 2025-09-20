@@ -461,12 +461,13 @@
 #newPacientForm .checkbox-wrapper {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 10px;
+    flex-direction: row;
 }
 
 #newPacientForm .checkbox-wrapper input[type="checkbox"] {
-    display: none;
+    width: unset;
 }
 
 #newPacientForm .checkbox-wrapper label {

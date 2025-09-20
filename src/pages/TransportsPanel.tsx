@@ -959,8 +959,8 @@ function TransportsPanel() {
                         </div>
 
                         <div className="form-wrapper checkbox-wrapper">
+                            <label htmlFor="setAcomp" className="acompanhante-label">Paciente com acompanhante</label>
                             <input type="checkbox" id="setAcomp" onChange={handleHasAcompanhante} />
-                            <label htmlFor="setAcomp" className="acompanhante-button">Tem Acompanhante</label>
                         </div>
 
                         <button type="submit">Cadastrar</button>
