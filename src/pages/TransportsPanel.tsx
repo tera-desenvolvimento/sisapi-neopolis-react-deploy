@@ -16,6 +16,7 @@ import removeTransport from "../controllers/transports/removeTransport.controlle
 import removeVehicle from "../controllers/transports/removeVehicle.controller";
 import removeDriver from "../controllers/transports/removeDriver.controller";
 import notifyPatient from "../controllers/transports/notifyPatient.controller";
+import printCoupon from "../controllers/transports/printCoupon.controller";
 
 import logoutIcon from "../img/logout-wt.svg";
 import logoNeopolis from "../img/logo-01.svg";
@@ -34,6 +35,7 @@ type Patient = {
     pickupLocation: string;
     destination: string;
     notified: boolean;
+    printed: boolean;
 }
 
 type Transport = {
@@ -96,7 +98,6 @@ function TransportsPanel() {
     const [editPatientIndex, setEditPatientIndex] = useState(0);
     const [editPatientTransportId, setEditPatientTransportId] = useState("");
 
-    const [newAcompanhanteData, setNewAcompanhanteData] = useState({} as Patient);
     const [hasAcompanhante, setHasAcompanhante] = useState(false);
 
     if (!loaded) {
@@ -556,7 +557,6 @@ function TransportsPanel() {
             });
     }
 
-
     async function handleDeleteVehicle(event: React.MouseEvent<HTMLButtonElement>) {
         const vehicleId = event.currentTarget.dataset.vehicleId || "";
 
@@ -589,12 +589,15 @@ function TransportsPanel() {
         const patientNumber = event.currentTarget.dataset.patientNumber || "";
         const docId = event.currentTarget.dataset.docId;
         const destination = event.currentTarget.dataset.destination || "";
+        const patientIndex = event.currentTarget.dataset.patientIndex || "";
+        
+        console.log(patientIndex);
 
         try {
             await notifyPatient(tripId, patientName, patientNumber, destination);
             const transport = transports.find(transport => transport._id === tripId);
             if (transport) {
-                const patient = transport.patients.find(patient => patient.docId === docId);
+                const patient = transport.patients[patientIndex as unknown as number];
                 if (patient) {
                     patient.notified = true;
                 }
@@ -618,6 +621,43 @@ function TransportsPanel() {
     function toggleMenu() {
         const aside = document.querySelector(".aside-container");
         aside?.classList.toggle("open");
+    }
+
+    async function handlePrintCoupon(event: React.MouseEvent<HTMLButtonElement>) {
+        const tripId = event.currentTarget.dataset.tripId || "";
+        const docId = event.currentTarget.dataset.docId;
+        const paciente = event.currentTarget.dataset.patientName || "";
+        const dataViagem = event.currentTarget.dataset.transportDate || "";
+        const horaViagem = event.currentTarget.dataset.transportHour || "";
+        const destino = event.currentTarget.dataset.destination || "";
+        const motorista = event.currentTarget.dataset.driverName || "";
+        const patientIndex = event.currentTarget.dataset.patientIndex || "";
+
+        await printCoupon(paciente, dataViagem, horaViagem, destino, motorista)
+            .then(response => {
+                if (response && typeof response === "object" && "error" in response && (response as any).error) {
+                    alert("Erro ao imprimir cupom:" + (response as any).error);
+                } else {
+                    const transport = transports.find(transport => transport._id === tripId);
+                    if (transport) {
+                        const patient = transport.patients[patientIndex as unknown as number];
+                        if (patient) {
+                            patient.printed = true;
+                        }
+                    }
+
+                    updateTrip(tripId, {"patients": transport?.patients}).then(()=> {
+                        listTransports(selectedDate.toLocaleDateString())
+                            .then(data => {
+                                setTransports(data.trips);
+                            })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                    })
+                }
+            });
+
     }
 
     return (
@@ -832,7 +872,7 @@ function TransportsPanel() {
                                                                                 <path d="M18.9953 13.5751L24.4983 8.07494C25.2965 7.27674 25.7449 6.19415 25.7449 5.06532C25.7449 3.9365 25.2965 2.85391 24.4983 2.05571C23.7001 1.25751 22.6175 0.809082 21.4886 0.809082C20.3598 0.809082 19.2772 1.25751 18.479 2.05571L12.9789 7.55868L7.47875 2.05571C6.68055 1.25751 5.59796 0.809082 4.46913 0.809082C3.34031 0.809082 2.25772 1.25751 1.45952 2.05571C0.661315 2.85391 0.212891 3.9365 0.212891 5.06532C0.212891 6.19415 0.661315 7.27674 1.45952 8.07494L6.96249 13.5751L1.45952 19.0752C0.661315 19.8734 0.212891 20.956 0.212891 22.0848C0.212891 23.2137 0.661315 24.2963 1.45952 25.0945C2.25772 25.8927 3.34031 26.3411 4.46913 26.3411C5.59796 26.3411 6.68055 25.8927 7.47875 25.0945L12.9789 19.5915L18.479 25.0945C19.2772 25.8927 20.3598 26.3411 21.4886 26.3411C22.6175 26.3411 23.7001 25.8927 24.4983 25.0945C25.2965 24.2963 25.7449 23.2137 25.7449 22.0848C25.7449 20.956 25.2965 19.8734 24.4983 19.0752L18.9953 13.5751Z" fill="#FFFFFF"/>
                                                                             </svg>
                                                                         </button>
-                                                                        <button className={ patient.notified ? "sent" : ""}  data-trip-id={transport._id} data-patient-name={patient.name} data-patient-number={patient.phone} data-doc-id={patient.docId} disabled={patient.notified} data-destination={patient.destination} onClick={handleNotifyPatient}>
+                                                                        <button className={ patient.notified ? "sent" : ""}  data-trip-id={transport._id} data-patient-name={patient.name} data-patient-number={patient.phone} data-doc-id={patient.docId} disabled={patient.notified} data-destination={patient.destination} onClick={handleNotifyPatient} data-patient-index={patientIndex} >
                                                                             {
                                                                                 patient.notified 
                                                                                     ? <svg width="20" viewBox="0 0 29 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -840,6 +880,17 @@ function TransportsPanel() {
                                                                                     </svg>
                                                                                     : <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20">
                                                                                         <path d="M380.9 97.1c-41.9-42-97.7-65.1-157-65.1-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480 117.7 449.1c32.4 17.7 68.9 27 106.1 27l.1 0c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6zM325.1 300.5c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6z" fill="#ffffff"/>
+                                                                                    </svg>
+                                                                            }
+                                                                        </button>
+                                                                        <button id="print" className={ patient.printed ? "sent" : "" } data-trip-id={transport._id} data-doc-id={patient.docId} data-patient-name={patient.name} data-transport-date={transport.date} data-transport-hour={transport.exitTime} data-destination={patient.destination} data-driver-name={(drivers.filter(driver => driver._id === transport.driverId))[0].name} onClick={handlePrintCoupon} data-patient-index={patientIndex} >
+                                                                            {
+                                                                                patient.printed 
+                                                                                    ? <svg width="20" viewBox="0 0 29 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                        <path d="M21.1182 1.23177L9.38185 12.8838L7.05591 10.4931C6.68281 10.1077 6.2369 9.79909 5.74364 9.58479C5.25039 9.37049 4.71945 9.25474 4.18114 9.24416C3.64283 9.23357 3.10769 9.32836 2.60628 9.52311C2.10487 9.71785 1.647 10.0087 1.25882 10.3792C0.87064 10.7496 0.559748 11.1923 0.343897 11.682C0.128047 12.1717 0.0114642 12.6988 0.000804605 13.2333C-0.0207234 14.3126 0.390504 15.3563 1.14402 16.1346L4.59604 19.7002C5.19447 20.331 5.91368 20.8369 6.71153 21.1882C7.50938 21.5395 8.36983 21.7293 9.24247 21.7463H9.35179C11.0842 21.742 12.745 21.0594 13.9736 19.8468L26.9125 6.99808C27.3041 6.6226 27.6164 6.17346 27.8313 5.67687C28.0462 5.18027 28.1593 4.64616 28.164 4.1057C28.1687 3.56525 28.065 3.02927 27.8588 2.52904C27.6527 2.02881 27.3483 1.57435 26.9633 1.19217C26.5784 0.809999 26.1207 0.507764 25.6168 0.303104C25.113 0.098444 24.5731 -0.00454274 24.0287 0.000153682C23.4844 0.0048501 22.9464 0.117135 22.4462 0.330458C21.946 0.54378 21.4936 0.853867 21.1154 1.24262L21.1182 1.23177Z" fill="white"/>
+                                                                                    </svg>
+                                                                                    : <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                        <path d="M7 18H6.2C5.0799 18 4.51984 18 4.09202 17.782C3.71569 17.5903 3.40973 17.2843 3.21799 16.908C3 16.4802 3 15.9201 3 14.8V10.2C3 9.0799 3 8.51984 3.21799 8.09202C3.40973 7.71569 3.71569 7.40973 4.09202 7.21799C4.51984 7 5.0799 7 6.2 7H7M17 18H17.8C18.9201 18 19.4802 18 19.908 17.782C20.2843 17.5903 20.5903 17.2843 20.782 16.908C21 16.4802 21 15.9201 21 14.8V10.2C21 9.07989 21 8.51984 20.782 8.09202C20.5903 7.71569 20.2843 7.40973 19.908 7.21799C19.4802 7 18.9201 7 17.8 7H17M7 11H7.01M17 7V5.4V4.6C17 4.03995 17 3.75992 16.891 3.54601C16.7951 3.35785 16.6422 3.20487 16.454 3.10899C16.2401 3 15.9601 3 15.4 3H8.6C8.03995 3 7.75992 3 7.54601 3.10899C7.35785 3.20487 7.20487 3.35785 7.10899 3.54601C7 3.75992 7 4.03995 7 4.6V5.4V7M17 7H7M8.6 21H15.4C15.9601 21 16.2401 21 16.454 20.891C16.6422 20.7951 16.7951 20.6422 16.891 20.454C17 20.2401 17 19.9601 17 19.4V16.6C17 16.0399 17 15.7599 16.891 15.546C16.7951 15.3578 16.6422 15.2049 16.454 15.109C16.2401 15 15.9601 15 15.4 15H8.6C8.03995 15 7.75992 15 7.54601 15.109C7.35785 15.2049 7.20487 15.3578 7.10899 15.546C7 15.7599 7 16.0399 7 16.6V19.4C7 19.9601 7 20.2401 7.10899 20.454C7.20487 20.6422 7.35785 20.7951 7.54601 20.891C7.75992 21 8.03995 21 8.6 21Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                                                     </svg>
                                                                             }
                                                                         </button>

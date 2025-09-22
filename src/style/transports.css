@@ -385,7 +385,7 @@
     border: 2px solid #DB0000;
 }
 
-.transport-body .transport-table .transport-row button:hover {
+.transport-body .transport-table .transport-row button:hover:not(#print) {
     background-color: #ffffff;
     color: #161179;
     border: 2px solid #161179;
@@ -394,6 +394,19 @@
         fill: #161179;
     }
 }
+
+.transport-body .transport-table .transport-row button:hover {
+    background-color: #ffffff;
+    color: #161179;
+    border: 2px solid #161179;
+
+    path {
+        stroke: #161179;
+    }
+}
+
+
+.transport-body .transport-table .transport-row button:hover 
 
 .transport-body .transport-table .transport-row button.delete:hover {
     background-color: #ffffff;
