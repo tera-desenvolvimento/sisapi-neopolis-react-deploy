@@ -18,6 +18,11 @@ async function printCoupon(paciente: string, dataViagem: string, horaViagem: str
             return {
                 error: "SERVICE_DOESNT_INSTALLED"
             }
+        } else if (error.response?.status === 500){
+            console.warn("Recurso não encontrado (500).");
+            return {
+                error: "PRINTER_WITHOUT_COMUNICATION"
+            }
         } else {
             console.error("Erro da API:", error.response?.status, error.message);
         }
