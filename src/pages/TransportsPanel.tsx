@@ -659,7 +659,7 @@ function TransportsPanel() {
             });
     }
 
-    function returnDriverName(transport: Transport) {
+    async function returnDriverName(transport: Transport) {
         if (transport.driverId) {
             return drivers.filter(driver => driver._id === transport.driverId)[0].name;
         } else {
