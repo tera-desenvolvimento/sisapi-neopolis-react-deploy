@@ -630,40 +630,39 @@ function TransportsPanel() {
         const dataViagem = event.currentTarget.dataset.transportDate || "";
         const horaViagem = event.currentTarget.dataset.transportHour || "";
         const destino = event.currentTarget.dataset.destination || "";
-        const motorista = event.currentTarget.dataset.driverName || "";
+        const driverId = event.currentTarget.dataset.driverId || "";
         const patientIndex = event.currentTarget.dataset.patientIndex || "";
+        var motorista = "";
 
-        await printCoupon(paciente, dataViagem, horaViagem, destino, motorista)
-            .then(response => {
-                if (response && typeof response === "object" && "error" in response && (response as any).error) {
-                    alert("Erro ao imprimir cupom:" + (response as any).error);
-                } else {
-                    const transport = transports.find(transport => transport._id === tripId);
-                    if (transport) {
-                        const patient = transport.patients[patientIndex as unknown as number];
-                        if (patient) {
-                            patient.printed = true;
-                        }
-                    }
-
-                    updateTrip(tripId, {"patients": transport?.patients}).then(()=> {
-                        listTransports(selectedDate.toLocaleDateString())
-                            .then(data => {
-                                setTransports(data.trips);
-                            })
-                        .catch(error => {
-                            console.error(error);
-                        });
-                    })
-                }
-            });
-    }
-
-    async function returnDriverName(transport: Transport) {
-        if (transport.driverId) {
-            return await drivers.filter(driver => driver._id === transport.driverId)[0].name;
+        if (driverId === "vazio") {
+            alert("Escolher motorista primeiro");
         } else {
-            return ""
+            motorista = await drivers.filter(driver => driver._id === driverId)[0].name;
+
+            await printCoupon(paciente, dataViagem, horaViagem, destino, motorista)
+                .then(response => {
+                    if (response && typeof response === "object" && "error" in response && (response as any).error) {
+                        alert("Erro ao imprimir cupom:" + (response as any).error);
+                    } else {
+                        const transport = transports.find(transport => transport._id === tripId);
+                        if (transport) {
+                            const patient = transport.patients[patientIndex as unknown as number];
+                            if (patient) {
+                                patient.printed = true;
+                            }
+                        }
+
+                        updateTrip(tripId, {"patients": transport?.patients}).then(()=> {
+                            listTransports(selectedDate.toLocaleDateString())
+                                .then(data => {
+                                    setTransports(data.trips);
+                                })
+                            .catch(error => {
+                                console.error(error);
+                            });
+                        })
+                    }
+                });
         }
     }
 
@@ -890,7 +889,7 @@ function TransportsPanel() {
                                                                                     </svg>
                                                                             }
                                                                         </button>
-                                                                        <button id="print" className={ patient.printed ? "sent" : "" } data-trip-id={transport._id} data-doc-id={patient.docId} data-patient-name={patient.name} data-transport-date={transport.date} data-transport-hour={transport.exitTime} data-destination={patient.destination} data-driver-name={() => returnDriverName(transport)} onClick={handlePrintCoupon} data-patient-index={patientIndex} >
+                                                                        <button id="print" className={ patient.printed ? "sent" : "" } data-trip-id={transport._id} data-doc-id={patient.docId} data-patient-name={patient.name} data-transport-date={transport.date} data-transport-hour={transport.exitTime} data-destination={patient.destination} data-driver-id={transport.driverId || "vazio"} onClick={handlePrintCoupon} data-patient-index={patientIndex} >
                                                                             {
                                                                                 patient.printed 
                                                                                     ? <svg width="20" viewBox="0 0 29 22" fill="none" xmlns="http://www.w3.org/2000/svg">
