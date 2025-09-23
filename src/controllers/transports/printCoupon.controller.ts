@@ -23,7 +23,11 @@ async function printCoupon(paciente: string, dataViagem: string, horaViagem: str
                 return {
                     error: "PRINTER_WITHOUT_COMUNICATION"
                 }
-            } else {
+            } else if (error.code === "ERR_NETWORK") {
+                return {
+                    error: "AXIOS_REQUEST_ERROR"
+                }
+            } else{
                 console.error("Erro da API:", error);
             }
         } else {
