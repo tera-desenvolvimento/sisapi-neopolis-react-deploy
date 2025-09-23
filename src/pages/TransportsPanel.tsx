@@ -657,7 +657,14 @@ function TransportsPanel() {
                     })
                 }
             });
+    }
 
+    function returnDriverName(transport: Transport) {
+        if (transport.driverId) {
+            return drivers.filter(driver => driver._id === transport.driverId)[0].name;
+        } else {
+            return ""
+        }
     }
 
     return (
@@ -883,7 +890,7 @@ function TransportsPanel() {
                                                                                     </svg>
                                                                             }
                                                                         </button>
-                                                                        <button id="print" className={ patient.printed ? "sent" : "" } data-trip-id={transport._id} data-doc-id={patient.docId} data-patient-name={patient.name} data-transport-date={transport.date} data-transport-hour={transport.exitTime} data-destination={patient.destination} data-driver-name={(drivers.filter(driver => driver._id === transport.driverId))[0].name || ""} onClick={handlePrintCoupon} data-patient-index={patientIndex} >
+                                                                        <button id="print" className={ patient.printed ? "sent" : "" } data-trip-id={transport._id} data-doc-id={patient.docId} data-patient-name={patient.name} data-transport-date={transport.date} data-transport-hour={transport.exitTime} data-destination={patient.destination} data-driver-name={returnDriverName(transport)} onClick={handlePrintCoupon} data-patient-index={patientIndex} >
                                                                             {
                                                                                 patient.printed 
                                                                                     ? <svg width="20" viewBox="0 0 29 22" fill="none" xmlns="http://www.w3.org/2000/svg">
