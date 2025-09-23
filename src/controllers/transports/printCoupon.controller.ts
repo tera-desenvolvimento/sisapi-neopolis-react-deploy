@@ -12,20 +12,20 @@ async function printCoupon(paciente: string, dataViagem: string, horaViagem: str
 
         return response;
     } catch (error) {
-    if (axios.isAxiosError(error)) {
-        if (error.response?.status === 404) {
-            console.warn("Recurso não encontrado (404).");
-            return {
-                error: "SERVICE_DOESNT_INSTALLED"
+        if (axios.isAxiosError(error)) {
+            if (error.response?.status === 404) {
+                console.warn("Recurso não encontrado (404).");
+                return {
+                    error: "SERVICE_DOESNT_INSTALLED"
+                }
+            } else if (error.response?.status === 500){
+                console.warn("Recurso não encontrado (500).");
+                return {
+                    error: "PRINTER_WITHOUT_COMUNICATION"
+                }
+            } else {
+                console.error("Erro da API:", error);
             }
-        } else if (error.response?.status === 500){
-            console.warn("Recurso não encontrado (500).");
-            return {
-                error: "PRINTER_WITHOUT_COMUNICATION"
-            }
-        } else {
-            console.error("Erro da API:", error.response?.status, error.message);
-        }
         } else {
             console.error("Erro inesperado:", error);
         }
