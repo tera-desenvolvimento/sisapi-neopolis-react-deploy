@@ -471,6 +471,11 @@
     justify-content: center;
 }
 
+.swipe-transport-controls .date-element {
+    font-family: 'Poppins-Regular';
+    align-self: center;
+}
+
 #newPacientForm .checkbox-wrapper {
     display: flex;
     align-items: center;
