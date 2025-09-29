@@ -131,6 +131,7 @@
     justify-content: space-between;
     padding: 10px;
     border-bottom: 2px solid #E5E7EB;
+    cursor: pointer;
 }
 
 .main-exames-container .content-container .listing-container .buttons-wrapper .search-wrapper #searchInput {
@@ -140,6 +141,7 @@
     font-family: 'jakarta-light';
     padding: 5px;
     width: 220px;
+    cursor: pointer;
 }
 
 .main-exames-container .content-container .listing-container .buttons-wrapper .search-wrapper svg {
@@ -155,6 +157,7 @@
     color: #FFFFFF;
     cursor: pointer;
     transition: ease-in-out .3s all;
+    cursor: pointer;
 }
 
 .main-exames-container .content-container .listing-container .buttons-wrapper .new-exame-button:hover {
@@ -221,6 +224,7 @@
     background-color: transparent;
     cursor: pointer;
     transition: ease-in-out .2s all;
+    cursor: pointer;
 }
 
 .main-exames-container .content-container .listing-container .exames-table-container .exames-table tbody td.buttons-cell button.edit-button:hover {
@@ -299,6 +303,7 @@
     background-color: #F5F7FA;
     vertical-align: middle;
     transition: ease-in-out .3s all;
+    cursor: pointer;
 }
 
 .exame-form-container .exame-form-wrapper .exame-form-header button:hover {
@@ -393,7 +398,8 @@
     border-radius: 4px;
     color: #6B7280;
     cursor: pointer;
-    transition: ease-in-out .3px all;   
+    transition: ease-in-out .3px all;
+    cursor: pointer;
 }
 
 .exame-form-container .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-type-dropdown button:hover {
@@ -408,6 +414,7 @@
     background-color: #004AB2;
     vertical-align: middle;
     transition: ease-in-out .3s all;
+    cursor: pointer;
 }
 
 .exame-form-container .exame-form-wrapper .exame-form-fields .form-field-wrapper .new-type-button:hover {
@@ -459,6 +466,7 @@
     font-family: "jakarta-regular";
     color: #FFFFFF;
     transition: ease-in-out .3s all;
+    cursor: pointer;
 }
 
 .exame-form-container .exame-form-wrapper .exame-form-fields .form-bottom-wrapper button:hover {
@@ -482,6 +490,7 @@
     font-family: "jakarta-medium";
     color: #FFFFFF;
     transition: ease-in-out .3s all;
+    cursor: pointer;
 }
 
 .exame-form-container .exame-form-wrapper .exame-type-form-header button:hover {
@@ -519,6 +528,7 @@
     cursor: pointer;
     background-color: transparent;
     transition: ease-in-out .3s all;
+    cursor: pointer;
 }
 
 .exame-form-container#create-exame-type .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list .exame-type-element button:hover {
@@ -589,6 +599,7 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    cursor: pointer;
 }
 
 .exame-form-container .remove-wrapper .buttons-wrapper button.delete:hover {
@@ -624,6 +635,7 @@
     justify-content: center;
     align-items: center;
     padding: 10px;
+    cursor: pointer;
     border-radius: 20px;
     position: absolute;
     left: -16px;
