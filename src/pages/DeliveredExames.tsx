@@ -30,7 +30,7 @@ function DeliveredExames() {
         } else {
             listDeliveredExames().then((response) => { setDeliveredExames(response.data); });
         }
-        }
+    }
 
     return (
         <React.Fragment>
@@ -93,7 +93,7 @@ function DeliveredExames() {
                             </div>
 
 
-                            <button className="new-exame-button" onClick={() => window.location.pathname = "/new-exames"}>
+                            <button className="new-exame-button" onClick={() => window.location.pathname = "/exames"}>
                                 Voltar para exames
                             </button>
                         </div>

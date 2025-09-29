@@ -15,6 +15,11 @@ import { removeExame, IRemoveData } from "../controllers/exame/removeExame.contr
 
 import "../style/exames.css";
 
+type modalData = {
+    isError: boolean,
+    message: string
+}
+
 function ExamesPanel() {
     const [asideMenuOpened, setAsideMenuOpened] = useState(false);
     const [exames, setExames] = useState<IExame[]>([]);
@@ -22,6 +27,8 @@ function ExamesPanel() {
     const [queryStringVal, setQueryStringVal] = useState("");
     const [typesDropdownOpen, setTypesDropdownOpen] = useState(false);
     const [type, setType] = useState("");
+    const [isError, setIsError] = useState(false);
+    const [modalErrorOpen, setModalErrorOpen] = useState(false);
 
     const [newExameData, setNewExameData] = useState({} as ICreateExame);
     const [editExameData, setEditExameData] = useState({} as IEditExame);
@@ -103,12 +110,25 @@ function ExamesPanel() {
                 .then((response) => {
                     setExameTypes([...exameTypes, response.data]);
                     exameTypeInput.value = "";
+
+                    handleModalMessage({
+                        isError: false,
+                        message: "Tipo de exame adicionado com sucesso"
+                    })
                 })
                 .catch((error) => {
-                    console.error("Erro ao criar tipo de exame:", error);
+                    handleModalMessage({
+                        isError: true,
+                        message: "Erro ao adicionar um noto tipo de exame"
+                    })
+
+                    console.log(error);
                 });
         } else {
-            console.error("SISAPI: Valor do tipo do exame não pode ser nulo")
+            handleModalMessage({
+                isError: true,
+                message: "Valor do tipo do exame não pode ser nulo"
+            })
         }
     }
 
@@ -157,13 +177,14 @@ function ExamesPanel() {
     function createNewExame() {
         console.log(newExameData);
         if (newExameData.docId === "" || newExameData.patientName === "" || newExameData.patientNumber === "" || newExameData.type === "" || !newExameData.docId || !newExameData.patientName || !newExameData.patientNumber || !newExameData.type) {
-            console.warn("SISAPI: Campos de dados do exame não podem ser nulos");
+            handleModalMessage({
+                isError: true,
+                message: "Preencha todos os dados do exame para continuar"
+            })
         } else {
             createExame(newExameData)
                 .then((response) => {
                         setExames([...exames, response.data]);
-
-                        console.log(newExameData);
 
                         var clearedNewExameData: ICreateExame = {
                             docId: "",
@@ -174,12 +195,22 @@ function ExamesPanel() {
 
                         setType("");
 
+                        handleModalMessage({
+                            isError: false,
+                            message: "Exame criado com sucesso"
+                        })
+
                         setNewExameData(clearedNewExameData);
 
                         toggleCreateExameForm();
                     })
                     .catch((error) => {
-                        console.error("Erro ao criar exame:", error);
+                        handleModalMessage({
+                            isError: true,
+                            message: "Erro ao criar exame"
+                        })
+
+                        console.error(error);
                     });
         }
     }
@@ -239,7 +270,10 @@ function ExamesPanel() {
 
     function updateExame() {
         if (editExameData.docId === "" || editExameData.patientName === "" || editExameData.patientNumber === "" || editExameData.type === "" || editExameData.arrivedDate === ""|| !editExameData.docId || !editExameData.patientName || !editExameData.patientNumber || !editExameData.type || !editExameData.arrivedDate) {
-            console.warn("SISAPI: Campos de dados do exame não podem ser nulos");
+            handleModalMessage({
+                isError: true,
+                message: "Preencha todos os dados do exame para continuar"
+            })
         } else {
             editExame(editExameData)
                 .then(response => {
@@ -252,6 +286,11 @@ function ExamesPanel() {
                             }
                             : exame
                     );
+
+                    handleModalMessage({
+                        isError: false,
+                        message: "Exame alterado com sucesso"
+                    })
 
                     setExames(updatedExames);
                     toggleEditeExame("");
@@ -273,11 +312,25 @@ function ExamesPanel() {
                             return exame;
                         });
                         setExames(updatedExames);
+
+                        handleModalMessage({
+                            isError: false,
+                            message: "Notificação enviada com sucesso"
+                        })
                     } else {
+                        handleModalMessage({
+                            isError: true,
+                            message: "Erro ao notificar paciente"
+                        })
+
                         console.error("Erro ao notificar paciente:", response.message);
                     }
                 })
                 .catch((error) => {
+                    handleModalMessage({
+                        isError: true,
+                        message: "Erro ao notificar paciente"
+                    })
                     console.error("Erro ao notificar paciente:", error);
                 });
         }
@@ -345,19 +398,16 @@ function ExamesPanel() {
     function registerDeliveredExame(event: React.MouseEvent<HTMLButtonElement>) {
         const exameId = event.currentTarget.getAttribute("data-exame-id");
         if (!exameId) {
-            console.error("Exame ID não encontrado no formulário de retirada.");
-            return;
+            handleModalMessage({
+                isError: true,
+                message: "Id de Exame não encontrado no formulário de retirada."
+            })
         }
 
         const retiradaNameInput = document.getElementById("retiradaNameIn") as HTMLInputElement;
         const retiradaDocIdInput = document.getElementById("retiradaCpfIn") as HTMLInputElement;
         const retiradaName = retiradaNameInput.value.trim();
         const retiradaDocId = retiradaDocIdInput.value;
-
-        console.log({
-            retiradaName,
-            retiradaDocId
-        })
 
         if (retiradaName && retiradaDocId) {
             if (exameId) {
@@ -376,12 +426,21 @@ function ExamesPanel() {
                             retiradaNameInput.value = "";
                             retiradaDocIdInput.value = "";
                             document.getElementById("deliver-exame")?.classList.toggle("open");
+
+                            handleModalMessage({
+                                isError: false,
+                                message: "Entrega registrada com sucesso"
+                            })
                         } else {
-                            console.error("Erro ao entregar exame:", response.message);
+                            handleModalMessage({
+                                isError: true,
+                                message: "Erro ao registrar entrega do exame"
+                            })
+                            console.error("Erro ao registrar entrega do exame:", response.message);
                         }
                     })
                     .catch((error) => {
-                        console.error("Erro ao entregar exame:", error);
+                        console.error("Erro ao registrar entrega do exame:", error);
                     });
             }
         }
@@ -399,16 +458,37 @@ function ExamesPanel() {
             .then((response) => {
                 if (response.message) {
                     console.log(response.message);
+                    handleModalMessage({
+                        isError: true,
+                        message: "Erro ao remover exame"
+                    })
                 } else {
                     const updatedExames = exames.filter((exame) => exame.exameId !== removeData.exameId);
                     setExames(updatedExames);
 
                     var exameId = "";
                     setRemoveData({exameId});
+
+                    handleModalMessage({
+                        isError: false,
+                        message: "Exame removido com sucesso"
+                    })
             
                     document.getElementById("remove-exame")?.classList.toggle("open");
                 }
             })
+    }
+
+    function handleModalMessage(data: modalData) {
+        const isError = data.isError;
+        const message = data.message;
+        const messageElement = document.getElementById("warning-message") as HTMLSpanElement;
+
+        setIsError(isError);
+        messageElement.textContent = message;
+        setModalErrorOpen(true);
+
+        setTimeout(() => setModalErrorOpen(false), 10000);
     }
 
     return (
@@ -452,7 +532,6 @@ function ExamesPanel() {
                     <button className={asideMenuOpened ? "close-menu open" : "close-menu"} onClick={() => setAsideMenuOpened(!asideMenuOpened)}>
                         {
                             asideMenuOpened ? <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.70753 2.5375L2.82753 6.4175L6.70753 10.2975C7.09753 10.6875 7.09753 11.3175 6.70753 11.7075C6.31753 12.0975 5.68753 12.0975 5.29753 11.7075L0.707531 7.1175C0.317531 6.7275 0.317531 6.0975 0.707531 5.7075L5.29753 1.1175C5.68753 0.727497 6.31753 0.727497 6.70753 1.1175C7.08753 1.5075 7.09753 2.1475 6.70753 2.5375Z" fill="#333333"/></svg> : <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.2925 9.4625L4.1725 5.5825L0.2925 1.7025C-0.0975 1.3125 -0.0975 0.6825 0.2925 0.2925C0.6825 -0.0975 1.3125 -0.0975 1.7025 0.2925L6.2925 4.8825C6.6825 5.2725 6.6825 5.9025 6.2925 6.2925L1.7025 10.8825C1.3125 11.2725 0.6825 11.2725 0.2925 10.8825C-0.0875 10.4925 -0.0975 9.8525 0.2925 9.4625Z" fill="#333333"/></svg>
-
                         }
                     </button>
                 </div>
@@ -811,6 +890,14 @@ function ExamesPanel() {
                 </div>
             </div>
 
+            <div className={`warning-container ${isError ? "error" : "success" } ${modalErrorOpen ? "open" : ""}`}>
+                <button onClick={() => setModalErrorOpen(false)}>
+                    <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.8925 0.3025C12.5025 -0.0874998 11.8725 -0.0874998 11.4825 0.3025L6.5925 5.1825L1.7025 0.2925C1.3125 -0.0975 0.6825 -0.0975 0.2925 0.2925C-0.0975 0.6825 -0.0975 1.3125 0.2925 1.7025L5.1825 6.5925L0.2925 11.4825C-0.0975 11.8725 -0.0975 12.5025 0.2925 12.8925C0.6825 13.2825 1.3125 13.2825 1.7025 12.8925L6.5925 8.0025L11.4825 12.8925C11.8725 13.2825 12.5025 13.2825 12.8925 12.8925C13.2825 12.5025 13.2825 11.8725 12.8925 11.4825L8.0025 6.5925L12.8925 1.7025C13.2725 1.3225 13.2725 0.6825 12.8925 0.3025Z" fill="#000000"/>
+                    </svg>
+                </button>
+                <span id="warning-message">Dados inválidos</span>
+            </div>
         </React.Fragment>
     )
 }
