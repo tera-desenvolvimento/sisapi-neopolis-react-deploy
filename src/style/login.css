@@ -9,24 +9,27 @@
 /* Right content styling */
 
 .new-login-container .system-logo-wrapper {
-    background-color: #0042C8;
+    background-color: #004AB2;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     text-align: center;
     align-items: center;
     gap: 20px;
     flex-direction: column;
     width: 60%;
+    height: 100%;
+    padding-bottom: 30px;
 }
 
 .new-login-container .system-logo-wrapper span {
-    font-family: 'Poppins-Bold';
-    font-size: 20px;
+    font-family: 'jakarta-semibold';
+    font-size: 12px;
     color: #ffffff;
+    justify-self: flex-end;
 }
 
-.new-login-container .system-logo-wrapper img {
-    height: 70px;
+.new-login-container .system-logo-wrapper svg {
+    height: 120px;
 }
 
 /* Left content styling */
@@ -50,6 +53,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 30px;
 }
 
 .new-login-container .main-wrapper .central-wrapper .city-logo-container span {
@@ -71,10 +75,16 @@
     font-size: 12px;
 }
 
+.new-login-container .main-wrapper .central-wrapper span.title {
+    font-family: 'jakarta-regular';
+    font-size: 24px;
+    color: #333333;
+}
+
 .new-login-container .main-wrapper .central-wrapper small {
-    font-family: 'Poppins-Regular';
+    font-family: 'jakarta-regular';
+    color: #898989;
     font-size: 12px;
-    color: #161179;
 }
 
 .form-container {
@@ -92,8 +102,15 @@
     gap: 5px;
 }
 
-.new-login-container .main-wrapper .central-wrapper .form-wrapper.password-wrapper {
-    align-items: center;
+.new-login-container .main-wrapper .central-wrapper .form-wrapper.column {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper span {
+    font-family: 'jakarta-regular';
+    color: #333333;
+    font-size: 12px;
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper label {
@@ -106,21 +123,25 @@
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper a {
-    font-family: 'Poppins-Regular';
+    font-family: 'jakarta-semibold';
     font-size: 12px;
-    color: #161179;
+    color: #004AB2;
     text-decoration: none;
+}
+
+.new-login-container .main-wrapper .central-wrapper .form-wrapper div {
+    display: flex;
+    width: -webkit-fill-available;
+    align-items: center;
+    justify-content: center;
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper #showOptions {
     width: -webkit-fill-available;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 4px;
     padding: 20px;
-    font-family: 'Poppins-Bold';
-    font-size: 14px;
-    color: #ffffff;
-    background-color: #161179;
+    background-color: #004AB2;
     background-size: 16px;
     display: flex;
     justify-content: space-between;
@@ -129,18 +150,24 @@
     cursor: pointer;
 }
 
+.new-login-container .main-wrapper .central-wrapper .form-wrapper #showOptions span {
+    font-family: 'jakarta-regular';
+    font-size: 14px;
+    color: #ffffff;
+}
+
 .new-login-container .main-wrapper .central-wrapper .form-wrapper #showOptions img {
     height: 12px;
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper .modules-wrapper {
     margin-top: 5px;
-    background-color: #F1F5F8;
+    background-color: #E9EDEF;
     display: flex;
     flex-direction: column;
     gap: 5px;
     padding: 5px;
-    border-radius: 6px;
+    border-radius: 4px;
     width: -webkit-fill-available;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
     position: relative;
@@ -155,12 +182,12 @@
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper .modules-wrapper button {
-    color: #161179;
-    background-color: #F1F5F8;
+    color: #004AB2;
+    background-color: #E9EDEF;
     padding: 10px 20px;
     width: -webkit-fill-available;
     border-radius: 6px;
-    font-family: 'Poppins-Bold';
+    font-family: 'jakarta-regular';
     text-decoration: none;
     align-self: center;
     text-align: start;
@@ -172,7 +199,7 @@
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper .modules-wrapper button:hover {
     color: #ffffff;
-    background-color: #161179;
+    background-color: #246CD2;
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper select:open {
@@ -186,16 +213,16 @@
 .new-login-container .main-wrapper .central-wrapper .form-wrapper input {
     width: -webkit-fill-available;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 4px;
     padding-left: 10px;
     padding-right: 10px;
-    font-family: 'Poppins-Regular';
+    font-family: 'jakarta-regular';
     font-size: 14px;
     background-color: #F1F5F8;
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper input::placeholder {
-    font-family: 'Poppins-Light';
+    font-family: 'jakarta-regular';
     font-size: 12px;
 }
 
@@ -206,43 +233,38 @@
     color: #040845;
 }
 
-.new-login-container .main-wrapper .central-wrapper .form-wrapper.forgot-wrapper a {
-    font-size: 10px;
-}
-
 .new-login-container .main-wrapper .central-wrapper .form-wrapper.button-wrapper {
     padding-top: 30px;
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper.button-wrapper button, .new-login-container .main-wrapper .central-wrapper a.back-button {
-    background-color: #161179;
-    border: 2px solid #161179;
+    background-color: #004AB2;
     color: #ffffff;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-family: 'Poppins-Bold';
+    padding: 10px 70px;
+    border-radius: 4px;
+    font-family: 'jakarta-regular';
     text-decoration: none;
     align-self: center;
     cursor: pointer;
     font-size: 14px;
+    transition: ease-in-out .3s all;
 }
 
-.new-login-container .main-wrapper .central-wrapper .form-wrapper.button-wrapper button:hover, .new-login-container .main-wrapper .central-wrapper a:hover {
-    background-color: #ffffff;
-    color: #161179;
+.new-login-container .main-wrapper .central-wrapper .form-wrapper.button-wrapper button:hover, .new-login-container .main-wrapper .central-wrapper a.back-button:hover {
+    background-color: #246CD2;
 }
 
 .new-login-container .main-wrapper .central-wrapper .form-wrapper .message {
-    font-family: 'Poppins-Regular';
+    font-family: 'jakarta-Regular';
     text-align: center;
     font-size: 12px;
     color: #DB0000;
 }
 
 .new-login-container .main-wrapper .central-wrapper .sent {
-    font-family: 'Poppins-Bold';
+    font-family: 'jakarta-medium';
     font-size: 25px;
-    color: #33A100;
+    color: #898989;
     padding: 40px 0;
 }
 
