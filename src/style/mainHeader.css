@@ -1,0 +1,81 @@
+.main-header-container {
+    background-color: #004AB2;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 1;
+}
+
+.main-header-container .logo-header {
+    height: 45px;
+}
+
+.main-header-container .user-menu-button {
+    padding: 5px 15px;
+    height: fit-content;
+    border-radius: 4px;
+    background-color: #F5F7FA;
+    color: #333333;
+    font-family: "jakarta-medium";
+    align-self: center;
+    transition: ease-in-out .3s all;
+    z-index: 3;
+    cursor: pointer;
+}
+
+.main-header-container .user-menu-button:hover, .main-header-container .user-menu-button.open {
+    background-color: #BCD7FF;
+    color: #004AB2;
+
+}
+
+.logout-menu {
+    display: flex;
+    flex-direction: column;
+    width: 170px;
+    position: fixed;
+    right: 30px;
+    top: -150px;
+    background-color: #ffffff;
+    border: 1px solid #E5E7EB;
+    border-radius: 4px;
+    z-index: 2;
+    padding: 2px;
+    transition: ease-in-out .3s all;
+}
+
+.logout-menu.open {
+    top: 55px;
+}
+
+.logout-menu a {
+    border-radius: 4px;
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    font-family: "jakarta-medium";
+    font-size: 14px;
+    color: #333333;
+    transition: ease-in-out .3s all;
+}
+
+.logout-menu button {
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    font-family: "jakarta-medium";
+    font-size: 14px;
+    color: #EF4444;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: ease-in-out .3s all;
+}
+
+.logout-menu button:hover, .logout-menu a:hover {
+    background-color: #F5F7FA;
+}
+

@@ -5,6 +5,10 @@ body, * {
   box-sizing: border-box;
 }
 
+.hidden {
+  display: none !important;
+}
+
 @font-face {
   font-family: 'Poppins-Black';
   src: url('../fonts/Poppins/Poppins-Black.ttf') format('truetype');
@@ -145,6 +149,22 @@ body, * {
   src: url('../fonts/sf-pro-display/SFPRODISPLAY-ULTRALIGHTITALIC.OTF') format('opentype');
 }
 
-.hidden {
-  display: none !important;
+@font-face {
+  font-family: 'jakarta-regular';
+  src: url('../fonts/plus-jakarta-sans/PlusJakartaSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'jakarta-light';
+  src: url('../fonts/plus-jakarta-sans/PlusJakartaSans-Light.ttf');
+}
+
+@font-face {
+  font-family: 'jakarta-medium';
+  src: url('../fonts/plus-jakarta-sans/PlusJakartaSans-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'jakarta-semibold';
+  src: url('../fonts/plus-jakarta-sans/PlusJakartaSans-SemiBold.ttf');
 }
