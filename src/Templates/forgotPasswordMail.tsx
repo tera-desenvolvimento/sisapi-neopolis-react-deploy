@@ -25,6 +25,10 @@ export const PasswordResetEmail: React.FC<PasswordResetEmailProps> = ({
   docId,
   recoverUrl,
 }) => {
+  var formatedDocId = docId;
+            formatedDocId = formatedDocId.replace(/[^\d]/g, "");
+            formatedDocId = formatedDocId.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+
   return (
     <Html>
       <Head>
@@ -54,10 +58,11 @@ export const PasswordResetEmail: React.FC<PasswordResetEmailProps> = ({
           {/* Conteúdo */}
           <Section style={content}>
             <Text style={title}>Redefinição de senha</Text>
-            <Text style={docIdText}>CPF: {docId}</Text>
+            <Text style={docIdText}>CPF: {formatedDocId}</Text>
 
             <Text style={paragraph}>
               Olá {name},
+              <br />
               <br />
               Recebemos uma solicitação para redefinir a senha da sua conta. Se foi você quem fez esta solicitação, clique no botão abaixo para prosseguir.
             </Text>
@@ -96,6 +101,7 @@ export const PasswordResetEmail: React.FC<PasswordResetEmailProps> = ({
 const main = {
   backgroundColor: "#f9f9f9",
   fontFamily: "'Plus Jakarta Sans', Arial, Helvetica, sans-serif",
+  color: "#777"
 };
 
 const container = {
@@ -118,17 +124,12 @@ const logo = {
   margin: 0,
 } as React.CSSProperties;
 
-const subtitle = {
-  fontWeight: "normal",
-  fontSize: "12px",
-};
-
 const content = {
   padding: "24px",
 };
 
 const title = {
-  fontSize: "20px",
+  fontSize: "24px",
   fontWeight: "bold",
   marginBottom: "8px",
 };
@@ -136,7 +137,7 @@ const title = {
 const docIdText = {
   color: "#0050a0",
   fontWeight: "bold",
-  marginBottom: "16px",
+  marginBottom: "18px",
 };
 
 const paragraph = {

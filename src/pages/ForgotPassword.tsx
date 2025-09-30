@@ -50,8 +50,8 @@ const ForgotPassword = () => {
                         email: email,
                         subject: "Recuperação de Senha - SISAPI",
                         html: RenderForgotPasswordEmail(
-                            "Gustavo P. Santana",
-                            "07569657560",
+                            response.userName,
+                            response.docId,
                             `${window.location.origin}/resetar-senha?token=${response.token}&userId=${response.userId}`
                         )
                     };
