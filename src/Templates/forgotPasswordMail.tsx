@@ -11,6 +11,7 @@ import {
   Img,
   Hr,
   Link,
+  Font,
 } from "@react-email/components";
 
 interface PasswordResetEmailProps {
@@ -26,13 +27,28 @@ export const PasswordResetEmail: React.FC<PasswordResetEmailProps> = ({
 }) => {
   return (
     <Html>
-      <Head />
+      <Head>
+        {/* Import da fonte Plus Jakarta Sans */}
+        <Font
+          fontFamily="Plus Jakarta Sans"
+          fallbackFontFamily="Arial"
+          webFont={{
+            url: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap",
+            format: "woff2",
+          }}
+          fontWeight={400}
+          fontStyle="normal"
+        />
+      </Head>
+
       <Preview>Redefinição de senha - SISAPI</Preview>
       <Body style={main}>
         <Container style={container}>
           {/* Header azul */}
           <Section style={header}>
-            <Text style={logo}><Img src={ window.location.origin + "/mail-logo.png" } width={200}/></Text>
+            <Text style={logo}>
+              <Img src={window.location.origin + "/mail-logo.png"} width={200} />
+            </Text>
           </Section>
 
           {/* Conteúdo */}
@@ -79,7 +95,7 @@ export const PasswordResetEmail: React.FC<PasswordResetEmailProps> = ({
 // 🎨 Estilos inline
 const main = {
   backgroundColor: "#f9f9f9",
-  fontFamily: "Arial, sans-serif",
+  fontFamily: "'Plus Jakarta Sans', Arial, Helvetica, sans-serif",
 };
 
 const container = {
