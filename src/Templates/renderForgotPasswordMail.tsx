@@ -1,6 +1,6 @@
 import { renderEmail } from 'react-html-email';
-import { ForgotPasswordMail } from './forgotPasswordMail';
+import { PasswordResetEmail } from './forgotPasswordMail';
 
 export const RenderForgotPasswordEmail = ( name: string, docId: string, recoverUrl: string ) => {
-    return renderEmail(<ForgotPasswordMail name={name} recoverUrl={recoverUrl} docId={docId} />)
+    return renderEmail(<PasswordResetEmail name={name} recoverUrl={recoverUrl} docId={docId} />)
 }

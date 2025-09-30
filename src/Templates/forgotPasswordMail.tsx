@@ -1,164 +1,158 @@
-import React from "react";
+import * as React from "react";
 import {
-  Email,
-  Item,
-  Span,
-  A,
-  Box,
-  Image,
-} from "react-html-email";
+  Html,
+  Head,
+  Preview,
+  Body,
+  Container,
+  Section,
+  Text,
+  Button,
+  Img,
+  Hr,
+  Link,
+} from "@react-email/components";
 
-interface ForgotPasswordMailProps {
+interface PasswordResetEmailProps {
   name: string;
   docId: string;
   recoverUrl: string;
 }
 
-export const ForgotPasswordMail: React.FC<ForgotPasswordMailProps> = ({
+export const PasswordResetEmail: React.FC<PasswordResetEmailProps> = ({
   name,
   docId,
   recoverUrl,
 }) => {
   return (
-    <Email
-      title="Redefinição de senha - SISAPI"
-      headCSS={`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-        body { font-family: 'Poppins', sans-serif; background-color: #f9f9f9; }
-      `}
-    >
-      {/* Header azul */}
-      <Box style={styles.header}> 
-        <Span style={styles.logo}>
-          <Image src={ window.location.origin + "/mail-logo.png" } width={400}/>
-        </Span>
-      </Box>
+    <Html>
+      <Head />
+      <Preview>Redefinição de senha - SISAPI</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          {/* Header azul */}
+          <Section style={header}>
+            <Text style={logo}><Img src={ window.location.origin + "/mail-logo.png" } width={200}/></Text>
+          </Section>
 
-      {/* Conteúdo */}
-      <Box style={styles.container}>
-        <Item>
-          <Span style={styles.title}>Redefinição de senha</Span>
-        </Item>
-        <Item>
-          <Span style={styles.docId}>CPF: {docId}</Span>
-        </Item>
+          {/* Conteúdo */}
+          <Section style={content}>
+            <Text style={title}>Redefinição de senha</Text>
+            <Text style={docIdText}>CPF: {docId}</Text>
 
-        <Item>
-          <Span style={styles.text}>
-            Olá {name},<br />
-            Recebemos uma solicitação para redefinir a senha da sua conta. Se foi
-            você quem fez esta solicitação, clique no botão abaixo para
-            prosseguir.
-          </Span>
-        </Item>
+            <Text style={paragraph}>
+              Olá {name},
+              <br />
+              Recebemos uma solicitação para redefinir a senha da sua conta. Se foi você quem fez esta solicitação, clique no botão abaixo para prosseguir.
+            </Text>
 
-        <Item align="center">
-          <A href={recoverUrl} style={styles.button}>
-            Redefinir minha senha
-          </A>
-        </Item>
+            <Button style={button} href={recoverUrl}>
+              Redefinir minha senha
+            </Button>
 
-        <Item>
-          <Span style={styles.textSmall}>
-            Caso tenha algum problema ao abrir o link, entre em contato através
-            do nosso suporte clicando{" "}
-            <A href="https://seusite.com/suporte">aqui</A>.
-          </Span>
-        </Item>
+            <Text style={paragraphSmall}>
+              Caso tenha algum problema ao abrir o link, entre em contato através do nosso suporte clicando{" "}
+              <Link href="#">aqui</Link>.
+            </Text>
 
-        <Item>
-          <Span style={styles.textSmall}>
-            Importante: Este email de redefinição é válido por 24 horas. <br />
-            Se você não solicitou a redefinição de senha, pode ignorar este email
-            com segurança.
-          </Span>
-        </Item>
+            <Text style={paragraphSmall}>
+              Importante: Este email de redefinição é válido por 24 horas. <br />
+              Se você não solicitou a redefinição de senha, pode ignorar este email com segurança.
+            </Text>
 
-        <Item>
-          <Span style={styles.textSmall}>
-            Atenção: Esta mensagem é enviada automaticamente pelo sistema, não é
-            necessário respondê-la.
-          </Span>
-        </Item>
+            <Text style={paragraphSmall}>
+              Atenção: Esta mensagem é enviada automaticamente pelo sistema, não é necessário respondê-la.
+            </Text>
 
-        <Item>
-          <Span style={styles.footer}>
-            Você está recebendo esta mensagem porque está cadastrado em nosso
-            sistema <b>SISAPI</b>.
-          </Span>
-        </Item>
-      </Box>
-    </Email>
+            <Hr style={divider} />
+
+            <Text style={footer}>
+              Você está recebendo esta mensagem porque está cadastrado em nosso sistema <b>SISAPI</b>.
+            </Text>
+          </Section>
+        </Container>
+      </Body>
+    </Html>
   );
 };
 
 // 🎨 Estilos inline
-const styles = {
-  header: {
-    backgroundColor: "#0050a0",
-    padding: "16px 24px",
-    bordeRadius: "8px 8px 0 0"
-  },
-  logo: {
-    color: "#fff",
-    fontSize: "20px",
-    fontWeight: "bold",
-    fontFamily: "'Poppins', sans-serif",
-  },
-  subtitle: {
-    fontWeight: "normal",
-    fontSize: "12px",
-  },
-  container: {
-    backgroundColor: "#ffffff",
-    padding: "24px",
-  },
-  title: {
-    fontSize: "20px",
-    fontWeight: "bold",
-    marginBottom: "8px",
-    display: "block",
-    color: "#0050a0",
-    fontFamily: "'Poppins', sans-serif",
-  },
-  docId: {
-    color: "#0050a0",
-    fontWeight: "bold",
-    marginBottom: "16px",
-    display: "block",
-    fontFamily: "'Poppins', sans-serif",
-  },
-  text: {
-    fontSize: "14px",
-    lineHeight: "20px",
-    marginBottom: "20px",
-    display: "block",
-    fontFamily: "'Poppins', sans-serif",
-  },
-  textSmall: {
-    fontSize: "12px",
-    color: "#555",
-    marginBottom: "12px",
-    display: "block",
-    fontFamily: "'Poppins', sans-serif",
-  },
-  button: {
-    backgroundColor: "#0050a0",
-    color: "#fff",
-    padding: "12px 20px",
-    borderRadius: "4px",
-    textDecoration: "none",
-    fontWeight: "bold",
-    display: "inline-block",
-    margin: "20px 0",
-    fontFamily: "'Poppins', sans-serif",
-  },
-  footer: {
-    fontSize: "11px",
-    color: "#777",
-    textAlign: "center" as const,
-    marginTop: "20px",
-    display: "block",
-    fontFamily: "'Poppins', sans-serif",
-  },
+const main = {
+  backgroundColor: "#f9f9f9",
+  fontFamily: "Arial, sans-serif",
+};
+
+const container = {
+  maxWidth: "600px",
+  margin: "0 auto",
+  backgroundColor: "#ffffff",
+  borderRadius: "6px",
+  overflow: "hidden",
+};
+
+const header = {
+  backgroundColor: "#0050a0",
+  padding: "16px 24px",
+};
+
+const logo = {
+  color: "#fff",
+  fontSize: "20px",
+  fontWeight: "bold",
+  margin: 0,
+} as React.CSSProperties;
+
+const subtitle = {
+  fontWeight: "normal",
+  fontSize: "12px",
+};
+
+const content = {
+  padding: "24px",
+};
+
+const title = {
+  fontSize: "20px",
+  fontWeight: "bold",
+  marginBottom: "8px",
+};
+
+const docIdText = {
+  color: "#0050a0",
+  fontWeight: "bold",
+  marginBottom: "16px",
+};
+
+const paragraph = {
+  fontSize: "14px",
+  lineHeight: "20px",
+  marginBottom: "20px",
+};
+
+const paragraphSmall = {
+  fontSize: "12px",
+  color: "#555",
+  marginBottom: "12px",
+};
+
+const button = {
+  backgroundColor: "#0050a0",
+  color: "#fff",
+  padding: "12px 20px",
+  borderRadius: "4px",
+  textDecoration: "none",
+  fontWeight: "bold",
+  display: "inline-block",
+  marginBottom: "20px",
+};
+
+const divider = {
+  borderColor: "#eee",
+  margin: "20px 0",
+};
+
+const footer = {
+  fontSize: "11px",
+  color: "#777",
+  textAlign: "center" as const,
 };
