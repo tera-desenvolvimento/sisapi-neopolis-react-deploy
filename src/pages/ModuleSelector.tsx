@@ -3,7 +3,6 @@ import '../controllers/user/checkSession.controller';
 import { doLogout } from "../controllers/user/authenticate.controller";
 
 import logo01 from "../img/logo-01.svg";
-import sisapiLogoWhite from "../img/sisapi-logo-white.svg";
 import selectArrowImg from "../img/select-arrow.svg";
 import selectArrowOpenImg from "../img/select-arrow-open.svg";
 

@@ -4,6 +4,7 @@ import logo01 from "../img/sms-logo.svg";
 import sisapiLogoWhite from "../img/sisapi-logo-white.svg";
 
 import { requestPasswordRecovery, IRecoverData } from "../controllers/user/requestPasswordRecovery.controller";
+import { RenderForgotPasswordEmail } from "../Templates/renderForgotPasswordMail";
 import { sendEmail, IEmailData } from "../controllers/misc/sendEmail.controller";
 
 type modalData = {
@@ -47,10 +48,12 @@ const ForgotPassword = () => {
                 if (response.token) {
                     const emailData: IEmailData = {
                         email: email,
-                        subject: "Recuperação de Senha - Sisapi",
-                        html: `Olá, para recuperar sua senha, acesse o seguinte link: <br/>
-                        <a href="${window.location.origin}/resetar-senha?token=${response.token}&userId=${response.userId}">Clique aqui para redefinir sua senha</a><br/>
-                        <br>Se você não solicitou essa recuperação, por favor ignore este e-mail.`
+                        subject: "Recuperação de Senha - SISAPI",
+                        html: RenderForgotPasswordEmail(
+                            "Gustavo P. Santana",
+                            "07569657560",
+                            `${window.location.origin}/resetar-senha?token=${response.token}&userId=${response.userId}`
+                        )
                     };
 
                     sendEmail(emailData)
