@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import '../controllers/user/checkSession.controller';
-import { doLogout } from "../controllers/user/authenticate.controller";
+import { doLogout, getCookies } from "../controllers/user/authenticate.controller";
 
 import logo01 from "../img/logo-01.svg";
 import selectArrowImg from "../img/select-arrow.svg";
 import selectArrowOpenImg from "../img/select-arrow-open.svg";
 
+function capitalizeFirstLetter(str: string) {
+  if (typeof str !== 'string' || str.length === 0) {
+    return str; // Handle empty or non-string inputs
+  }
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 const ModuleSelector = () => {
-    const [menuOpened, setMenuOpened] = useState(false);        
+    const [menuOpened, setMenuOpened] = useState(false);      
+    const userData = getCookies("userData");
 
     function handleMenuOpened () {
         setMenuOpened(!menuOpened);
@@ -38,8 +46,15 @@ const ModuleSelector = () => {
                             </div>
                             <div className="form-wrapper">
                                 <div className={menuOpened ? "modules-wrapper opened" : "modules-wrapper" }>
-                                    <button onClick={() => handleModuleSelection("exames")}>Resultados de exames</button>
-                                    <button onClick={() => handleModuleSelection("transportes")}>Transportes</button>
+                                    {
+                                        userData.modules.map((module: string) => (
+                                             <button onClick={() => handleModuleSelection(module)}>
+                                                {
+                                                    module === "exames" ? "Resultados de Exames" : capitalizeFirstLetter(module)
+                                                }
+                                             </button>
+                                        ))
+                                    }
                                 </div>
                             </div>
 

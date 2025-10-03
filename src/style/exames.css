@@ -5,7 +5,7 @@
 .main-exames-container .menu-aside-container {
     max-width: 260px;
     width: fit-content;
-    height: calc(100vh - 65px);
+    height: calc(100vh - 50px);
     border-right: 2px solid #E5E7EB;
     background-color: #FFFFFF;
     position: absolute;
@@ -165,7 +165,7 @@
 }
 
 .main-exames-container .content-container .listing-container .exames-table-container {
-    height: calc(100vh - 255px);
+    height: calc(100vh - 240px);
     overflow-y: scroll;
     scrollbar-width: thin;
 }
@@ -404,6 +404,27 @@
     display: flex;
 }
 
+.exame-form-container .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-type-dropdown .opt-group {
+    font-family: "jakarta-regular";
+    background-color: transparent;
+    text-align: left;
+    padding: 10px;
+    border-radius: 4px;
+    color: #6B7280;
+    transition: ease-in-out .3px all;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.exame-form-container .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-type-dropdown .opt-group:hover {
+    background-color: #DBEAFE;
+}
+
+.exame-form-container .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-type-dropdown .opt-group label {
+    width: -webkit-fill-available;
+}
+
 .exame-form-container .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-type-dropdown button {
     font-family: "jakarta-regular";
     background-color: transparent;
@@ -436,7 +457,7 @@
     border: 1px solid #246CD2   ;
 }
 
-.exame-form-container .exame-form-wrapper .exame-form-fields .form-field-wrapper input {
+.exame-form-container .exame-form-wrapper .exame-form-fields .form-field-wrapper input:not([type="checkbox"]) {
      width: -webkit-fill-available;
     display: flex;
     justify-content: space-between;

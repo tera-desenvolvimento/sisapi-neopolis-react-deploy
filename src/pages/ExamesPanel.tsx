@@ -539,7 +539,7 @@ function ExamesPanel() {
                 <div className="content-container">
                     <div className="sub-header">
                         <b>Exames</b>
-                        <span>Aqui você visualizar a lista de exames cadastrados disponíveis para ser retirados.</span>
+                        <span>Aqui você visualiza a lista de exames cadastrados disponíveis para ser retirados.</span>
                     </div>
                     <div className="listing-container">
                         <div className="buttons-wrapper">
