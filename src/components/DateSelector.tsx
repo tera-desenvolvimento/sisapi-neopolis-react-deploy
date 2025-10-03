@@ -21,9 +21,10 @@ registerLocale('pt-BR', ptBR);
 type DateSelectorProps = {
   value: Date;
   onChange: (date: Date) => void;
+  visible: boolean;
 };
 
-function DateSelector({ value, onChange }: DateSelectorProps) {
+function DateSelector({ value, onChange, visible }: DateSelectorProps) {
     const actualDate = new Date();
     actualDate.setHours(actualDate.getHours()); // Reset time to midnight
     
@@ -44,18 +45,13 @@ function DateSelector({ value, onChange }: DateSelectorProps) {
     ];
 
     return (
-        <div className="date-picker-container">
+        <div className={`date-picker-container ${!visible ? "hidden" : ""}`}>
             <DatePicker
                 renderCustomHeader={({ date, changeYear, changeMonth, decreaseMonth, increaseMonth, prevMonthButtonDisabled, nextMonthButtonDisabled }) => {
                     return (
                         <div style={{ margin: 10, display: "flex", justifyContent: "center", gap: "10px", alignItems: "center" }}>
-                            <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} style={{ borderRadius: "50%", backgroundColor: "#FFF", boxShadow: "0 1px 1px 0 rgba(0, 14, 51, 0.05)", width: "30px", height: "30px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M13.8818 20.5586C12.6565 18.108 10.8006 16.2411 9.21875 14.9756C8.43239 14.3465 7.72561 13.8758 7.21973 13.5645C6.96738 13.4092 6.76598 13.2943 6.63086 13.2197C6.56331 13.1825 6.51175 13.1556 6.47949 13.1387C6.46343 13.1302 6.45186 13.1235 6.44531 13.1201C6.44369 13.1193 6.44238 13.1187 6.44141 13.1182L6.44141 10.8828C6.44241 10.8823 6.44346 10.8808 6.44531 10.8799C6.45181 10.8766 6.46362 10.8706 6.47949 10.8623C6.51175 10.8454 6.56331 10.8175 6.63086 10.7803C6.76598 10.7057 6.96739 10.5908 7.21973 10.4355C7.72571 10.1242 8.43221 9.65268 9.21875 9.02344C10.8007 7.75785 12.6565 5.8912 13.8818 3.44043L15 4L16.1182 4.55859C14.677 7.44107 12.5325 9.57446 10.7812 10.9756C10.2846 11.3729 9.81461 11.7139 9.39648 12C9.8146 12.2861 10.2847 12.6262 10.7812 13.0234C12.5326 14.4245 14.6769 16.5587 16.1182 19.4414L13.8818 20.5586Z" fill="black"/>
-                                </svg>
-                            </button>
 
-                            <select value={months[getMonth(date)]} onChange={({ target: { value } }) => changeMonth(months.indexOf(value))} style={{ height: 30 ,borderRadius: "6px", boxShadow: "0 1px 1px 0 rgba(0, 14, 51, 0.05)", textAlign: "center", fontFamily: "Poppins-Bold", fontSize: "13px", fontStyle: "normal", fontWeight: 700, lineHeight: "100%", letterSpacing: "-0.24px", background: `url(${arrowImg}) no-repeat right 5px center`, appearance: 'none', padding: '5px', paddingRight: '10px', backgroundColor: "#FFF" }}>
+                            <select value={months[getMonth(date)]} onChange={({ target: { value } }) => changeMonth(months.indexOf(value))} style={{ height: 30 ,borderRadius: "6px", boxShadow: "0 1px 1px 0 rgba(0, 14, 51, 0.05)", textAlign: "center", fontFamily: "jakarta-regular", fontSize: "13px", fontStyle: "normal", fontWeight: 700, lineHeight: "100%", letterSpacing: "-0.24px", backgroundColor: "#F5F7FA", border: "1px solid #E5E7EB", padding: '5px', paddingRight: '10px', cursor: "pointer" }}>
                                 {months.map((option) => (
                                     <option key={option} value={option}>
                                         {option}
@@ -63,17 +59,22 @@ function DateSelector({ value, onChange }: DateSelectorProps) {
                                 ))}
                             </select>
 
-                            <select value={getYear(date)} onChange={({ target: { value } }) => changeYear(Number(value))} style={{ height: 30, borderRadius: "6px", boxShadow: "0 1px 1px 0 rgba(0, 14, 51, 0.05)", textAlign: "center", fontFamily: "Poppins-Bold", fontSize: "13px", fontStyle: "normal", fontWeight: 700, lineHeight: "100%", letterSpacing: "-0.24px", background: `url(${arrowImg}) no-repeat right 5px center`, appearance: 'none', padding: '5px', paddingRight: '10px', backgroundColor: "#FFF" }}>
+                            <select value={getYear(date)} onChange={({ target: { value } }) => changeYear(Number(value))} style={{ height: 30, borderRadius: "6px", boxShadow: "0 1px 1px 0 rgba(0, 14, 51, 0.05)", textAlign: "center", fontFamily: "jakarta-regular", fontSize: "13px", fontStyle: "normal", fontWeight: 700, lineHeight: "100%", letterSpacing: "-0.24px", backgroundColor: "#F5F7FA", border: "1px solid #E5E7EB", padding: '5px', paddingRight: '10px', cursor: "pointer" }}>
                                 {years.map((option) => (
                                     <option key={option} value={option}>
                                         {option}
                                     </option>
                                 ))}
                             </select>
+                            <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} style={{ height: 30 ,borderRadius: "6px", boxShadow: "0 1px 1px 0 rgba(0, 14, 51, 0.05)", textAlign: "center", fontFamily: "jakarta-regular", fontSize: "13px", fontStyle: "normal", fontWeight: 700, lineHeight: "100%", letterSpacing: "-0.24px", backgroundColor: "#F5F7FA", border: "1px solid #E5E7EB", padding: '5px 10px', cursor: "pointer"}}>
+                                <svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.14055 0.684156C4.84536 0.388973 4.36853 0.388973 4.07334 0.684156L0.599257 4.15824C0.304073 4.45343 0.304073 4.93026 0.599257 5.22545L4.07334 8.69953C4.36853 8.99472 4.84536 8.99472 5.14055 8.69953C5.43573 8.40435 5.43573 7.92751 5.14055 7.63233L2.20385 4.68806L5.14055 1.75136C5.43573 1.45618 5.42816 0.971771 5.14055 0.684156Z" fill="#323232"/>
+                                </svg>
+                            </button>
 
-                            <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} style={{ borderRadius: "50%", backgroundColor: "#FFF", boxShadow: "0 1px 1px 0 rgba(0, 14, 51, 0.05)", width: "30px", height: "30px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10.1182 20.5586C11.3435 18.108 13.1994 16.2411 14.7813 14.9756C15.5676 14.3465 16.2744 13.8758 16.7803 13.5645C17.0326 13.4092 17.234 13.2943 17.3691 13.2197C17.4367 13.1825 17.4883 13.1556 17.5205 13.1387C17.5366 13.1302 17.5481 13.1235 17.5547 13.1201C17.5563 13.1193 17.5576 13.1187 17.5586 13.1182L17.5586 10.8828C17.5576 10.8823 17.5565 10.8808 17.5547 10.8799C17.5482 10.8766 17.5364 10.8706 17.5205 10.8623C17.4883 10.8454 17.4367 10.8175 17.3691 10.7803C17.234 10.7057 17.0326 10.5908 16.7803 10.4355C16.2743 10.1242 15.5678 9.65268 14.7813 9.02344C13.1993 7.75785 11.3435 5.8912 10.1182 3.44043L9 4L7.88184 4.55859C9.32303 7.44107 11.4675 9.57446 13.2188 10.9756C13.7154 11.3729 14.1854 11.7139 14.6035 12C14.1854 12.2861 13.7153 12.6262 13.2188 13.0234C11.4674 14.4245 9.32315 16.5587 7.88184 19.4414L10.1182 20.5586Z" fill="black"/>
+                            <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} style={{ height: 30 ,borderRadius: "6px", boxShadow: "0 1px 1px 0 rgba(0, 14, 51, 0.05)", textAlign: "center", fontFamily: "jakarta-regular", fontSize: "13px", fontStyle: "normal", fontWeight: 700, lineHeight: "100%", letterSpacing: "-0.24px", backgroundColor: "#F5F7FA", border: "1px solid #E5E7EB", padding: '5px 10px', cursor: "pointer"}}>
+                                <svg width="6" height="9" viewBox="0 0 6 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0.75545 8.3239C1.05063 8.61908 1.52747 8.61908 1.82265 8.3239L5.29674 4.84981C5.59192 4.55463 5.59192 4.07779 5.29674 3.78261L1.82265 0.308524C1.52747 0.0133413 1.05063 0.0133413 0.755449 0.308525C0.460265 0.603709 0.460265 1.08054 0.755449 1.37573L3.69215 4.32L0.75545 7.2567C0.460266 7.55188 0.467834 8.03629 0.75545 8.3239Z" fill="#323232"/>
                                 </svg>
                             </button>
                         </div>

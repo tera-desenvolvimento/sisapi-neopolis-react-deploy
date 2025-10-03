@@ -1,0 +1,515 @@
+.main-transports-container {
+    display: flex;
+}
+
+.main-transports-container .menu-aside-container {
+    width: 62px;
+    height: calc(100vh - 50px);
+    border-right: 2px solid #E5E7EB;
+    background-color: #FFFFFF;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 10;
+}
+
+.main-transports-container .menu-aside-container.open {
+    width: 295px;
+}
+
+.main-transports-container .menu-aside-container .support-wrapper {
+    height: 100px;
+    border-top: 2px solid #E5E7EB;
+    padding: 5px;
+}
+
+.main-transports-container .menu-aside-container .menu-wrapper {
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.main-transports-container .menu-aside-container .menu-item a {
+    font-family: 'jakarta-medium';
+    font-size: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    text-decoration: none;
+    color: #333333;
+    padding: 10px;
+    border-radius: 4px;
+    transition: ease-in-out .3s all;
+}
+
+.main-transports-container .menu-aside-container .menu-item a:hover, .main-transports-container .menu-aside-container .menu-item.selected {
+    background: #F3F4F6;
+    color: #004AB2;
+    border-radius: 4px;
+
+    path {
+        fill: #004AB2;
+    }
+}
+
+.main-transports-container .menu-aside-container .menu-item a span {
+    display: none;
+}
+
+.main-transports-container .menu-aside-container.open .menu-item a span {
+    display: block;
+}
+
+.main-transports-container .menu-aside-container .close-menu {
+    position: absolute;    
+    margin-top: 8px;
+    height: 30px;
+    width: 30px;
+    border: 1.5px solid #E5E7EB;
+    background-color: #FFFFFF;
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-transports-container .menu-aside-container .close-menu.open {
+    left: 280px;
+}
+
+.main-transports-container .menu-aside-container .close-menu {
+    left: 46px;
+}
+
+.main-transports-container .menu-aside-container .close-menu:hover {
+    border: 1.5px solid #E5E7EB;
+    background-color: #BCD7FF;
+
+    path {
+        fill: #004AB2;
+    }
+}
+
+.main-transports-container .content-container {
+    background-color: #F5F7FA;
+    margin-left: 62px;
+    z-index: 1;
+    width: -webkit-fill-available;
+    height: calc(100vh - 50px);
+}
+
+.main-transports-container .content-container .sub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 5px;    
+    padding: 10px 20px;
+    border-bottom: 2px solid #E5E7EB;
+    background-color: #FFFFFF;
+}
+
+.main-transports-container .content-container .sub-header .separator.date {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.main-transports-container .content-container .sub-header button {
+    padding: 7px 17px;
+    border-radius: 4px;
+    background-color: #004AB2;
+    font-family: "jakarta-medium";
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: ease-in-out .3s all;
+    cursor: pointer;
+}
+
+.main-transports-container .content-container .sub-header button:hover {
+    background-color: #246CD2;
+}
+
+.main-transports-container .content-container .sub-header .sub-category {
+ display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.main-transports-container .content-container .sub-header .sub-category svg {
+    position: relative;
+    margin-bottom: -3px;
+}
+
+.main-transports-container .content-container .sub-header b {
+    font-family: 'jakarta-medium';  
+    font-size: 20   px;
+    color: #333333;
+}
+
+.main-transports-container .content-container .sub-header b:first-child {
+    color: #6B7280;
+}
+
+.main-transports-container .content-container .sub-header span {
+    font-family: 'jakarta-light';  
+    font-size: 14px;
+    color: #6B7280;
+}
+
+.main-transports-container .content-container .transports-swiper {
+    display: flex;
+    width: -webkit-fill-available;
+    height: max-content;
+}
+
+.main-transports-container .content-container .transports-swiper.list {
+    flex-direction: column;
+    height: 82vh;
+    overflow-y: scroll;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container {
+    margin: 20px;
+    border-radius: 8px;
+    border: 2px solid #E5E7EB;
+    background: #FFFFFF;
+    width: -webkit-fill-available;
+}
+
+.main-transports-container .content-container .transports-swiper.list .listing-container {
+    margin-bottom: 5px;
+}
+
+.main-transports-container .content-container .transports-swiper.list .transport-buttons-container {
+    margin: 0 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-transports-container .content-container .transports-swiper.list .transport-buttons-container button {
+    padding: 12px 20px;
+    border-radius: 4px;
+    background-color: #004AB2;
+    font-family: "jakarta-medium";
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: ease-in-out .3s all;
+    cursor: pointer;
+}
+
+.main-transports-container .content-container .transports-swiper.list .transport-buttons-container button:hover {
+    background-color: #246CD2;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container.transport{
+    display: none;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container.transport.active {
+    display: block;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container.new.active {
+    display: flex;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container.new {
+    height: calc(100vh - 210px);
+    border: unset;
+    background: unset;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container.new span.destaque {
+    font-family: "jakarta-medium";
+    font-size: 40px;
+    color: #6B7280;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container.new button {
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #004AB2;
+    font-family: "jakarta-medium";
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: ease-in-out .3s all;
+    cursor: pointer;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container.new button:hover {
+    background-color: #246CD2;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .buttons-wrapper {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 2px solid #E5E7EB;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .buttons-wrapper .separator {
+    display: flex;
+    gap: 10px;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .buttons-wrapper .separator .select-wrapper span {
+    font-family: "jakarta-light";
+    font-size: 12px;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .buttons-wrapper .separator .select-wrapper div {
+    display: flex;
+    gap: 5px;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .buttons-wrapper .separator .select-wrapper div button {
+    width: 29px;
+    height: 29px;
+    border-radius: 4px;
+    background-color: #004AB2;
+    cursor: pointer;
+    transition: ease-in-out .2s all;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .buttons-wrapper .separator .select-wrapper div button:hover {
+    background-color: #246CD2;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .buttons-wrapper select {
+    border-radius: 4px;
+    border: 1px solid #E5E7EB;
+    background-color: #F5F7FA;
+    font-family: 'jakarta-light';
+    font-size: 12px;
+    padding: 5px;
+    width: 220px;
+    cursor: pointer;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container {
+    height: calc(100vh - 280px);
+    overflow-y: scroll;
+    scrollbar-width: thin;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table {
+    width: -webkit-fill-available;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.main-transports-container .content-container .transports-swiper.list .listing-container .transport-table-container {
+    height: 225px;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table thead {
+    border-bottom: 2px solid #E5E7EB;
+    background-color: #F5F7FA;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table thead th {
+    font-family: "jakarta-medium";
+    text-align: start;
+    padding: 8px;
+    color: #6B7280;
+    font-size: 12px;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody tr {
+    transition: ease-in-out .2s all;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody tr:not(:last-child) {
+    border-bottom: 2px solid #E5E7EB;
+}   
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody td {
+    padding: 3px 10px;
+    font-family: "jakarta-medium";
+    font-size: 12px;
+    color: #333333;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container.requests .transport-table-container .exames-table tbody td button.show-doc {
+    padding: 8px 25px;
+    border-radius: 4px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background-color: #004AB2;
+    font-family: "jakarta-medium";
+    color: #FFFFFF;
+    transition: ease-in-out .3s all;
+    cursor: pointer;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container.requests .transport-table-container .exames-table tbody td button.show-doc:hover {
+    background-color: #246CD2;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody tr:hover {
+    background-color: #F5F7FA;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody td.buttons-cell {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody td.buttons-cell.add-patient-row {
+    flex-direction: row-reverse;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody td.buttons-cell button {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: ease-in-out .2s all;
+    cursor: pointer;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody td.buttons-cell.add-patient-row button {
+    background-color: #004AB2;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody td.buttons-cell.add-patient-row button:hover {
+    background-color: #246CD2;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody td.buttons-cell button.edit-button:hover {
+    background-color: #EBF1F8;
+
+    path {
+        fill: #004AB2;
+    }
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody td.buttons-cell button.wpp-button:hover {
+    background-color: #EEFFF1;
+
+    path {
+        fill: #1BD742;
+    }
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody td.buttons-cell button.remove-button:hover {
+    background-color: #F7F0F2;
+}
+
+.main-transports-container .content-container .transports-swiper .listing-container .transport-table-container .exames-table tbody td.buttons-cell button.print-button:hover {
+    background-color: #EBF1F8;
+
+    path {
+        fill: #004AB2;
+    }
+}
+
+.main-transports-container .content-container .controls-container {
+    display: flex;
+    justify-content: space-between;
+    width: -webkit-fill-available;
+    padding-left: 20px;
+    padding-right: 20px;
+    gap: 10px;
+}
+
+.main-transports-container .content-container .controls-container.fixed {
+    justify-content: flex-end;
+    padding-top: 10px;
+}
+
+.main-transports-container .content-container .controls-container .separator {
+    display: flex;
+    gap: 10px;
+}
+
+.main-transports-container .content-container .controls-container .swipe-controls-container {
+    display: flex;
+    gap: 10px;
+}
+
+.main-transports-container .content-container .controls-container .swipe-controls-container button {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: ease-in-out .2s all;
+    cursor: pointer;
+    background-color: #004AB2;
+}
+
+.main-transports-container .content-container .controls-container .add-transport {
+    padding: 10px 20px;
+    border-radius: 4px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background-color: #004AB2;
+    font-family: "jakarta-medium";
+    color: #FFFFFF;
+    transition: ease-in-out .3s all;
+    cursor: pointer;
+}
+
+.main-transports-container .content-container .controls-container .swipe-controls-container button:hover, .main-transports-container .content-container .controls-container .add-transport:hover {
+    background-color: #246CD2;
+}
+
+.main-transports-container .content-container .controls-container .remove-transport {
+    height: 40px;
+    padding: 12px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: #F04F4F;
+    font-family: "jakarta-medium";
+    color: #ffffff;
+    transition: ease-in-out .2s all;
+}
+
+.main-transports-container .content-container .controls-container .remove-transport:hover {
+    background-color: #FFDDDD;
+    color: #F04F4F;
+}
+
+.main-transports-container .content-container .controls-container .print-transport {
+    height: 40px;
+    padding: 12px 35px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: #004AB2;
+    font-family: "jakarta-medium";
+    color: #ffffff;
+    transition: ease-in-out .2s all;
+    justify-self: flex-end;
+}
+
+.main-transports-container .content-container .controls-container .print-transport:hover {
+    background-color: #246CD2;
+}
+
+
+@media (max-width: 1280px) {
+    .main-transports-container .content-container .transports-swiper .listing-container .buttons-wrapper select {
+        width: unset;
+    }
+
+    .main-transports-container .content-container .transports-swiper.list {
+        height: calc(75vh - 10px);
+        margin-bottom: 10px;
+    }
+}

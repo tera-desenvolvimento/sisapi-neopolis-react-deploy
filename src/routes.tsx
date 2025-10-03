@@ -9,7 +9,7 @@ import DeliveredExames from "./pages/DeliveredExames";
 import MailSent from "./pages/MailSent";
 import TransportsPanel from "./pages/TransportsPanel";
 import PrintTransport from "./pages/PrintTransport";
-import FixedTransports from "./pages/FixedTransports";
+import FixedTransports from "./pages/FixedTransposts";
 import PrintFixedTransport from "./pages/PrintFixedTransport";
 import TransportRequests from "./pages/TransportRequests";
 

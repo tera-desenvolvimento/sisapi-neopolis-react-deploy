@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import logo01 from "../img/sms-logo.svg";
-import sisapiLogoWhite from "../img/sisapi-logo-white.svg";
 
 import { requestPasswordRecovery, IRecoverData } from "../controllers/user/requestPasswordRecovery.controller";
 import { RenderForgotPasswordEmail } from "../Templates/renderForgotPasswordMail";

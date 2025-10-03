@@ -357,6 +357,20 @@
     gap: 10px;
 }
 
+.exame-form-container .exame-form-wrapper .exame-form-fields .form-field-wrapper .select-wrapper select {
+    width: -webkit-fill-available;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #D9D9D9;
+    background: #F5F7FA;
+    font-family: "jakarta-regular";
+    color: #6B7280;
+    cursor: pointer;
+}
+
 .exame-form-container .exame-form-wrapper .exame-form-fields .form-field-wrapper .select-wrapper .exame-type-select {
     width: -webkit-fill-available;
     display: flex;
@@ -497,23 +511,24 @@
     background-color: #246CD2;
 }
 
-.exame-form-container#create-exame-type .exame-form-wrapper .exame-form-fields .form-field-wrapper div {
+.exame-form-container#create-exame-type .exame-form-wrapper .exame-form-fields .form-field-wrapper div, .exame-form-container.transport .exame-form-wrapper .exame-form-fields .form-field-wrapper div {
     display: flex;
     gap: 10px;
 }
 
-.exame-form-container#create-exame-type .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list {
+.exame-form-container#create-exame-type .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list, .exame-form-container.transport .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list {
     border-radius: 4px;
     border: 1px solid #D9D9D9;
     background-color: #F5F7FA;
     display: flex;
     gap: 0;
     flex-direction: column;
-    height: 250px;
+    height: 210px;
     overflow-y: scroll;
+    scrollbar-width: thin;
 }
 
-.exame-form-container#create-exame-type .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list .exame-type-element {
+.exame-form-container#create-exame-type .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list .exame-type-element, .exame-form-container.transport .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list .exame-type-element {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #E5E7EB;
@@ -521,7 +536,7 @@
     color: #6B7280;
 }
 
-.exame-form-container#create-exame-type .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list .exame-type-element button {
+.exame-form-container#create-exame-type .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list .exame-type-element button, .exame-form-container.transport .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list .exame-type-element button {
     width: 24px;
     height: 24px;
     border-radius: 3px;
@@ -531,7 +546,7 @@
     cursor: pointer;
 }
 
-.exame-form-container#create-exame-type .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list .exame-type-element button:hover {
+.exame-form-container#create-exame-type .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list .exame-type-element button:hover, .exame-form-container.transport .exame-form-wrapper .exame-form-fields .form-field-wrapper .exame-types-list .exame-type-element button:hover {
     background-color: #F7F0F2;
 }
 
