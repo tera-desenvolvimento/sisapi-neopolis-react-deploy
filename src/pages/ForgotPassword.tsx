@@ -18,7 +18,11 @@ const ForgotPassword = () => {
     const [modalErrorOpen, setModalErrorOpen] = useState(false);
 
     function handleDocIdChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setDocId(event.target.value);
+        var docIdVal = event.target.value;
+            docIdVal = docIdVal.replace(/[^\d]/g, "");
+            docIdVal = docIdVal.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            
+        setDocId(docIdVal);
     }
 
     function handleEmailChange(event: React.ChangeEvent<HTMLInputElement>) {
