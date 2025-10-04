@@ -4,6 +4,7 @@ import MainHeader from "../components/MainHeader";
 
 import listUsers, { IResponse, IUser } from "../controllers/user/listUsers.controller";
 import createUser, { ICreateData } from "../controllers/user/createUser.controller";
+import updateUser, { IUpdateUserData } from "../controllers/user/updateUser.controller";
 
 type modalData = {
     isError: boolean,
@@ -18,8 +19,8 @@ function UsersPanel() {
     const [newUserData, setNewUserData] = useState({} as ICreateData);
     const [isError, setIsError] = useState(false);
     const [modalErrorOpen, setModalErrorOpen] = useState(false);
-    const [editUserData, setEditUserData] = useState({} as IUser);
-    const [editModules, setEditModules] = useState(Array<String>);
+    const [editUserData, setEditUserData] = useState({} as IUpdateUserData);
+    const [editModules, setEditModules] = useState<string[]>([]);
 
     useMemo(() => listUsers().then((response: IResponse) => { setUsers(response.data); }), []);
 
@@ -45,30 +46,39 @@ function UsersPanel() {
 
     function toggleUpdateUserForm(event: React.MouseEvent<HTMLButtonElement>) {
         const formContainer = document.getElementById("update-user");
-        const userId = event.currentTarget.dataset.userId || "";
-        const userData = users.filter(user => user._id === userId);
-        setEditUserData(userData[0] || {});
-        setEditModules(editUserData.modules);
 
-        const editExamesCheck = document.getElementById("editExamesCheck") as HTMLInputElement;
-        const editTransportesCheck = document.getElementById("editTransportesCheck") as HTMLInputElement;
-        const editAdministracaoCheck = document.getElementById("editAdministracaoCheck") as HTMLInputElement;
+        if (event.currentTarget.dataset.userId) {
+            const userId = event.currentTarget.dataset.userId || "";
+            const userData = users.filter(user => user._id === userId);
+            setEditUserData({
+                userId: userData[0]._id,
+                name: userData[0].name,
+                email: userData[0].email,
+                docId: userData[0].docId,
+                modules: userData[0].modules || []
+            });
+            setEditModules((userData[0]?.modules || []).map(String));
 
-        if (editExamesCheck) editExamesCheck.checked = false;
-        if (editTransportesCheck) editTransportesCheck.checked = false;
-        if (editAdministracaoCheck) editAdministracaoCheck.checked = false;
+            const editExamesCheck = document.getElementById("editExamesCheck") as HTMLInputElement;
+            const editTransportesCheck = document.getElementById("editTransportesCheck") as HTMLInputElement;
+            const editAdministracaoCheck = document.getElementById("editAdministracaoCheck") as HTMLInputElement;
 
-        if (userId) {
-            userData[0].modules.map(module => {
-                if (module === "exames") {
-                    if (editExamesCheck) editExamesCheck.checked = true;
-                } else if (module === "transportes") {
-                    if (editTransportesCheck) editTransportesCheck.checked = true;
-                } else if (module === "administracao") {
-                    if (editAdministracaoCheck) editAdministracaoCheck.checked = true;
-                }
-            })
-        }
+            if (editExamesCheck) editExamesCheck.checked = false;
+            if (editTransportesCheck) editTransportesCheck.checked = false;
+            if (editAdministracaoCheck) editAdministracaoCheck.checked = false;
+
+            if (userId) {
+                userData[0].modules.map(module => {
+                    if (module === "exames") {
+                        if (editExamesCheck) editExamesCheck.checked = true;
+                    } else if (module === "transportes") {
+                        if (editTransportesCheck) editTransportesCheck.checked = true;
+                    } else if (module === "administracao") {
+                        if (editAdministracaoCheck) editAdministracaoCheck.checked = true;
+                    }
+                })
+            }
+        }        
         
         if (formContainer) {
             formContainer.classList.toggle("open");
@@ -93,6 +103,24 @@ function UsersPanel() {
         }
     }
 
+    function handleEditUserDataChange(event: React.ChangeEvent<HTMLInputElement>) {
+        if (event.target.id === "editDocIdEl"){
+            var docId = event.target.value;
+            docId = docId.replace(/[^\d]/g, "");
+            docId = docId.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+
+            setEditUserData({
+                ...editUserData,
+                docId: docId
+            });
+        } else {
+            setEditUserData({
+                ...editUserData,
+                [event.target.name]: event.target.value
+            });
+        }
+    }
+
     function handleNewUserModules(event: React.ChangeEvent<HTMLInputElement>) {
         var checked = event.target.checked;
 
@@ -105,6 +133,24 @@ function UsersPanel() {
             var updatedArray = newModules.filter(module => module !== event.target.name )
 
             setNewModules(updatedArray);
+        }
+    }
+
+    function handleEditUserModules(event: React.ChangeEvent<HTMLInputElement>) {
+        var checked = event.target.checked;
+
+        if (checked) {
+            setEditModules([
+                ...editModules,
+                event.target.name
+            ])
+
+            editUserData.modules = [...editUserData.modules, event.target.name];
+        } else {
+            var updatedArray = (editModules || []).filter(module => module !== event.target.name )
+
+            setEditModules(updatedArray);
+            editUserData.modules = updatedArray;
         }
     }
 
@@ -133,6 +179,36 @@ function UsersPanel() {
         }
 
 
+    }
+
+    async function handleEditUser() {
+        if (editUserData.docId === "" || editUserData.email === "" || editUserData.name === "") {
+            handleModalMessage({
+                isError: true,
+                message: "Todos os campos devem ser preenchidos."
+            })
+        } else {
+            await updateUser(editUserData)
+                    .then((response: IResponse) => {
+                        const updatedUsers = users.map(user => 
+                            user._id === editUserData.userId
+                                ? {
+                                    ...user,
+                                    ...editUserData
+                                }
+                                : user
+                        );
+
+                        setUsers(updatedUsers);
+                        
+                        document.getElementById("update-user")?.classList.toggle("open");
+
+                        handleModalMessage({
+                            isError: false,
+                            message: "Usuário alterado com sucesso"
+                        })
+                    })
+        }
     }
 
     return (
@@ -310,15 +386,15 @@ function UsersPanel() {
                     <div className="exame-form-fields">
                         <div className="form-field-wrapper">
                             <span>Nome</span>
-                            <input type="text" name="name" id="newUserNameEl" placeholder="Ex.: João da Silva" value={editUserData.name?.toString() || ""} />
+                            <input type="text" name="name" id="editUserNameEl" placeholder="Ex.: João da Silva" value={editUserData.name?.toString() || ""} onChange={handleEditUserDataChange} />
                         </div>
                         <div className="form-field-wrapper">
                             <span>E-mail:</span>
-                            <input type="text" name="email" id="newEmailEl" placeholder="new@example.com" value={editUserData.email?.toString() || ""}/>
+                            <input type="text" name="email" id="editEmailEl" placeholder="new@example.com" value={editUserData.email?.toString() || ""} onChange={handleEditUserDataChange}/>
                         </div>
                         <div className="form-field-wrapper">
                             <span>CPF:</span>
-                            <input type="text" name="docId" id="newDocIdEl" placeholder="000.000.000-00" maxLength={14} value={editUserData.docId?.toString() || ""}/>
+                            <input type="text" name="docId" id="editDocIdEl" placeholder="000.000.000-00" maxLength={14} value={editUserData.docId?.toString() || ""} onChange={handleEditUserDataChange}/>
                         </div>
 
                         <div className="form-field-wrapper">
@@ -337,21 +413,21 @@ function UsersPanel() {
                             <div className={typesDropdownOpen ? "exame-type-dropdown open" : "exame-type-dropdown"}>
                                 <div className="opt-group">
                                     <label htmlFor="editExamesCheck">Exames</label>
-                                    <input type="checkbox" name="exames" id="editExamesCheck" />
+                                    <input type="checkbox" name="exames" id="editExamesCheck" onChange={handleEditUserModules}/>
                                 </div>
                                 <div className="opt-group">
                                     <label htmlFor="transporteditTransportesCheckesCheck">Transportes</label>
-                                    <input type="checkbox" name="transportes" id="editTransportesCheck" />
+                                    <input type="checkbox" name="transportes" id="editTransportesCheck" onChange={handleEditUserModules}/>
                                 </div>
                                 <div className="opt-group">
                                     <label htmlFor="editAdministracaoCheck">Administração</label>
-                                    <input type="checkbox" name="administracao" id="editAdministracaoCheck" />
+                                    <input type="checkbox" name="administracao" id="editAdministracaoCheck" onChange={handleEditUserModules}/>
                                 </div>
                             </div>
                         </div>
 
                         <div className="form-bottom-wrapper unique">
-                            <button>
+                            <button onClick={handleEditUser}>
                                 Salvar
                             </button>
                         </div>
