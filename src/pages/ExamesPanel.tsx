@@ -783,7 +783,7 @@ function ExamesPanel() {
                         </div>
                         <div className="form-field-wrapper">
                             <span>Telefone:</span>
-                            <input type="text" name="phone" id="editPhoneEl" placeholder="55 79 9999-9999" value={editExameData.patientNumber} onChange={handleEditExameChange} />
+                            <input type="text" name="patientNumber" id="editPhoneEl" placeholder="55 79 9999-9999" value={editExameData.patientNumber} onChange={handleEditExameChange} />
                         </div>
 
                         <div className="form-field-wrapper">
