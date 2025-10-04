@@ -1170,11 +1170,11 @@ function TransportsPanel() {
                         </div>
                         <div className="form-field-wrapper">
                             <span>Pegar em:</span>
-                            <input type="text" name="pickupLocation" id="newPickupLocationEl" placeholder="Em casa" onChange={handleNewPatientChange} value={newPatientData.pickupLocation}/>
+                            <input type="text" name="pickupLocation" id="newPickupLocationEl" onChange={handleNewPatientChange} value={newPatientData.pickupLocation}/>
                         </div>
                         <div className="form-field-wrapper">
                             <span>Destino:</span>
-                            <input type="text" name="destination" id="newDestinationEl" placeholder="Em casa" onChange={handleNewPatientChange} value={newPatientData.destination}/>
+                            <input type="text" name="destination" id="newDestinationEl" onChange={handleNewPatientChange} value={newPatientData.destination}/>
                         </div>
                         <div className="check-wrapper">
                             <input type="checkbox" name="hasAcompanhante" id="hasAcopanhanteEl" onChange={handleHasAcompanhante} />
