@@ -5,6 +5,7 @@ import MainHeader from "../components/MainHeader";
 import listUsers, { IResponse, IUser } from "../controllers/user/listUsers.controller";
 import createUser, { ICreateData } from "../controllers/user/createUser.controller";
 import updateUser, { IUpdateUserData } from "../controllers/user/updateUser.controller";
+import deleteUser from "../controllers/user/deleteUser.controller";
 
 type modalData = {
     isError: boolean,
@@ -169,12 +170,24 @@ function UsersPanel() {
         } else {
             await createUser(newUserData)
                 .then((response: IResponse) => {
-                    setUsers([
-                        ...users,
-                        ...(Array.isArray(response.data) ? response.data : [response.data])
-                    ])
+                    if (response.message === "DOCID_ALREADY_EXISTS") {
+                        handleModalMessage({
+                            isError: true,
+                            message: "Já existe um usuário com este CPF. Revise as informações e tente novamente."
+                        })
+                    } else if (response.message === "EMAIL_ALREADY_EXISTS") {
+                        handleModalMessage({
+                            isError: true,
+                            message: "Já existe um usuário com este e-mail. Revise as informações e tente novamente."
+                        })
+                    } else {
+                        setUsers([
+                            ...users,
+                            ...(Array.isArray(response.data) ? response.data : [response.data])
+                        ])
 
-                    toggleCreateUserForm();
+                        toggleCreateUserForm();
+                    }
                 })
         }
 
@@ -209,6 +222,28 @@ function UsersPanel() {
                         })
                     })
         }
+    }
+
+    async function handleDeleteUser(event: React.MouseEvent<HTMLButtonElement>) {
+        const userId = event.currentTarget.dataset.userId as string;
+
+        await deleteUser(userId)
+            .then(response => {
+                if (response) {
+                    const updatedUsers = users.filter((user) => user.userId !== response.userId);
+                    setUsers(updatedUsers);
+
+                    handleModalMessage({
+                        isError: false,
+                        message: "Usuário removido com sucesso!"
+                    })
+                } else {
+                    handleModalMessage({
+                        isError: true,
+                        message: "Ocorreu um erro ao remover o usuário"
+                    })
+                }
+            })
     }
 
     return (
@@ -294,7 +329,7 @@ function UsersPanel() {
                                                             <path d="M0 14.4625V17.5025C0 17.7825 0.22 18.0025 0.5 18.0025H3.54C3.67 18.0025 3.8 17.9525 3.89 17.8525L14.81 6.9425L11.06 3.1925L0.15 14.1025C0.0500001 14.2025 0 14.3225 0 14.4625ZM17.71 4.0425C18.1 3.6525 18.1 3.0225 17.71 2.6325L15.37 0.2925C14.98 -0.0975 14.35 -0.0975 13.96 0.2925L12.13 2.1225L15.88 5.8725L17.71 4.0425Z" fill="#333333"/>
                                                         </svg>
                                                     </button>
-                                                    <button className="remove-button" title="Excluir" >
+                                                    <button className="remove-button" title="Excluir" data-user-id={user._id} onClick={handleDeleteUser}>
                                                         <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M1 16C1 17.1 1.9 18 3 18H11C12.1 18 13 17.1 13 16V6C13 4.9 12.1 4 11 4H3C1.9 4 1 4.9 1 6V16ZM10.5 1L9.79 0.29C9.61 0.11 9.35 0 9.09 0H4.91C4.65 0 4.39 0.11 4.21 0.29L3.5 1H1C0.45 1 0 1.45 0 2C0 2.55 0.45 3 1 3H13C13.55 3 14 2.55 14 2C14 1.45 13.55 1 13 1H10.5Z" fill="#F04F4F"/>
                                                         </svg>
