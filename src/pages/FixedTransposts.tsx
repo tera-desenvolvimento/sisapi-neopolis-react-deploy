@@ -34,6 +34,7 @@ type FixedTransport = {
     destination: string;
     vehicleId: string;
     driverId: string;
+    exitTime: string;
     patients: Patient[];
     _id: string;
 };
@@ -84,6 +85,7 @@ function FixedTransports() {
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [loaded, setLoaded] = useState(false);
     const [newPatientData, setNewPatientData] = useState({} as Patient);
+    const [hasAcompanhante, setHasAcompanhante] = useState(false);
     const [newVehicleData, setNewVehicleData] = useState({} as CVehicle);
     const [newDriverData, setNewDriverData] = useState({} as CDriver);
     const [location, setLocation] = useState("");
@@ -204,6 +206,10 @@ function FixedTransports() {
         }
     }
 
+    function handleHasAcompanhante(event: React.ChangeEvent<HTMLInputElement>) {
+        setHasAcompanhante(event.target.checked);
+    }
+
     async function handleNewPatientSubmit() {
         const container = document.getElementById("add-patient") as HTMLDivElement;
 
@@ -215,23 +221,60 @@ function FixedTransports() {
                 message: "Preencha todos os dados do paciente para continuar"
             })
         } else {
-            addPatient(transportId, newPatientData)
-                .then(data => {
-                    setNewPatientData({} as Patient);
+            if (hasAcompanhante) {
+                addPatient(transportId, newPatientData)
+                    .then(data => {
+                        let acompanhanteData = newPatientData;
+                        acompanhanteData.name = "ACOMPANHANTE";
 
-                    transports.forEach(transport => {
-                        if (transport._id === transportId) {
-                            listFixedTransports()
-                                .then(data => {
-                                    setTransports(data.fixedTrips);
+                        addPatient(transportId, acompanhanteData)
+                            .then(data => {
+                                setNewPatientData({} as Patient);
+                                setHasAcompanhante(false);
+
+                                transports.forEach(transport => {
+                                    if (transport._id === transportId) {
+                                        listFixedTransports()
+                                            .then(data => {
+                                                setTransports(data.fixedTrips);
+                                            });
+                                    }
                                 });
-                        }
-                    });
 
-                    if (container) {
-                        container.classList.remove("open");
-                    }
-                })
+                                if (container) {
+                                    container.classList.remove("open");
+                                    handleModalMessage({
+                                        isError: false,
+                                        message: "Paciente adicionado com sucesso"
+                                    })
+                                }
+                            })
+                        if (container) {
+                            container.classList.remove("open");
+                        }
+                    })
+            } else {
+                addPatient(transportId, newPatientData)
+                    .then(data => {
+                        setNewPatientData({} as Patient);
+
+                        transports.forEach(transport => {
+                            if (transport._id === transportId) {
+                                listFixedTransports()
+                                    .then(data => {
+                                        setTransports(data.fixedTrips);
+                                    });
+                            }
+                        });
+
+                        if (container) {
+                            container.classList.remove("open");
+                        }
+                    })
+            }
+
+
+            
         }
     }
 
@@ -625,6 +668,18 @@ function FixedTransports() {
                                                         </select>     
                                                     </div>
                                                 </div>
+                                                <div className="select-wrapper">
+                                                    <span>Saída Neópolis</span>
+                                                    <div>
+                                                        <select name="exitTime" id="exitTime" data-transport-id={transport._id} onChange={handleUpdateTrip} value={transport.exitTime}>
+                                                            <option value="">Saída Neópolis</option>
+                                                            <option value="04:00">04:00</option>
+                                                            <option value="06:00">06:00</option>
+                                                            <option value="09:00">09:00</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                         </div>
                                         <div className="transport-table-container">
@@ -760,11 +815,16 @@ function FixedTransports() {
                         </div>
                         <div className="form-field-wrapper">
                             <span>Pegar em:</span>
-                            <input type="text" name="pickupLocation" id="newPickupLocationEl" placeholder="Em casa" onChange={handleNewPatientChange} value={newPatientData.pickupLocation}/>
+                            <input type="text" name="pickupLocation" id="newPickupLocationEl" onChange={handleNewPatientChange} value={newPatientData.pickupLocation}/>
                         </div>
                         <div className="form-field-wrapper">
                             <span>Destino:</span>
-                            <input type="text" name="destination" id="newDestinationEl" placeholder="Em casa" onChange={handleNewPatientChange} value={newPatientData.destination}/>
+                            <input type="text" name="destination" id="newDestinationEl" onChange={handleNewPatientChange} value={newPatientData.destination}/>
+                        </div>
+
+                        <div className="check-wrapper">
+                            <input type="checkbox" name="hasAcompanhante" id="hasAcopanhanteEl" onChange={handleHasAcompanhante} />
+                            <label htmlFor="hasAcopanhanteEl">Paciente com acompanhante</label>
                         </div>
 
                         <div className="form-bottom-wrapper unique">
