@@ -168,7 +168,7 @@
 
 .main-transports-container .content-container .transports-swiper.list {
     flex-direction: column;
-    height: 82vh;
+    height: calc(100vh - 180px);
     overflow-y: scroll;
 }
 
@@ -509,7 +509,6 @@
     }
 
     .main-transports-container .content-container .transports-swiper.list {
-        height: calc(75vh - 10px);
         margin-bottom: 10px;
     }
 }
