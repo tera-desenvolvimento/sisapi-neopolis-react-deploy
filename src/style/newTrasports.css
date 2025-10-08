@@ -503,7 +503,7 @@
 }
 
 
-@media (max-width: 1400px) {
+@media (max-width: 1820px) {
     .main-transports-container .content-container .transports-swiper .listing-container .buttons-wrapper select {
         width: unset;
     }
