@@ -77,11 +77,30 @@ function TransportRequests() {
 
     async function toggleSchedulingDocumentContainer(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         const container = document.getElementById("doc-image");
-        const imgUrl = await WhapiImage(event.currentTarget.dataset.imageId || "");
-        setDocImageUrl(imgUrl);
+        const imageId = event.currentTarget.dataset.imageId || "";
 
-        if (imgUrl && container) {
-          container.classList.toggle("open");
+        if (imageId && container) {
+            if (imageId.startsWith("https://")) {
+                setDocImageUrl(imageId);
+                container.classList.toggle("open");
+            } else {
+                const imgUrl = await WhapiImage(imageId);
+                setDocImageUrl(imgUrl);
+                container.classList.toggle("open");
+            }
+        } else {
+             if (imageId && container) {
+                setDocImageUrl("");
+                container.classList.toggle("open");
+             }
+        }
+    }
+
+    function closeImageContainer() {
+        const container = document.getElementById("doc-image");
+        if (container) {
+            setDocImageUrl("");
+            container.classList.remove("open");
         }
     }
 
@@ -283,7 +302,7 @@ function TransportRequests() {
                                                     <td>{request.phone}</td>
                                                     <td>{request.tripDate} - {request.exitTime}</td>
                                                     <td>{request.destination}</td>
-                                                    <td>
+                                                    <td>    
                                                         <button data-image-id={request.shedulingDocumentImage} className="show-doc" onClick={toggleSchedulingDocumentContainer}>
                                                             Exibir
                                                         </button>
@@ -320,7 +339,7 @@ function TransportRequests() {
                         </div>
 
                         <div className="form-bottom-wrapper unique">
-                            <button onClick={toggleSchedulingDocumentContainer}>
+                            <button onClick={closeImageContainer}>
                                 Voltar
                             </button>
                         </div>
