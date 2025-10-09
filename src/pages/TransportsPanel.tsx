@@ -158,7 +158,7 @@ function TransportsPanel() {
     function handleDateChange(date: Date) {
         setSelectedDate(date);
         
-        listTransports(selectedDate.toLocaleDateString())
+        listTransports(new Date(date).toLocaleDateString())
             .then(data => {
                 setTransports(data.trips);
                 if (data.trips.length) {
