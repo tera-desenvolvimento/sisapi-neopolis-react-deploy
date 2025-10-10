@@ -2,6 +2,7 @@ import React, {useState} from "react";
 
 import MainHeader from "../components/MainHeader";
 import DateSelector from "../components/DateSelector";
+import LoadingWrapper from "../components/LoadingWrapper";
 
 import createTransport from "../controllers/transports/createTransport.controller";
 import listTransports from "../controllers/transports/listTransports.controller";
@@ -101,6 +102,7 @@ function TransportsPanel() {
     const [location, setLocation] = useState("");
     const [newVehicleData, setNewVehicleData] = useState({} as CVehicle);
     const [newDriverData, setNewDriverData] = useState({} as CDriver);
+    const [isLoading, setIsLoading] = useState(false);
     
     if (!loaded) {
         (function loadData() {
@@ -157,10 +159,13 @@ function TransportsPanel() {
 
     function handleDateChange(date: Date) {
         setSelectedDate(date);
+
+        setIsLoading(true);
         
         listTransports(new Date(date).toLocaleDateString())
             .then(data => {
                 setTransports(data.trips);
+                setIsLoading(false);
                 if (data.trips.length) {
                     setSelectedTransportId(data.trips[0]._id);
                 }
@@ -172,6 +177,7 @@ function TransportsPanel() {
 
     function nextTransport() {
         const currentIndex = document.querySelector(".transport.active")?.getAttribute("data-index");
+
         if (currentIndex) {
             const nextIndex = parseInt(currentIndex) + 1;
             const nextTransportElement = document.getElementById(`transport-${nextIndex}`);
@@ -210,6 +216,7 @@ function TransportsPanel() {
     async function handleCreateTransport() {
         try {
             const newTransport = await createTransport(selectedDate.toLocaleDateString());
+            setIsLoading(true);
 
             const updatedTransports = [...transports, newTransport.trip];
             setTransports(updatedTransports);
@@ -237,6 +244,7 @@ function TransportsPanel() {
             
             document.querySelector(".listing-container.transport.new")?.classList.remove("active");
 
+            setIsLoading(false);
             handleModalMessage({
                 isError: false,
                 message: "Novo transporte adicionado com sucesso"
@@ -248,9 +256,11 @@ function TransportsPanel() {
     }
 
     function handleDeleteTransport(transportId: string) {
+        setIsLoading(true);
         removeTransport(transportId)
             .then(response => {
                 if (response.message === "trip has patients") {
+                    setIsLoading(false);
                     handleModalMessage({
                         isError: true,
                         message: "Não é possível remover transportes que contenham pacientes. Revise os dados e tente novamente!"
@@ -276,6 +286,7 @@ function TransportsPanel() {
                                     target.classList.add("active");
                                 }
 
+                                setIsLoading(false);
                                 handleModalMessage({
                                     isError: false,
                                     message: "Transporte removido com sucesso"
@@ -292,6 +303,8 @@ function TransportsPanel() {
 
     async function handleUpdateTrip(event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) {
         const transportId = event.currentTarget.dataset.transportId || "";
+        setIsLoading(true);
+
         const updates = {
             [event.target.name]: event.target.value
         };
@@ -301,9 +314,11 @@ function TransportsPanel() {
 
             listTransports(selectedDate.toLocaleDateString())
                 .then(data => {
+                    setIsLoading(false);
                     setTransports(data.trips);
                 });
         } catch (error) {
+            setIsLoading(false);
             console.error("Error updating trip:", error);
         }
     }
@@ -357,9 +372,12 @@ function TransportsPanel() {
     async function handleNewPatientSubmit() {
         const container = document.getElementById("add-patient") as HTMLDivElement;
 
+        setIsLoading(true);
+
         var transportId = container.dataset.transportId || "";
 
         if (newPatientData.address === "", newPatientData.destination === "", newPatientData.docId === "", newPatientData.name === "", newPatientData.phone === "", newPatientData.pickupLocation === "", !newPatientData.address, !newPatientData.destination, !newPatientData.docId, !newPatientData.name, !newPatientData.phone, !newPatientData.pickupLocation) {
+            setIsLoading(false);
             handleModalMessage({
                 isError: true,
                 message: "Preencha todos os dados do paciente para continuar"
@@ -387,6 +405,7 @@ function TransportsPanel() {
 
                                 if (container) {
                                     container.classList.remove("open");
+                                    setIsLoading(false);
                                     handleModalMessage({
                                         isError: false,
                                         message: "Paciente adicionado com sucesso"
@@ -404,6 +423,7 @@ function TransportsPanel() {
                             if (transport._id === transportId) {
                                 listTransports(selectedDate.toLocaleDateString())
                                     .then(data => {
+                                        setIsLoading(false);
                                         setTransports(data.trips);
                                     });
                             }
@@ -459,6 +479,7 @@ function TransportsPanel() {
 
     function editPatientDataSubmit() {
         if (editPatientTransportId && editPatientIndex !== null) {
+            setIsLoading(true);
             const updatedTransports = transports.map(async transport => {
                 if (transport._id === editPatientTransportId) {
                     const updatedPatients = [...transport.patients];
@@ -484,6 +505,8 @@ function TransportsPanel() {
             setEditPatientTransportId("");
             setEditPatientIndex(0);
             setEditPatientData({} as Patient);
+
+            setIsLoading(false);
 
             const container = document.getElementById("edit-patient");
             if (container) {
@@ -522,10 +545,13 @@ function TransportsPanel() {
     }
 
     async function handleAddDestination() {
+        setIsLoading(true);
+        
         try {
             const newDestination = await addDestination(location);
             setDestinations(prevDestinations => [...prevDestinations, newDestination.tripDestination]);
 
+            setIsLoading(false);
             toggleNewDestinationContainer();
         } catch (error) {
             console.error("Error adding destination:", error);
@@ -535,9 +561,12 @@ function TransportsPanel() {
     async function handleRemoveDestination(event: React.MouseEvent<HTMLButtonElement>) {
         const destinationId = event.currentTarget.dataset.destinationId || "";
 
+        setIsLoading(true);
+
         try {
             await removeDestination(destinationId);
             setDestinations(destinations.filter(dest => dest._id !== destinationId));
+            setIsLoading(false);
         } catch (error) {
             console.error("Error removing destination:", error);
         }
@@ -554,10 +583,12 @@ function TransportsPanel() {
     
     async function handleNewVehicleSubmit() {
         try {
+            setIsLoading(true);
             const response = await addVehicle(newVehicleData);
 
             setVehicles(prevVehicles => [...prevVehicles, response]);
 
+            setIsLoading(false);
             toggleNewVehicleContainer();
 
         } catch (error) {
@@ -567,10 +598,12 @@ function TransportsPanel() {
 
     async function handleDeleteVehicle(event: React.MouseEvent<HTMLButtonElement>) {
         const vehicleId = event.currentTarget.dataset.vehicleId || "";
+        setIsLoading(true);
 
         try {
             await removeVehicle(vehicleId);
             setVehicles(vehicles.filter(veh => veh._id !== vehicleId));
+            setIsLoading(false);
         } catch (error) {
             console.error("Error removing vehicle:", error);
         }
@@ -586,9 +619,12 @@ function TransportsPanel() {
 
     async function handleAddDriver() {
         try {
+
+            setIsLoading(true);
             const newDriver = await addDriver(newDriverData);
             setDrivers([...drivers, newDriver.driver]);
 
+            setIsLoading(false);
             toggleNewDriverContainer();
         } catch (error) {
             console.error("Error adding driver:", error);
@@ -597,10 +633,12 @@ function TransportsPanel() {
 
     async function handleDeleteDriver(event: React.MouseEvent<HTMLButtonElement>) {
         const driverId = event.currentTarget.dataset.driverId || "";
+        setIsLoading(true);
 
         try {
             await removeDriver(driverId);
             setDrivers(drivers.filter(driver => driver._id !== driverId));
+            setIsLoading(false);
         } catch (error) {
             console.error("Error removing driver:", error);
         }
@@ -613,6 +651,8 @@ function TransportsPanel() {
         const docId = event.currentTarget.dataset.docId;
         const destination = event.currentTarget.dataset.destination || "";
         const patientIndex = event.currentTarget.dataset.patientIndex || "";
+
+        setIsLoading(true);
 
         try {
             await notifyPatient(tripId, patientName, patientNumber, destination);
@@ -629,17 +669,20 @@ function TransportsPanel() {
                     .then(data => {
                         setTransports(data.trips);
 
+                        setIsLoading(false);
                         handleModalMessage({
                             isError: false,
                             message: "Paciente notificado com sucesso"
                         })
                     })
                 .catch(error => {
+                    setIsLoading(false);
                     console.error(error);
                 });
             })
 
         } catch (error) {
+            setIsLoading(false);
             console.error("Error notifying patient:", error);
         }
     }
@@ -647,6 +690,7 @@ function TransportsPanel() {
     function handleDeletePatient(event: React.MouseEvent<HTMLButtonElement>) {
         const transportId = event.currentTarget.dataset.transportId || "";
         const patientIndex = event.currentTarget.dataset.patientIndex || "";
+        setIsLoading(true);
 
         if (transportId && patientIndex) {
             transports.forEach(async transport => {
@@ -657,6 +701,7 @@ function TransportsPanel() {
 
                     listTransports(selectedDate.toLocaleDateString())
                         .then(data => {
+                            setIsLoading(false);
                             setTransports(data.trips);
                         });
                 }                
@@ -675,7 +720,10 @@ function TransportsPanel() {
         const patientIndex = event.currentTarget.dataset.patientIndex || "";
         var motorista = "";
 
+        setIsLoading(true);
+
         if (driverId === "vazio") {
+            setIsLoading(false);
             handleModalMessage({
                 isError: true,
                 message: "Motorista tem que estar selecionado"
@@ -686,6 +734,7 @@ function TransportsPanel() {
             await printCoupon(paciente, dataViagem, horaViagem, destino, motorista)
                 .then(response => {
                     if (response && typeof response === "object" && "error" in response && (response as any).error) {
+                        setIsLoading(false);
                         handleModalMessage({
                             isError: true,
                             message: "Erro ao imprimir cupom: " + (response as any).error
@@ -702,9 +751,11 @@ function TransportsPanel() {
                         updateTrip(tripId, {"patients": transport?.patients}).then(()=> {
                             listTransports(selectedDate.toLocaleDateString())
                                 .then(data => {
+                                    setIsLoading(false);
                                     setTransports(data.trips);
                                 })
                             .catch(error => {
+                                setIsLoading(false);
                                 console.error(error);
                             });
                         })
@@ -1402,6 +1453,10 @@ function TransportsPanel() {
                 </button>
                 <span id="warning-message">Dados inválidos</span>
             </div>
+
+            {
+                isLoading ? <LoadingWrapper/> : ""
+            }
         </React.Fragment>
     )
 }

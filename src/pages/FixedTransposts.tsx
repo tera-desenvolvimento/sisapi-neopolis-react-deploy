@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import MainHeader from "../components/MainHeader";
+import LoadingWrapper from "../components/LoadingWrapper";
 
 import listFixedTransports from "../controllers/transports/fixed/listFixedTransports.controller";
 import createFixedTransport from "../controllers/transports/fixed/createFixedTransport.controller";
@@ -92,6 +93,7 @@ function FixedTransports() {
     const [editPatientData, setEditPatientData] = useState({} as Patient);
     const [editPatientIndex, setEditPatientIndex] = useState(0);
     const [editPatientTransportId, setEditPatientTransportId] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     if (!loaded) {
         (function loadData() {
@@ -215,7 +217,10 @@ function FixedTransports() {
 
         var transportId = container.dataset.transportId || "";
 
+        setIsLoading(true);
+
         if (newPatientData.address === "", newPatientData.destination === "", newPatientData.docId === "", newPatientData.name === "", newPatientData.phone === "", newPatientData.pickupLocation === "", !newPatientData.address, !newPatientData.destination, !newPatientData.docId, !newPatientData.name, !newPatientData.phone, !newPatientData.pickupLocation) {
+            setIsLoading(false);
             handleModalMessage({
                 isError: true,
                 message: "Preencha todos os dados do paciente para continuar"
@@ -243,6 +248,7 @@ function FixedTransports() {
 
                                 if (container) {
                                     container.classList.remove("open");
+                                    setIsLoading(false);
                                     handleModalMessage({
                                         isError: false,
                                         message: "Paciente adicionado com sucesso"
@@ -268,6 +274,7 @@ function FixedTransports() {
                         });
 
                         if (container) {
+                            setIsLoading(false);
                             container.classList.remove("open");
                         }
                     })
@@ -284,14 +291,18 @@ function FixedTransports() {
             [event.target.name]: event.target.value
         };
 
+        setIsLoading(true);
+
         try {
             await updateFixedTransport(transportId, updates);
 
             listFixedTransports()
                 .then(data => {
+                    setIsLoading(false);
                     setTransports(data.fixedTrips);
                 });
         } catch (error) {
+            setIsLoading(false);
             console.error("Error updating trip:", error);
         }
     }
@@ -301,12 +312,15 @@ function FixedTransports() {
     }
 
     async function handleAddDestination() {
+        setIsLoading(true);
         try {
             const newDestination = await addDestination(location);
             setDestinations(prevDestinations => [...prevDestinations, newDestination.tripDestination]);
 
+            setIsLoading(false);
             toggleNewDestinationContainer();
         } catch (error) {
+            setIsLoading(false);
             console.error("Error adding destination:", error);
         }
     }
@@ -314,10 +328,14 @@ function FixedTransports() {
     async function handleRemoveDestination(event: React.MouseEvent<HTMLButtonElement>) {
         const destinationId = event.currentTarget.dataset.destinationId || "";
 
+        setIsLoading(true);
+
         try {
             await removeDestination(destinationId);
             setDestinations(destinations.filter(dest => dest._id !== destinationId));
+            setIsLoading(false);
         } catch (error) {
+            setIsLoading(false);
             console.error("Error removing destination:", error);
         }
     }
@@ -332,14 +350,17 @@ function FixedTransports() {
     }
     
     async function handleNewVehicleSubmit() {
+        setIsLoading(true);
         try {
             const response = await addVehicle(newVehicleData);
 
             setVehicles(prevVehicles => [...prevVehicles, response]);
 
+            setIsLoading(false);
             toggleNewVehicleContainer();
 
         } catch (error) {
+            setIsLoading(false);
             console.error("Error adding vehicle:", error);
         }
     }
@@ -347,10 +368,13 @@ function FixedTransports() {
     async function handleDeleteVehicle(event: React.MouseEvent<HTMLButtonElement>) {
         const vehicleId = event.currentTarget.dataset.vehicleId || "";
 
+        setIsLoading(true);
         try {
             await removeVehicle(vehicleId);
             setVehicles(vehicles.filter(veh => veh._id !== vehicleId));
+            setIsLoading(false);
         } catch (error) {
+            setIsLoading(false);
             console.error("Error removing vehicle:", error);
         }
     }
@@ -364,23 +388,29 @@ function FixedTransports() {
     }
 
     async function handleAddDriver() {
+        setIsLoading(true);
         try {
             const newDriver = await addDriver(newDriverData);
             setDrivers([...drivers, newDriver.driver]);
 
+            setIsLoading(false);
             toggleNewDriverContainer();
         } catch (error) {
+            setIsLoading(false);
             console.error("Error adding driver:", error);
         }
     }
 
     async function handleDeleteDriver(event: React.MouseEvent<HTMLButtonElement>) {
         const driverId = event.currentTarget.dataset.driverId || "";
+        setIsLoading(true);
 
         try {
             await removeDriver(driverId);
             setDrivers(drivers.filter(driver => driver._id !== driverId));
+            setIsLoading(false);
         } catch (error) {
+            setIsLoading(false);
             console.error("Error removing driver:", error);
         }
     }
@@ -426,6 +456,7 @@ function FixedTransports() {
 
     function editPatientDataSubmit() {
         if (editPatientTransportId && editPatientIndex !== null) {
+            setIsLoading(true);
             const updatedTransports = transports.map(async transport => {
                 if (transport._id === editPatientTransportId) {
                     const updatedPatients = [...transport.patients];
@@ -443,6 +474,7 @@ function FixedTransports() {
                                 setTransports(data.fixedTrips);
                             });
                     } catch (error) {
+                        setIsLoading(false);
                         console.error("Error updating trip:", error);
                     }
                 }
@@ -455,6 +487,8 @@ function FixedTransports() {
             const container = document.getElementById("edit-patient");
             if (container) {
                 container.classList.toggle("open");
+
+                setIsLoading(false);
                 handleModalMessage({
                     isError: false,
                     message: "Paciente alterado com sucesso"
@@ -464,13 +498,16 @@ function FixedTransports() {
     }
 
     async function handleRemoveFixedTransport(transportId: string) {
+        setIsLoading(true);
         removeFixedTransport(transportId)
             .then(response => {
                 if (response.message === "Fixed trip has patients") {
+                    setIsLoading(false);
                     alert("Não é possível remover transportes que contenham pacientes. Revise os dados e tente novamente!");
                 } else {
                     listFixedTransports()
                         .then(data => {
+                            setIsLoading(false);
                             setTransports(data.fixedTrips);
                         })
                         .catch(err => console.error("Erro ao listar transportes:", err));
@@ -484,6 +521,7 @@ function FixedTransports() {
     function handleDeletePatient(event: React.MouseEvent<HTMLButtonElement>) {
         const transportId = event.currentTarget.dataset.transportId || "";
         const patientIndex = event.currentTarget.dataset.patientIndex || "";
+        setIsLoading(true);
 
         if (transportId && patientIndex) {
             transports.forEach(async transport => {
@@ -494,6 +532,7 @@ function FixedTransports() {
 
                     listFixedTransports()
                         .then(data => {
+                            setIsLoading(false);
                             setTransports(data.fixedTrips);
                         });
                 }   
@@ -506,13 +545,16 @@ function FixedTransports() {
     }
 
     async function handleCreateTransport() {
+        setIsLoading(true);
         try {
             const newTransport = await createFixedTransport();
 
             const updatedTransports = [...transports, newTransport.fixedTrip];
             setTransports(updatedTransports);
+            setIsLoading(false);
 
         } catch (error) {
+            setIsLoading(false);
             console.error("Error creating transport:", error);
         }
     }
@@ -1020,6 +1062,9 @@ function FixedTransports() {
                 <span id="warning-message">Dados inválidos</span>
             </div>
 
+            {
+                isLoading ? <LoadingWrapper/> : ""
+            }
         </React.Fragment>
     )
 }

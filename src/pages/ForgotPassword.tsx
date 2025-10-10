@@ -6,6 +6,8 @@ import { requestPasswordRecovery, IRecoverData } from "../controllers/user/reque
 import { RenderForgotPasswordEmail } from "../Templates/renderForgotPasswordMail";
 import { sendEmail, IEmailData } from "../controllers/misc/sendEmail.controller";
 
+import LoadingWrapper from "../components/LoadingWrapper";
+
 type modalData = {
     isError: boolean,
     message: string
@@ -16,6 +18,7 @@ const ForgotPassword = () => {
     const [email, setEmail] = useState("");
     const [isError, setIsError] = useState(false);
     const [modalErrorOpen, setModalErrorOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     function handleDocIdChange(event: React.ChangeEvent<HTMLInputElement>) {
         var docIdVal = event.target.value;
@@ -46,6 +49,8 @@ const ForgotPassword = () => {
             email: email
         };
 
+        setIsLoading(true);
+
         requestPasswordRecovery(data)
             .then(response => {
                 if (response.token) {
@@ -66,9 +71,11 @@ const ForgotPassword = () => {
                             }, 3000);   
                         })
                         .catch(error => {
+                            setIsLoading(false);
                             console.error("Erro ao enviar e-mail:", error);
                         });
                 } else {
+                    setIsLoading(false);
                     handleModalMessage({
                         isError: true,
                         message: "CPF ou e-mail digitado inválido"
@@ -76,6 +83,7 @@ const ForgotPassword = () => {
                 }
             })
             .catch(error => {
+                setIsLoading(false);
                 console.error("Error during password recovery:", error);
             });
     }
@@ -132,6 +140,10 @@ const ForgotPassword = () => {
                 </button>
                 <span id="warning-message">Dados inválidos</span>
             </div>
+
+            {
+                isLoading ? <LoadingWrapper /> : ""
+            }
         </React.Fragment>
     )
 }

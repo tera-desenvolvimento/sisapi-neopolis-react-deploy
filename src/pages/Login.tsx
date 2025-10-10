@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { authenticate, IAuthenticateData, setCookie } from "../controllers/user/authenticate.controller";
 
+import LoadingWrapper from "../components/LoadingWrapper";
+
 import logo01 from "../img/sms-logo.svg";
-import sisapiLogoWhite from "../img/sisapi-logo-white.svg";
 
 import "../style/login.css";
 
@@ -17,6 +18,7 @@ const Login = () => {
     const [passVisible, setPassVisible] = useState(false);
     const [isError, setIsError] = useState(false);
     const [modalErrorOpen, setModalErrorOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     function handleDocIdChange(event: React.ChangeEvent<HTMLInputElement>) {
         var docIdVal = event.target.value;
@@ -52,6 +54,8 @@ const Login = () => {
             password: password
         };
 
+        setIsLoading(true);
+
         authenticate(data)
             .then(response => {
                 if (response.data) {
@@ -59,6 +63,7 @@ const Login = () => {
                     setCookie({ name: 'userData', value: JSON.stringify(response.data) });
                     window.location.href = '/';
                 } else {
+                    setIsLoading(false);
                     if (response.message === "USER_NOT_FOUND") {
                         handleModalMessage({
                             isError: true,
@@ -78,6 +83,7 @@ const Login = () => {
                 }
             })
             .catch(error => {
+                setIsLoading(false);
                 handleModalMessage({
                     isError: true,
                     message: "Erro ao processar sua solicitação"
@@ -153,6 +159,10 @@ const Login = () => {
                 </button>
                 <span id="warning-message">Dados inválidos</span>
             </div>
+
+            {
+                isLoading ? <LoadingWrapper/> : ""
+            }
         </React.Fragment>
     )
 }

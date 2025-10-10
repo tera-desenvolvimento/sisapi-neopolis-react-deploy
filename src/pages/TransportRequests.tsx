@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import MainHeader from "../components/MainHeader";
+import LoadingWrapper from "../components/LoadingWrapper";
 
 import listTransportRequests from "../controllers/transports/requests/listTransportRequests.controller";
 import declineTransportRequest from "../controllers/transports/requests/declineTransportRequest.controller";
@@ -60,6 +61,7 @@ function TransportRequests() {
     const [declineRequestId, setDeclineRequestId] = useState("");
     const [isError, setIsError] = useState(false);
     const [modalErrorOpen, setModalErrorOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     if (!loaded) {
         (async function fetchTransportRequests() {
@@ -79,18 +81,23 @@ function TransportRequests() {
         const container = document.getElementById("doc-image");
         const imageId = event.currentTarget.dataset.imageId || "";
 
+        setIsLoading(true);
+
         if (imageId && container) {
             if (imageId.startsWith("https://")) {
                 setDocImageUrl(imageId);
+                setIsLoading(false);
                 container.classList.toggle("open");
             } else {
                 const imgUrl = await WhapiImage(imageId);
                 setDocImageUrl(imgUrl);
+                setIsLoading(false);
                 container.classList.toggle("open");
             }
         } else {
              if (imageId && container) {
                 setDocImageUrl("");
+                setIsLoading(false);
                 container.classList.toggle("open");
              }
         }
@@ -122,6 +129,7 @@ function TransportRequests() {
         const exitTime = requestData.exitTime;
         const filteredTransports = [] as Array<Transport>;
         const dispoTransports = [] as Array<string>;
+        setIsLoading(true);
 
         await listTransports(date)
             .then((response) => {
@@ -155,12 +163,14 @@ function TransportRequests() {
             await acceptTransportRequest(requestId, dispoTransports[0])
                 .then(response => {
                     setRequests(requests.filter(req => req._id !== requestId));
+                    setIsLoading(false);
                     handleModalMessage({
                         isError: false,
                         message: "Paciente agendado com sucesso"
                     })
                 })
         } else {
+            setIsLoading(false);
              handleModalMessage({
                 isError: true,
                 message: "Sem vagas disponíveis para o horário ou carro ainda não criado"
@@ -382,6 +392,9 @@ function TransportRequests() {
                 </button>
                 <span id="warning-message">Dados inválidos</span>
             </div>
+            {
+                isLoading ? <LoadingWrapper/> : ""
+            }
         </React.Fragment>
     )
 }

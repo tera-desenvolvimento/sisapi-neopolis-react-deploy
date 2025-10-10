@@ -1,6 +1,7 @@
 import React, {useState, useMemo} from "react";
 
 import MainHeader from "../components/MainHeader";
+import LoadingWrapper from "../components/LoadingWrapper";
 
 import { listExames, IExame, IResponse } from "../controllers/exame/listExames.controller";
 import { searchExame, ISearch } from "../controllers/exame/searchExame.controller";
@@ -29,6 +30,7 @@ function ExamesPanel() {
     const [type, setType] = useState("");
     const [isError, setIsError] = useState(false);
     const [modalErrorOpen, setModalErrorOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [newExameData, setNewExameData] = useState({} as ICreateExame);
     const [editExameData, setEditExameData] = useState({} as IEditExame);
@@ -301,6 +303,8 @@ function ExamesPanel() {
 
     function handleNotifyPacient(event: React.MouseEvent<HTMLButtonElement>) {
         const exameId = (event.currentTarget as HTMLButtonElement).dataset.exameId;
+
+        setIsLoading(true);
         if (exameId) {
             notifyPacient(exameId)
                 .then((response: INotifyResponse) => {
@@ -313,11 +317,14 @@ function ExamesPanel() {
                         });
                         setExames(updatedExames);
 
+                        setIsLoading(false);
                         handleModalMessage({
                             isError: false,
                             message: "Notificação enviada com sucesso"
                         })
                     } else {
+
+                        setIsLoading(false);
                         handleModalMessage({
                             isError: true,
                             message: "Erro ao notificar paciente"
@@ -327,6 +334,7 @@ function ExamesPanel() {
                     }
                 })
                 .catch((error) => {
+                    setIsLoading(false);
                     handleModalMessage({
                         isError: true,
                         message: "Erro ao notificar paciente"
@@ -898,6 +906,10 @@ function ExamesPanel() {
                 </button>
                 <span id="warning-message">Dados inválidos</span>
             </div>
+
+            {
+                isLoading ? <LoadingWrapper/> : ""
+            }
         </React.Fragment>
     )
 }
